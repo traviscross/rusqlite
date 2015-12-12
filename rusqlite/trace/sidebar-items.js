@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["config_log","Set up the process-wide SQLite error logging callback. This function is marked unsafe for two reasons:"],["log","Write a message into the error log established by `config_log`."]]});
