@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SqliteLoadExtensionGuard","RAII guard temporarily enabling SQLite extensions to be loaded."]]});
+initSidebarItems({"struct":[["LoadExtensionGuard","RAII guard temporarily enabling SQLite extensions to be loaded."]],"type":[["SqliteLoadExtensionGuard","Old name for `LoadExtensionGuard`. `SqliteLoadExtensionGuard` is deprecated."]]});
