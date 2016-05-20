@@ -78,7 +78,7 @@ commit, you must call <code>commit</code> or <code>set_drop_behavior(DropBehavio
 
 <h1 id='failure-1' class='section-header'><a href='#failure-1'>Failure</a></h1>
 <p>Will return <code>Err</code> if the underlying SQLite call fails.</p>
-</div><h4 id='method.savepoint' class='method'><code>fn <a href='#method.savepoint' class='fnname'>savepoint</a>(&amp;mut self) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;Savepoint&gt;</code></h4>
+</div><h4 id='method.savepoint' class='method'><code>fn <a href='#method.savepoint' class='fnname'>savepoint</a>(&amp;mut self) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.Savepoint.html' title='rusqlite::Savepoint'>Savepoint</a>&gt;</code></h4>
 <div class='docblock'><p>Begin a new savepoint with the default behavior (DEFERRED).</p>
 
 <p>The savepoint defaults to rolling back when it is dropped. If you want the savepoint to
@@ -97,7 +97,7 @@ commit, you must call <code>commit</code> or <code>set_drop_behavior(DropBehavio
 
 <h1 id='failure-2' class='section-header'><a href='#failure-2'>Failure</a></h1>
 <p>Will return <code>Err</code> if the underlying SQLite call fails.</p>
-</div><h4 id='method.savepoint_with_name' class='method'><code>fn <a href='#method.savepoint_with_name' class='fnname'>savepoint_with_name</a>&lt;T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;(&amp;mut self, name: T) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;Savepoint&gt;</code></h4>
+</div><h4 id='method.savepoint_with_name' class='method'><code>fn <a href='#method.savepoint_with_name' class='fnname'>savepoint_with_name</a>&lt;T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;(&amp;mut self, name: T) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.Savepoint.html' title='rusqlite::Savepoint'>Savepoint</a>&gt;</code></h4>
 <div class='docblock'><p>Begin a new savepoint with a specified name.</p>
 
 <p>See <code>savepoint</code>.</p>
