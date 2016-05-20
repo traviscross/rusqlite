@@ -9,8 +9,9 @@
 
     <title>backup.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     
     
@@ -449,8 +450,6 @@
 <span id="406">406</span>
 <span id="407">407</span>
 <span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Online SQLite backup API.</span>
 <span class='doccomment'>//!</span>
@@ -625,9 +624,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Will return `Err` if the underlying `sqlite3_backup_init` call returns</span>
     <span class='doccomment'>/// `NULL`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>from</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Connection</span>,
-               <span class='ident'>to</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='ident'>Connection</span>)
-               <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Backup</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>from</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Connection</span>, <span class='ident'>to</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='ident'>Connection</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Backup</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;&gt;</span> {
         <span class='ident'>Backup</span>::<span class='ident'>new_with_names</span>(<span class='ident'>from</span>, <span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='ident'>to</span>, <span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>)
     }
 
@@ -750,7 +747,7 @@
 <span class='kw'>mod</span> <span class='ident'>test</span> {
     <span class='kw'>use</span> {<span class='ident'>Connection</span>, <span class='ident'>DatabaseName</span>};
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Backup</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Backup</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
@@ -769,7 +766,7 @@
             <span class='ident'>backup</span>.<span class='ident'>step</span>(<span class='op'>-</span><span class='number'>1</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span>, <span class='ident'>the_answer</span>);
 
         <span class='ident'>src</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(43)&quot;</span>).<span class='ident'>unwrap</span>();
@@ -779,7 +776,7 @@
             <span class='ident'>backup</span>.<span class='ident'>run_to_completion</span>(<span class='number'>5</span>, <span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>250</span>), <span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span> <span class='op'>+</span> <span class='number'>43</span>, <span class='ident'>the_answer</span>);
     }
 
@@ -804,7 +801,7 @@
             <span class='ident'>backup</span>.<span class='ident'>step</span>(<span class='op'>-</span><span class='number'>1</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span>, <span class='ident'>the_answer</span>);
 
         <span class='ident'>src</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(43)&quot;</span>).<span class='ident'>unwrap</span>();
@@ -818,7 +815,7 @@
             <span class='ident'>backup</span>.<span class='ident'>run_to_completion</span>(<span class='number'>5</span>, <span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>250</span>), <span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span> <span class='op'>+</span> <span class='number'>43</span>, <span class='ident'>the_answer</span>);
     }
 
@@ -844,7 +841,7 @@
             <span class='ident'>backup</span>.<span class='ident'>step</span>(<span class='op'>-</span><span class='number'>1</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT x FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span>, <span class='ident'>the_answer</span>);
 
         <span class='ident'>src</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(43)&quot;</span>).<span class='ident'>unwrap</span>();
@@ -858,7 +855,7 @@
             <span class='ident'>backup</span>.<span class='ident'>run_to_completion</span>(<span class='number'>5</span>, <span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>250</span>), <span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>();
         }
 
-        <span class='kw'>let</span> <span class='ident'>the_answer</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>the_answer</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>dst</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>42</span> <span class='op'>+</span> <span class='number'>43</span>, <span class='ident'>the_answer</span>);
     }
 }
@@ -906,7 +903,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -915,13 +912,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../../../";
         window.currentCrate = "rusqlite";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script defer src="../../search-index.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>

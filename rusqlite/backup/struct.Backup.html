@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,14 +44,15 @@
 
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>backup</a>::<wbr><a class='struct' href=''>Backup</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-612' class='srclink' href='../../src/rusqlite/backup.rs.html#158-162' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1073' class='srclink' href='../../src/rusqlite/src/backup.rs.html#158-162' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Backup&lt;'a, 'b&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>A handle to an online backup.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(from: &amp;'a <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>, to: &amp;'b mut <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;&gt;</code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1079' class='srclink' href='../../src/rusqlite/src/backup.rs.html#164-285' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(from: &amp;'a <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>, to: &amp;'b mut <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;&gt;</code></h4>
 <div class='docblock'><p>Attempt to create a new handle that will allow backups from <code>from</code> to
 <code>to</code>. Note that <code>to</code> is a <code>&amp;mut</code> - this is because SQLite forbids any
 API calls on the destination of a backup while the backup is taking
@@ -70,7 +72,7 @@ the destination of a backup while the backup is taking place.</p>
 <code>NULL</code>.</p>
 </div><h4 id='method.progress' class='method'><code>fn <a href='#method.progress' class='fnname'>progress</a>(&amp;self) -&gt; <a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='rusqlite::backup::Progress'>Progress</a></code></h4>
 <div class='docblock'><p>Gets the progress of the backup as of the last call to <code>step</code>.</p>
-</div><h4 id='method.step' class='method'><code>fn <a href='#method.step' class='fnname'>step</a>(&amp;self, num_pages: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='enum' href='../../rusqlite/backup/enum.StepResult.html' title='rusqlite::backup::StepResult'>StepResult</a>&gt;</code></h4>
+</div><h4 id='method.step' class='method'><code>fn <a href='#method.step' class='fnname'>step</a>(&amp;self, num_pages: c_int) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='enum' href='../../rusqlite/backup/enum.StepResult.html' title='rusqlite::backup::StepResult'>StepResult</a>&gt;</code></h4>
 <div class='docblock'><p>Attempts to back up the given number of pages. If <code>num_pages</code> is
 negative, will attempt to back up all remaining pages. This will hold a
 lock on the source database for the duration, so it is probably not
@@ -82,7 +84,7 @@ what you want for databases that are currently active (see
 an error code other than <code>DONE</code>, <code>OK</code>, <code>BUSY</code>, or <code>LOCKED</code>. <code>BUSY</code> and
 <code>LOCKED</code> are transient errors and are therefore returned as possible
 <code>Ok</code> values.</p>
-</div><h4 id='method.run_to_completion' class='method'><code>fn <a href='#method.run_to_completion' class='fnname'>run_to_completion</a>(&amp;self, pages_per_step: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>, pause_between_pages: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a>, progress: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;fn(<a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='rusqlite::backup::Progress'>Progress</a>)&gt;) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div><h4 id='method.run_to_completion' class='method'><code>fn <a href='#method.run_to_completion' class='fnname'>run_to_completion</a>(&amp;self, pages_per_step: c_int, pause_between_pages: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a>, progress: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;fn(<a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='rusqlite::backup::Progress'>Progress</a>)&gt;) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>Attempts to run the entire backup. Will call <code>step(pages_per_step)</code> as
 many times as necessary, sleeping for <code>pause_between_pages</code> between
 each call to give the source database time to process any pending
@@ -97,7 +99,8 @@ backup is still running.</p>
 
 <h1 id='failure-3' class='section-header'><a href='#failure-3'>Failure</a></h1>
 <p>Will return <code>Err</code> if any of the calls to <code>step</code> return <code>Err</code>.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1122' class='srclink' href='../../src/rusqlite/src/backup.rs.html#287-291' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -141,7 +144,7 @@ backup is still running.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

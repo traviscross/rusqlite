@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,32 +44,32 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>functions</a>::<wbr><a class='trait' href=''>ToResult</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-682' class='srclink' href='../../src/rusqlite/functions.rs.html#71-73' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1143' class='srclink' href='../../src/rusqlite/src/functions.rs.html#71-73' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToResult {
-    unsafe fn <a href='#tymethod.set_result' class='fnname'>set_result</a>(&amp;self, ctx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='type' href='../../rusqlite/functions/type.sqlite3_context.html' title='rusqlite::functions::sqlite3_context'>sqlite3_context</a></a>);
+    unsafe fn <a href='#tymethod.set_result' class='fnname'>set_result</a>(&amp;self, ctx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='type' href='../../rusqlite/functions/type.sqlite3_context.html' title='rusqlite::functions::sqlite3_context'>sqlite3_context</a>);
 }</pre><div class='docblock'><p>A trait for types that can be converted into the result of an SQL function.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.set_result' class='method stab '><code>unsafe fn <a href='#tymethod.set_result' class='fnname'>set_result</a>(&amp;self, ctx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='type' href='../../rusqlite/functions/type.sqlite3_context.html' title='rusqlite::functions::sqlite3_context'>sqlite3_context</a></a>)</code></h3></div>
+        <h3 id='tymethod.set_result' class='method stab '><code>unsafe fn <a href='#tymethod.set_result' class='fnname'>set_result</a>(&amp;self, ctx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='type' href='../../rusqlite/functions/type.sqlite3_context.html' title='rusqlite::functions::sqlite3_context'>sqlite3_context</a>)</code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_double.html' title='libc::c_double'>c_double</a></code></li>
-<li><code>impl&lt;'a&gt; <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
-<li><code>impl&lt;'a&gt; <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></li>
-<li><code>impl&lt;'a&gt; <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></li>
-<li><code>impl&lt;T: <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a>&gt; <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a> for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
+    <li><code>impl ToResult for c_int</code></li>
+<li><code>impl ToResult for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
+<li><code>impl ToResult for c_double</code></li>
+<li><code>impl&lt;'a&gt; ToResult for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
+<li><code>impl&lt;'a&gt; ToResult for &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></li>
+<li><code>impl ToResult for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></li>
+<li><code>impl&lt;'a&gt; ToResult for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></li>
+<li><code>impl ToResult for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a>&gt; ToResult for <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></li>
+<li><code>impl ToResult for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
 </ul><script type="text/javascript" async
-                              src="../../implementors/rusqlite/functions/trait.ToResult.js">
-                      </script></section>
+                         src="../../implementors/rusqlite/functions/trait.ToResult.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -111,7 +112,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

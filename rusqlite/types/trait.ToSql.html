@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,33 +44,39 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>types</a>::<wbr><a class='trait' href=''>ToSql</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-37' class='srclink' href='../../src/rusqlite/types.rs.html#72-74' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-190' class='srclink' href='../../src/rusqlite/src/types/mod.rs.html#74-76' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToSql {
-    unsafe fn <a href='#tymethod.bind_parameter' class='fnname'>bind_parameter</a>(&amp;self, stmt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='type' href='../../rusqlite/types/type.sqlite3_stmt.html' title='rusqlite::types::sqlite3_stmt'>sqlite3_stmt</a></a>, col: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>;
+    unsafe fn <a href='#tymethod.bind_parameter' class='fnname'>bind_parameter</a>(&amp;self, stmt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='type' href='../../rusqlite/types/type.sqlite3_stmt.html' title='rusqlite::types::sqlite3_stmt'>sqlite3_stmt</a>, col: c_int) -&gt; c_int;
 }</pre><div class='docblock'><p>A trait for types that can be converted into SQLite values.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.bind_parameter' class='method stab '><code>unsafe fn <a href='#tymethod.bind_parameter' class='fnname'>bind_parameter</a>(&amp;self, stmt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='type' href='../../rusqlite/types/type.sqlite3_stmt.html' title='rusqlite::types::sqlite3_stmt'>sqlite3_stmt</a></a>, col: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a></code></h3></div>
+        <h3 id='tymethod.bind_parameter' class='method stab '><code>unsafe fn <a href='#tymethod.bind_parameter' class='fnname'>bind_parameter</a>(&amp;self, stmt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='type' href='../../rusqlite/types/type.sqlite3_stmt.html' title='rusqlite::types::sqlite3_stmt'>sqlite3_stmt</a>, col: c_int) -&gt; c_int</code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_double.html' title='libc::c_double'>c_double</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
-<li><code>impl&lt;'a&gt; <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></li>
-<li><code>impl&lt;'a&gt; <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='struct' href='https://doc.rust-lang.org/time/time/struct.Timespec.html' title='time::Timespec'>Timespec</a></code></li>
-<li><code>impl&lt;T: <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a>&gt; <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></li>
-<li><code>impl <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a> for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
+    <li><code>impl ToSql for <a class='struct' href='https://doc.rust-lang.org/time/time/struct.Timespec.html' title='time::Timespec'>Timespec</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='https://lifthrasiir.github.io/rust-chrono/chrono/naive/date/struct.NaiveDate.html' title='chrono::naive::date::NaiveDate'>NaiveDate</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='https://lifthrasiir.github.io/rust-chrono/chrono/naive/time/struct.NaiveTime.html' title='chrono::naive::time::NaiveTime'>NaiveTime</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='https://lifthrasiir.github.io/rust-chrono/chrono/naive/datetime/struct.NaiveDateTime.html' title='chrono::naive::datetime::NaiveDateTime'>NaiveDateTime</a></code></li>
+<li><code>impl&lt;Tz: <a class='trait' href='https://lifthrasiir.github.io/rust-chrono/chrono/offset/trait.TimeZone.html' title='chrono::offset::TimeZone'>TimeZone</a>&gt; ToSql for <a class='struct' href='https://lifthrasiir.github.io/rust-chrono/chrono/datetime/struct.DateTime.html' title='chrono::datetime::DateTime'>DateTime</a>&lt;Tz&gt;</code></li>
+<li><code>impl ToSql for Value</code></li>
+<li><code>impl ToSql for c_int</code></li>
+<li><code>impl ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
+<li><code>impl ToSql for c_double</code></li>
+<li><code>impl ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
+<li><code>impl&lt;'a&gt; ToSql for &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></li>
+<li><code>impl&lt;'a&gt; ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a>&gt; ToSql for <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></li>
+<li><code>impl ToSql for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
+<li><code>impl ToSql for <a class='struct' href='../../rusqlite/blob/struct.ZeroBlob.html' title='rusqlite::blob::ZeroBlob'>ZeroBlob</a></code></li>
 </ul><script type="text/javascript" async
-                              src="../../implementors/rusqlite/types/trait.ToSql.js">
-                      </script></section>
+                         src="../../implementors/rusqlite/types/trait.ToSql.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -112,7 +119,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

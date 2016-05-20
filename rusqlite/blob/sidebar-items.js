@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Blob","Handle to an open BLOB."]]});
+initSidebarItems({"struct":[["Blob","Handle to an open BLOB."],["ZeroBlob","BLOB of length N that is filled with zeroes."]]});
