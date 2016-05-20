@@ -76,9 +76,9 @@ is dropped.</p>
 <div class='docblock'><p>Begin a nested savepoint.</p>
 </div><h4 id='method.savepoint_with_name' class='method'><code>fn <a href='#method.savepoint_with_name' class='fnname'>savepoint_with_name</a>&lt;T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;(&amp;mut self, name: T) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.Savepoint.html' title='rusqlite::Savepoint'>Savepoint</a>&gt;</code></h4>
 <div class='docblock'><p>Begin a nested savepoint with a user-provided savepoint name.</p>
-</div><h4 id='method.drop_behavior' class='method'><code>fn <a href='#method.drop_behavior' class='fnname'>drop_behavior</a>(&amp;self) -&gt; DropBehavior</code></h4>
+</div><h4 id='method.drop_behavior' class='method'><code>fn <a href='#method.drop_behavior' class='fnname'>drop_behavior</a>(&amp;self) -&gt; <a class='enum' href='../rusqlite/enum.DropBehavior.html' title='rusqlite::DropBehavior'>DropBehavior</a></code></h4>
 <div class='docblock'><p>Get the current setting for what happens to the savepoint when it is dropped.</p>
-</div><h4 id='method.set_drop_behavior' class='method'><code>fn <a href='#method.set_drop_behavior' class='fnname'>set_drop_behavior</a>(&amp;mut self, drop_behavior: DropBehavior)</code></h4>
+</div><h4 id='method.set_drop_behavior' class='method'><code>fn <a href='#method.set_drop_behavior' class='fnname'>set_drop_behavior</a>(&amp;mut self, drop_behavior: <a class='enum' href='../rusqlite/enum.DropBehavior.html' title='rusqlite::DropBehavior'>DropBehavior</a>)</code></h4>
 <div class='docblock'><p>Configure the savepoint to perform the specified action when it is dropped.</p>
 </div><h4 id='method.commit' class='method'><code>fn <a href='#method.commit' class='fnname'>commit</a>(self) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>A convenience method which consumes and commits a savepoint.</p>

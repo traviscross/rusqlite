@@ -1658,6 +1658,7 @@
 <span id="1614">1614</span>
 <span id="1615">1615</span>
 <span id="1616">1616</span>
+<span id="1617">1617</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Rusqlite is an ergonomic wrapper for using SQLite from Rust. It attempts to expose</span>
 <span class='doccomment'>//! an interface similar to [rust-postgres](https://github.com/sfackler/rust-postgres).</span>
@@ -1741,7 +1742,8 @@
 <span class='kw'>use</span> <span class='ident'>raw_statement</span>::<span class='ident'>RawStatement</span>;
 <span class='kw'>use</span> <span class='ident'>cache</span>::<span class='ident'>StatementCache</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>transaction</span>::{<span class='ident'>SqliteTransaction</span>, <span class='ident'>Savepoint</span>, <span class='ident'>Transaction</span>, <span class='ident'>TransactionBehavior</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>transaction</span>::{<span class='ident'>SqliteTransaction</span>, <span class='ident'>SqliteTransactionBehavior</span>, <span class='ident'>DropBehavior</span>, <span class='ident'>Savepoint</span>,
+                      <span class='ident'>Transaction</span>, <span class='ident'>TransactionBehavior</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>SqliteError</span>, <span class='ident'>Error</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>cache</span>::<span class='ident'>CachedStatement</span>;
 
