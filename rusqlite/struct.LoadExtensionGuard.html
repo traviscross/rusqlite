@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-891' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#19-21' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-886' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#19-21' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct LoadExtensionGuard&lt;'conn&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>RAII guard temporarily enabling SQLite extensions to be loaded.</p>
@@ -59,13 +59,14 @@
 
     <span class='ident'>conn</span>.<span class='ident'>load_extension</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;my_sqlite_extension&quot;</span>), <span class='prelude-val'>None</span>)
 }</pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='struct' href='../rusqlite/struct.LoadExtensionGuard.html' title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-894' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#23-29' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='struct' href='../rusqlite/struct.LoadExtensionGuard.html' title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-889' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#23-29' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(conn: &amp;<a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.LoadExtensionGuard.html' title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a>&gt;</code></h4>
 <div class='docblock'><p>Attempt to enable loading extensions. Loading extensions will be disabled when this
 guard goes out of scope. Cannot be meaningfully nested.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.LoadExtensionGuard.html' title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-899' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#32-36' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.LoadExtensionGuard.html' title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-894' class='srclink' href='../src/rusqlite/src/load_extension_guard.rs.html#32-36' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
-</div></section>
+<div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -88,6 +89,8 @@ guard goes out of scope. Cannot be meaningfully nested.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -160,6 +160,12 @@ never been bound.</p>
 </div></div><div class='impl-items'><h4 id='method.insert' class='method'><code>fn <a href='#method.insert' class='fnname'>insert</a>(&amp;mut self, params: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a>&amp;<a class='trait' href='../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>&gt;</code></h4>
 <div class='docblock'><p>Execute an INSERT and return the ROWID.</p>
 
+<h1 id='note' class='section-header'><a href='#note'>Note</a></h1>
+<p>This function is a convenience wrapper around <code>execute()</code> intended for queries that
+insert a single item. It is possible to misuse this function in a way that it cannot
+detect, such as by calling it on a statement which <em>updates</em> a single item rather than
+inserting one. Please don&#39;t do that.</p>
+
 <h1 id='failure-5' class='section-header'><a href='#failure-5'>Failure</a></h1>
 <p>Will return <code>Err</code> if no row is inserted or many rows are inserted.</p>
 </div><h4 id='method.exists' class='method'><code>fn <a href='#method.exists' class='fnname'>exists</a>(&amp;mut self, params: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a>&amp;<a class='trait' href='../rusqlite/types/trait.ToSql.html' title='rusqlite::types::ToSql'>ToSql</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>&gt;</code></h4>
@@ -258,12 +264,16 @@ that occur.</p>
 <p>Will return <code>Err</code> if the underlying SQLite call fails.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../rusqlite/struct.CachedStatement.html' title='rusqlite::CachedStatement'>CachedStatement</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-564' class='srclink' href='../src/rusqlite/src/cache.rs.html#62-68' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#associatedtype.Target' class='type'>Target</a> = <a class='struct' href='../rusqlite/struct.Statement.html' title='rusqlite::Statement'>Statement</a>&lt;'conn&gt;</code></h4>
-<h4 id='method.deref' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;<a class='struct' href='../rusqlite/struct.Statement.html' title='rusqlite::Statement'>Statement</a>&lt;'conn&gt;</code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.DerefMut.html' title='core::ops::DerefMut'>DerefMut</a> for <a class='struct' href='../rusqlite/struct.CachedStatement.html' title='rusqlite::CachedStatement'>CachedStatement</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-569' class='srclink' href='../src/rusqlite/src/cache.rs.html#70-74' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>The resulting type after dereferencing</p>
+</div><h4 id='method.deref' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;<a class='struct' href='../rusqlite/struct.Statement.html' title='rusqlite::Statement'>Statement</a>&lt;'conn&gt;</code></h4>
+<div class='docblock'><p>The method called to dereference a value</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.DerefMut.html' title='core::ops::DerefMut'>DerefMut</a> for <a class='struct' href='../rusqlite/struct.CachedStatement.html' title='rusqlite::CachedStatement'>CachedStatement</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-569' class='srclink' href='../src/rusqlite/src/cache.rs.html#70-74' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.deref_mut' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.DerefMut.html#tymethod.deref_mut' class='fnname'>deref_mut</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../rusqlite/struct.Statement.html' title='rusqlite::Statement'>Statement</a>&lt;'conn&gt;</code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.CachedStatement.html' title='rusqlite::CachedStatement'>CachedStatement</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-573' class='srclink' href='../src/rusqlite/src/cache.rs.html#76-83' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>The method called to mutably dereference a value</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'conn&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.CachedStatement.html' title='rusqlite::CachedStatement'>CachedStatement</a>&lt;'conn&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-573' class='srclink' href='../src/rusqlite/src/cache.rs.html#76-83' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
-</div></section>
+<div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -286,6 +296,8 @@ that occur.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

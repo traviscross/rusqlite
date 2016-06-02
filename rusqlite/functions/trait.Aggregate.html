@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1274' class='srclink' href='../../src/rusqlite/src/functions.rs.html#337-355' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1269' class='srclink' href='../../src/rusqlite/src/functions.rs.html#337-355' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Aggregate&lt;A, T&gt; <span class='where'>where T: <a class='trait' href='../../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a></span> {
     fn <a href='#tymethod.init' class='fnname'>init</a>(&amp;self) -&gt; A;
     fn <a href='#tymethod.step' class='fnname'>step</a>(&amp;self, &amp;mut <a class='struct' href='../../rusqlite/functions/struct.Context.html' title='rusqlite::functions::Context'>Context</a>, &amp;mut A) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;;
@@ -97,6 +97,8 @@ was not called (because the function is running against 0 rows), will be given
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

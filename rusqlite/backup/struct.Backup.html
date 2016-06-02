@@ -47,11 +47,11 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1073' class='srclink' href='../../src/rusqlite/src/backup.rs.html#158-162' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1068' class='srclink' href='../../src/rusqlite/src/backup.rs.html#158-162' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Backup&lt;'a, 'b&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>A handle to an online backup.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1079' class='srclink' href='../../src/rusqlite/src/backup.rs.html#164-285' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1074' class='srclink' href='../../src/rusqlite/src/backup.rs.html#164-285' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(from: &amp;'a <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>, to: &amp;'b mut <a class='struct' href='../../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;&gt;</code></h4>
 <div class='docblock'><p>Attempt to create a new handle that will allow backups from <code>from</code> to
 <code>to</code>. Note that <code>to</code> is a <code>&amp;mut</code> - this is because SQLite forbids any
@@ -99,9 +99,10 @@ backup is still running.</p>
 
 <h1 id='failure-3' class='section-header'><a href='#failure-3'>Failure</a></h1>
 <p>Will return <code>Err</code> if any of the calls to <code>step</code> return <code>Err</code>.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1122' class='srclink' href='../../src/rusqlite/src/backup.rs.html#287-291' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../rusqlite/backup/struct.Backup.html' title='rusqlite::backup::Backup'>Backup</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1117' class='srclink' href='../../src/rusqlite/src/backup.rs.html#287-291' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
-</div></section>
+<div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -124,6 +125,8 @@ backup is still running.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

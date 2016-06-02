@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1537' class='srclink' href='../src/rusqlite/src/lib.rs.html#157-161' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1532' class='srclink' href='../src/rusqlite/src/lib.rs.html#157-161' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Connection {
     // some fields omitted
 }</pre><div class='docblock'><p>A connection to a SQLite database.</p>
@@ -159,7 +159,7 @@ a single row.</p>
 <h1 id='failure-6' class='section-header'><a href='#failure-6'>Failure</a></h1>
 <p>Will return <code>Err</code> if <code>sql</code> cannot be converted to a C-compatible string or if the
 underlying SQLite call fails.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-938' class='srclink' href='../src/rusqlite/src/trace.rs.html#61-114' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-933' class='srclink' href='../src/rusqlite/src/trace.rs.html#61-114' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='#method.trace' class='fnname'>trace</a>(&amp;mut self, trace_fn: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;fn(&amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)&gt;)</code></h4>
 <div class='docblock'><p>Register or clear a callback function that can be used for tracing the execution of SQL
 statements.</p>
@@ -173,7 +173,7 @@ statements.</p>
 
 <p>There can only be a single profiler defined for each database connection.
 Setting a new profiler clears the old one.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-983' class='srclink' href='../src/rusqlite/src/backup.rs.html#42-124' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-978' class='srclink' href='../src/rusqlite/src/backup.rs.html#42-124' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.backup' class='method'><code>fn <a href='#method.backup' class='fnname'>backup</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(&amp;self, name: <a class='enum' href='../rusqlite/enum.DatabaseName.html' title='rusqlite::DatabaseName'>DatabaseName</a>, dst_path: P, progress: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;fn(<a class='struct' href='../rusqlite/backup/struct.Progress.html' title='rusqlite::backup::Progress'>Progress</a>)&gt;) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>Back up the <code>name</code> database to the given destination path.
 If <code>progress</code> is not <code>None</code>, it will be called periodically
@@ -198,7 +198,7 @@ already-open database connection), see the <code>backup</code> module.</p>
 <h1 id='failure-8' class='section-header'><a href='#failure-8'>Failure</a></h1>
 <p>Will return <code>Err</code> if the destination path cannot be opened
 or if the restore fails.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1286' class='srclink' href='../src/rusqlite/src/functions.rs.html#357-430' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1281' class='srclink' href='../src/rusqlite/src/functions.rs.html#357-430' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.create_scalar_function' class='method'><code>fn <a href='#method.create_scalar_function' class='fnname'>create_scalar_function</a>&lt;F, T&gt;(&amp;self, fn_name: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, n_arg: c_int, deterministic: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, x_func: F) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; <span class='where'>where F: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;<a class='struct' href='../rusqlite/functions/struct.Context.html' title='rusqlite::functions::Context'>Context</a>) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;T&gt;, T: <a class='trait' href='../rusqlite/functions/trait.ToResult.html' title='rusqlite::functions::ToResult'>ToResult</a></span></code></h4>
 <div class='docblock'><p>Attach a user-defined scalar function to this database connection.</p>
 
@@ -238,14 +238,14 @@ given to <code>create_scalar_function</code> or <code>create_aggregate_function<
 
 <h1 id='failure-11' class='section-header'><a href='#failure-11'>Failure</a></h1>
 <p>Will return Err if the function could not be removed.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1419' class='srclink' href='../src/rusqlite/src/blob.rs.html#68-108' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1414' class='srclink' href='../src/rusqlite/src/blob.rs.html#68-108' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.blob_open' class='method'><code>fn <a href='#method.blob_open' class='fnname'>blob_open</a>&lt;'a&gt;(&amp;'a self, db: <a class='enum' href='../rusqlite/enum.DatabaseName.html' title='rusqlite::DatabaseName'>DatabaseName</a>, table: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, column: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, row: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, read_only: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/blob/struct.Blob.html' title='rusqlite::blob::Blob'>Blob</a>&lt;'a&gt;&gt;</code></h4>
 <div class='docblock'><p>Open a handle to the BLOB located in <code>row</code>, <code>column</code>, <code>table</code> in database <code>db</code>.</p>
 
 <h1 id='failure-12' class='section-header'><a href='#failure-12'>Failure</a></h1>
 <p>Will return <code>Err</code> if <code>db</code>/<code>table</code>/<code>column</code> cannot be converted to a C-compatible string
 or if the underlying SQLite BLOB open call fails.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1542' class='srclink' href='../src/rusqlite/src/lib.rs.html#165-495' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1537' class='srclink' href='../src/rusqlite/src/lib.rs.html#165-495' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.open' class='method'><code>fn <a href='#method.open' class='fnname'>open</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(path: P) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>&gt;</code></h4>
 <div class='docblock'><p>Open a new connection to a SQLite database.</p>
 
@@ -438,10 +438,11 @@ cannot be loaded directly.</p>
 on the rusqlite repository</a> and describe
 your use case. This function is unsafe because it gives you raw access to the SQLite
 connection, and what you do with it could impact the safety of this <code>Connection</code>.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1541' class='srclink' href='../src/rusqlite/src/lib.rs.html#163' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1633' class='srclink' href='../src/rusqlite/src/lib.rs.html#497-503' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1536' class='srclink' href='../src/rusqlite/src/lib.rs.html#163' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1628' class='srclink' href='../src/rusqlite/src/lib.rs.html#497-503' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div></section>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -464,6 +465,8 @@ connection, and what you do with it could impact the safety of this <code>Connec
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -224,13 +224,6 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
@@ -289,10 +282,6 @@
     <span class='doccomment'>/// Error when a query that was expected to insert one row did not insert any or insert many.</span>
     <span class='ident'>StatementChangedRows</span>(<span class='ident'>c_int</span>),
 
-    <span class='doccomment'>/// Error when a query that was expected to insert a row did not change the connection&#39;s</span>
-    <span class='doccomment'>/// last_insert_rowid().</span>
-    <span class='ident'>StatementFailedToInsertRow</span>,
-
     <span class='doccomment'>/// Error returned by `functions::Context::get` when the function argument cannot be converted</span>
     <span class='doccomment'>/// to the requested type.</span>
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;functions&quot;</span>)]</span>
@@ -339,7 +328,6 @@
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnName</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Invalid column name: {}&quot;</span>, <span class='ident'>name</span>),
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnType</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Invalid column type&quot;</span>),
             <span class='ident'>Error</span>::<span class='ident'>StatementChangedRows</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Query changed {} rows&quot;</span>, <span class='ident'>i</span>),
-            <span class='ident'>Error</span>::<span class='ident'>StatementFailedToInsertRow</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Statement failed to insert new row&quot;</span>),
 
             <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;functions&quot;</span>)]</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidFunctionParameterType</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Invalid function parameter type&quot;</span>),
@@ -370,7 +358,6 @@
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnName</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;invalid column name&quot;</span>,
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnType</span> <span class='op'>=&gt;</span> <span class='string'>&quot;invalid column type&quot;</span>,
             <span class='ident'>Error</span>::<span class='ident'>StatementChangedRows</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;query inserted zero or more than one row&quot;</span>,
-            <span class='ident'>Error</span>::<span class='ident'>StatementFailedToInsertRow</span> <span class='op'>=&gt;</span> <span class='string'>&quot;statement failed to insert new row&quot;</span>,
 
             <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;functions&quot;</span>)]</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidFunctionParameterType</span> <span class='op'>=&gt;</span> <span class='string'>&quot;invalid function parameter type&quot;</span>,
@@ -395,8 +382,7 @@
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnName</span>(_) <span class='op'>|</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidColumnType</span> <span class='op'>|</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidPath</span>(_) <span class='op'>|</span>
-            <span class='ident'>Error</span>::<span class='ident'>StatementChangedRows</span>(_) <span class='op'>|</span>
-            <span class='ident'>Error</span>::<span class='ident'>StatementFailedToInsertRow</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+            <span class='ident'>Error</span>::<span class='ident'>StatementChangedRows</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
 
             <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;functions&quot;</span>)]</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidFunctionParameterType</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
@@ -445,6 +431,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

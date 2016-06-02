@@ -47,11 +47,11 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2111' class='srclink' href='../src/rusqlite/src/lib.rs.html#1032-1035' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2106' class='srclink' href='../src/rusqlite/src/lib.rs.html#1032-1035' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Row&lt;'a, 'stmt&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>A single result row of a query.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'stmt&gt; <a class='struct' href='../rusqlite/struct.Row.html' title='rusqlite::Row'>Row</a>&lt;'a, 'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2116' class='srclink' href='../src/rusqlite/src/lib.rs.html#1037-1077' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'stmt&gt; <a class='struct' href='../rusqlite/struct.Row.html' title='rusqlite::Row'>Row</a>&lt;'a, 'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2111' class='srclink' href='../src/rusqlite/src/lib.rs.html#1037-1077' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.get' class='method'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;I: <a class='trait' href='../rusqlite/trait.RowIndex.html' title='rusqlite::RowIndex'>RowIndex</a>, T: <a class='trait' href='../rusqlite/types/trait.FromSql.html' title='rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: I) -&gt; T</code></h4>
 <div class='docblock'><p>Get the value of a particular column of the result row.</p>
 
@@ -96,6 +96,8 @@ for this row.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
