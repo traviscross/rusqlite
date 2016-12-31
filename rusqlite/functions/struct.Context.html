@@ -9,6 +9,7 @@
 
     <title>rusqlite::functions::Context - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -47,27 +48,25 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1243' class='srclink' href='../../src/rusqlite/src/functions.rs.html#269-272' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Context&lt;'a&gt; {
-    // some fields omitted
-}</pre><div class='docblock'><p>Context is a wrapper for the SQLite function evaluation context.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../rusqlite/functions/struct.Context.html' title='rusqlite::functions::Context'>Context</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1247' class='srclink' href='../../src/rusqlite/src/functions.rs.html#274-331' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+               </span><a class='srclink' href='../../src/rusqlite/functions.rs.html#172-175' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Context&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Context is a wrapper for the SQLite function evaluation context.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../rusqlite/functions/struct.Context.html' title='rusqlite::functions::Context'>Context</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/functions.rs.html#177-236' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
 <div class='docblock'><p>Returns the number of arguments to the function.</p>
-</div><h4 id='method.is_empty' class='method'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h4 id='method.is_empty' class='method'><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
 <div class='docblock'><p>Returns <code>true</code> when there is no argument.</p>
-</div><h4 id='method.get' class='method'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;T: <a class='trait' href='../../rusqlite/functions/trait.FromValue.html' title='rusqlite::functions::FromValue'>FromValue</a>&gt;(&amp;self, idx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;T&gt;</code></h4>
+</div><h4 id='method.get' class='method'><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;T:&nbsp;<a class='trait' href='../../rusqlite/types/trait.FromSql.html' title='rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;T&gt;</code></span></h4>
 <div class='docblock'><p>Returns the <code>idx</code>th argument as a <code>T</code>.</p>
 
 <h1 id='failure' class='section-header'><a href='#failure'>Failure</a></h1>
 <p>Will panic if <code>idx</code> is greater than or equal to <code>self.len()</code>.</p>
 
 <p>Will return Err if the underlying SQLite type cannot be converted to a <code>T</code>.</p>
-</div><h4 id='method.set_aux' class='method'><code>fn <a href='#method.set_aux' class='fnname'>set_aux</a>&lt;T&gt;(&amp;self, arg: c_int, value: T)</code></h4>
+</div><h4 id='method.set_aux' class='method'><span id='set_aux.v' class='invisible'><code>fn <a href='#method.set_aux' class='fnname'>set_aux</a>&lt;T&gt;(&amp;self, arg: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-apple-darwin/libc/type.c_int.html' title='libc::c_int'>c_int</a>, value: T)</code></span></h4>
 <div class='docblock'><p>Sets the auxilliary data associated with a particular parameter. See
 <a href="https://www.sqlite.org/c3ref/get_auxdata.html">https://www.sqlite.org/c3ref/get_auxdata.html</a> for a discussion of
 this feature, or the unit tests of this module for an example.</p>
-</div><h4 id='method.get_aux' class='method'><code>unsafe fn <a href='#method.get_aux' class='fnname'>get_aux</a>&lt;T&gt;(&amp;self, arg: c_int) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;T&gt;</code></h4>
+</div><h4 id='method.get_aux' class='method'><span id='get_aux.v' class='invisible'><code>unsafe fn <a href='#method.get_aux' class='fnname'>get_aux</a>&lt;T&gt;(&amp;self, arg: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-apple-darwin/libc/type.c_int.html' title='libc::c_int'>c_int</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;T&gt;</code></span></h4>
 <div class='docblock'><p>Gets the auxilliary data that was associated with a given parameter
 via <code>set_aux</code>. Returns <code>None</code> if no data has been associated.</p>
 
@@ -131,11 +130,9 @@ types must be identical.</p>
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

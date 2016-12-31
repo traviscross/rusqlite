@@ -9,6 +9,7 @@
 
     <title>rusqlite::blob - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -47,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1399' class='srclink' href='../../src/rusqlite/src/blob.rs.html#1-382' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/rusqlite/blob.rs.html#1-381' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Incremental BLOB I/O.</p>
 
 <p>Note that SQLite does not provide API-level access to change the size of a BLOB; that must
@@ -75,7 +76,7 @@ an example.)</p>
     <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO test (content) VALUES (ZEROBLOB(10))&quot;</span>, <span class='kw-2'>&amp;</span>[]).<span class='ident'>unwrap</span>();
 
     <span class='kw'>let</span> <span class='ident'>rowid</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>last_insert_rowid</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='boolvalue'>false</span>).<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
 
     <span class='comment'>// Make sure to test that the number of bytes written matches what you expect;</span>
     <span class='comment'>// if you try to write too much, the data will be truncated to the size of the BLOB.</span>
@@ -101,14 +102,14 @@ an example.)</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Blob.html'
                                   title='rusqlite::blob::Blob'>Blob</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Handle to an open BLOB.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ZeroBlob.html'
                                   title='rusqlite::blob::ZeroBlob'>ZeroBlob</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>BLOB of length N that is filled with zeroes.</p>
                            </td>
                        </tr></table></section>
@@ -167,11 +168,9 @@ an example.)</p>
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>
