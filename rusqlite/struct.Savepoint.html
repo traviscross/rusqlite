@@ -312,11 +312,12 @@ does exactly the same thing.</p>
 <h1 id='failure-12' class='section-header'><a href='#failure-12'>Failure</a></h1>
 <p>Will return <code>Err</code> if <code>sql</code> cannot be converted to a C-compatible string or if the
 underlying SQLite call fails.</p>
-</div><h4 id='method.close' class='method'><span id='close.v' class='invisible'><code>fn <a href='#method.close' class='fnname'>close</a>(self) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+</div><h4 id='method.close' class='method'><span id='close.v' class='invisible'><code>fn <a href='#method.close' class='fnname'>close</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='../rusqlite/struct.Connection.html' title='rusqlite::Connection'>Connection</a>, <a class='enum' href='../rusqlite/enum.Error.html' title='rusqlite::Error'>Error</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>&gt;</code></span></h4>
 <div class='docblock'><p>Close the SQLite connection.</p>
 
 <p>This is functionally equivalent to the <code>Drop</code> implementation for <code>Connection</code> except
-that it returns any error encountered to the caller.</p>
+that on failure, it returns an error and the connection itself (presumably so closing
+can be attempted again).</p>
 
 <h1 id='failure-13' class='section-header'><a href='#failure-13'>Failure</a></h1>
 <p>Will return <code>Err</code> if the underlying SQLite call fails.</p>

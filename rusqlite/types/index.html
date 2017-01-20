@@ -91,8 +91,8 @@ use a newtype. For example, to store timespecs as <code>f64</code>s:</p>
 }
 
 <span class='kw'>impl</span> <span class='ident'>ToSql</span> <span class='kw'>for</span> <span class='ident'>TimespecSql</span> {
-    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>bind_parameter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>stmt</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>sqlite3_stmt</span>, <span class='ident'>col</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span> {
-        <span class='kw'>let</span> <span class='ident'>TimespecSql</span>(<span class='ident'>ts</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>bind_parameter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>stmt</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>sqlite3_stmt</span>, <span class='ident'>col</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span> {
+        <span class='kw'>let</span> <span class='ident'>TimespecSql</span>(<span class='ident'>ts</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
         <span class='kw'>let</span> <span class='ident'>as_f64</span> <span class='op'>=</span> <span class='ident'>ts</span>.<span class='ident'>sec</span> <span class='kw'>as</span> <span class='ident'>f64</span> <span class='op'>+</span> (<span class='ident'>ts</span>.<span class='ident'>nsec</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> <span class='number'>1.0e9</span>;
         <span class='ident'>as_f64</span>.<span class='ident'>bind_parameter</span>(<span class='ident'>stmt</span>, <span class='ident'>col</span>)
     }

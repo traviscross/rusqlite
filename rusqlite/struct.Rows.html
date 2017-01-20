@@ -48,9 +48,9 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1019-1021' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1032-1034' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Rows&lt;'stmt&gt; { /* fields omitted */ }</pre><div class='docblock'><p>An handle for the resulting rows of a query.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'stmt&gt; <a class='struct' href='../rusqlite/struct.Rows.html' title='rusqlite::Rows'>Rows</a>&lt;'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1024-1072' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'stmt&gt; <a class='struct' href='../rusqlite/struct.Rows.html' title='rusqlite::Rows'>Rows</a>&lt;'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1037-1085' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.next' class='method'><span id='next.v' class='invisible'><code>fn <a href='#method.next' class='fnname'>next</a>&lt;'a&gt;(&amp;'a mut self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='struct' href='../rusqlite/struct.Row.html' title='rusqlite::Row'>Row</a>&lt;'a, 'stmt&gt;&gt;&gt;</code></span></h4>
 <div class='docblock'><p>Attempt to get the next row from the query. Returns <code>Some(Ok(Row))</code> if there
 is another row, <code>Some(Err(...))</code> if there was an error getting the next
@@ -61,7 +61,7 @@ row, and <code>None</code> if all rows have been retrieved.</p>
 lifetime of the returned row is tied to the lifetime of <code>self</code>. This is a
 &quot;streaming iterator&quot;. For a more natural interface, consider using <code>query_map</code>
 or <code>query_and_then</code> instead, which return types that implement <code>Iterator</code>.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'stmt&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.Rows.html' title='rusqlite::Rows'>Rows</a>&lt;'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1074-1078' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'stmt&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rusqlite/struct.Rows.html' title='rusqlite::Rows'>Rows</a>&lt;'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1087-1091' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span></h4>
 <div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
 </div></div></section>

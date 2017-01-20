@@ -125,14 +125,14 @@
 
 <span class='comment'>// Private newtype for raw sqlite3_stmts that finalize themselves when dropped.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RawStatement</span>(<span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span>);
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RawStatement</span>(<span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span>);
 
 <span class='kw'>impl</span> <span class='ident'>RawStatement</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stmt</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span>) <span class='op'>-&gt;</span> <span class='ident'>RawStatement</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stmt</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span>) <span class='op'>-&gt;</span> <span class='ident'>RawStatement</span> {
         <span class='ident'>RawStatement</span>(<span class='ident'>stmt</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span> {
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_stmt</span> {
         <span class='self'>self</span>.<span class='number'>0</span>
     }
 

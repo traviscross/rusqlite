@@ -101,7 +101,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>ToSql</span> <span class='kw'>for</span> <span class='ident'>time</span>::<span class='ident'>Timespec</span> {
     <span class='kw'>fn</span> <span class='ident'>to_sql</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ToSqlOutput</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>time_string</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>at_utc</span>(<span class='op'>*</span><span class='self'>self</span>).<span class='ident'>strftime</span>(<span class='ident'>SQLITE_DATETIME_FMT</span>).<span class='ident'>unwrap</span>().<span class='ident'>to_string</span>();
+        <span class='kw'>let</span> <span class='ident'>time_string</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>at_utc</span>(<span class='kw-2'>*</span><span class='self'>self</span>).<span class='ident'>strftime</span>(<span class='ident'>SQLITE_DATETIME_FMT</span>).<span class='ident'>unwrap</span>().<span class='ident'>to_string</span>();
         <span class='prelude-val'>Ok</span>(<span class='ident'>ToSqlOutput</span>::<span class='ident'>from</span>(<span class='ident'>time_string</span>))
     }
 }
