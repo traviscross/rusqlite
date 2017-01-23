@@ -238,6 +238,18 @@
 <span id="193">193</span>
 <span id="194">194</span>
 <span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
@@ -265,6 +277,11 @@
     <span class='doccomment'>/// Error when the value of a particular column is requested, but it cannot be converted to</span>
     <span class='doccomment'>/// the requested Rust type.</span>
     <span class='ident'>FromSqlConversionFailure</span>(<span class='ident'>usize</span>, <span class='ident'>Type</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>error</span>::<span class='ident'>Error</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>),
+
+    <span class='doccomment'>/// Error when SQLite gives us an integral value outside the range of the requested type (e.g.,</span>
+    <span class='doccomment'>/// trying to get the value 1000 into a `u8`).  The associated `c_int` is the column index, and</span>
+    <span class='doccomment'>/// the associated `i64` is the value returned by SQLite.</span>
+    <span class='ident'>IntegralValueOutOfRange</span>(<span class='ident'>c_int</span>, <span class='ident'>i64</span>),
 
     <span class='doccomment'>/// Error converting a string to UTF-8.</span>
     <span class='ident'>Utf8Error</span>(<span class='ident'>str</span>::<span class='ident'>Utf8Error</span>),
@@ -340,6 +357,9 @@
                        <span class='ident'>i</span>,
                        <span class='ident'>err</span>)
             }
+            <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(<span class='ident'>col</span>, <span class='ident'>val</span>) <span class='op'>=&gt;</span> {
+                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Integer {} out of range at index {}&quot;</span>, <span class='ident'>val</span>, <span class='ident'>col</span>)
+            }
             <span class='ident'>Error</span>::<span class='ident'>Utf8Error</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
             <span class='ident'>Error</span>::<span class='ident'>NulError</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
             <span class='ident'>Error</span>::<span class='ident'>InvalidParameterName</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Invalid parameter name: {}&quot;</span>, <span class='ident'>name</span>),
@@ -374,6 +394,9 @@
                 <span class='string'>&quot;SQLite was compiled or configured for single-threaded use only&quot;</span>
             }
             <span class='ident'>Error</span>::<span class='ident'>FromSqlConversionFailure</span>(_, _, <span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
+            <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(_, _) <span class='op'>=&gt;</span> {
+                <span class='string'>&quot;integral value out of range of requested type&quot;</span>
+            }
             <span class='ident'>Error</span>::<span class='ident'>Utf8Error</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
             <span class='ident'>Error</span>::<span class='ident'>InvalidParameterName</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;invalid parameter name&quot;</span>,
             <span class='ident'>Error</span>::<span class='ident'>NulError</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
@@ -401,6 +424,7 @@
             <span class='ident'>Error</span>::<span class='ident'>Utf8Error</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>err</span>),
             <span class='ident'>Error</span>::<span class='ident'>NulError</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>err</span>),
 
+            <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(_, _) <span class='op'>|</span>
             <span class='ident'>Error</span>::<span class='ident'>SqliteSingleThreadedMode</span> <span class='op'>|</span>
             <span class='ident'>Error</span>::<span class='ident'>InvalidParameterName</span>(_) <span class='op'>|</span>
             <span class='ident'>Error</span>::<span class='ident'>ExecuteReturnedResults</span> <span class='op'>|</span>

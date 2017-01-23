@@ -1800,6 +1800,9 @@
 <span id="1755">1755</span>
 <span id="1756">1756</span>
 <span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Rusqlite is an ergonomic wrapper for using SQLite from Rust. It attempts to expose</span>
 <span class='doccomment'>//! an interface similar to [rust-postgres](https://github.com/sfackler/rust-postgres).</span>
@@ -2908,9 +2911,11 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ## Failure</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Panics if the underlying SQLite column type is not a valid type as a source for `T`.</span>
+    <span class='doccomment'>/// Panics if calling `row.get_checked(idx)` would return an error, including:</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Panics if `idx` is outside the range of columns in the returned query.</span>
+    <span class='doccomment'>///    * If the underlying SQLite column type is not a valid type as a source for `T`</span>
+    <span class='doccomment'>///    * If the underlying SQLite integral value is outside the range representable by `T`</span>
+    <span class='doccomment'>///    * If `idx` is outside the range of columns in the returned query</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>RowIndex</span>, <span class='ident'>T</span>: <span class='ident'>FromSql</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>idx</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
         <span class='self'>self</span>.<span class='ident'>get_checked</span>(<span class='ident'>idx</span>).<span class='ident'>unwrap</span>()
     }
@@ -2932,6 +2937,7 @@
         <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ValueRef</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>stmt</span>.<span class='ident'>stmt</span>, <span class='ident'>idx</span>) };
         <span class='ident'>FromSql</span>::<span class='ident'>column_result</span>(<span class='ident'>value</span>).<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>err</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>err</span> {
             <span class='ident'>FromSqlError</span>::<span class='ident'>InvalidType</span> <span class='op'>=&gt;</span> <span class='ident'>Error</span>::<span class='ident'>InvalidColumnType</span>(<span class='ident'>idx</span>, <span class='ident'>value</span>.<span class='ident'>data_type</span>()),
+            <span class='ident'>FromSqlError</span>::<span class='ident'>OutOfRange</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(<span class='ident'>idx</span>, <span class='ident'>i</span>),
             <span class='ident'>FromSqlError</span>::<span class='ident'>Other</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> {
                 <span class='ident'>Error</span>::<span class='ident'>FromSqlConversionFailure</span>(<span class='ident'>idx</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='ident'>value</span>.<span class='ident'>data_type</span>(), <span class='ident'>err</span>)
             }
