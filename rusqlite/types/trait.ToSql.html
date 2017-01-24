@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/rusqlite/types/to_sql.rs.html#32-34' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/rusqlite/types/to_sql.rs.html#44-46' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToSql {
     fn <a href='#tymethod.to_sql' class='fnname'>to_sql</a>(&amp;self) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='enum' href='../../rusqlite/types/enum.ToSqlOutput.html' title='rusqlite::types::ToSqlOutput'>ToSqlOutput</a>&gt;;
 }</pre><div class='docblock'><p>A trait for types that can be converted into SQLite values.</p>
@@ -58,7 +58,8 @@
         <h3 id='tymethod.to_sql' class='method'><span id='to_sql.v' class='invisible'><code>fn <a href='#tymethod.to_sql' class='fnname'>to_sql</a>(&amp;self) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;<a class='enum' href='../../rusqlite/types/enum.ToSqlOutput.html' title='rusqlite::types::ToSqlOutput'>ToSqlOutput</a>&gt;</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl ToSql for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
+    <li><code>impl&lt;'a&gt; ToSql for <a class='enum' href='../../rusqlite/types/enum.ToSqlOutput.html' title='rusqlite::types::ToSqlOutput'>ToSqlOutput</a>&lt;'a&gt;</code></li>
+<li><code>impl ToSql for <a class='struct' href='../../rusqlite/types/struct.Null.html' title='rusqlite::types::Null'>Null</a></code></li>
 <li><code>impl ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
 <li><code>impl ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
 <li><code>impl ToSql for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>

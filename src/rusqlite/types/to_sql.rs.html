@@ -163,6 +163,18 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>Null</span>, <span class='ident'>Value</span>, <span class='ident'>ValueRef</span>};
 <span class='kw'>use</span> ::<span class='prelude-ty'>Result</span>;
@@ -191,6 +203,18 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Value</span><span class='op'>&gt;&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ToSqlOutput</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>ToSqlOutput</span>::<span class='ident'>Owned</span>(<span class='ident'>t</span>.<span class='ident'>into</span>())
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ToSql</span> <span class='kw'>for</span> <span class='ident'>ToSqlOutput</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_sql</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ToSqlOutput</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>Ok</span>(<span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
+            <span class='ident'>ToSqlOutput</span>::<span class='ident'>Borrowed</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>ToSqlOutput</span>::<span class='ident'>Borrowed</span>(<span class='ident'>v</span>),
+            <span class='ident'>ToSqlOutput</span>::<span class='ident'>Owned</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>ToSqlOutput</span>::<span class='ident'>Borrowed</span>(<span class='ident'>ValueRef</span>::<span class='ident'>from</span>(<span class='ident'>v</span>)),
+
+            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;blob&quot;</span>)]</span>
+            <span class='ident'>ToSqlOutput</span>::<span class='ident'>ZeroBlob</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>ToSqlOutput</span>::<span class='ident'>ZeroBlob</span>(<span class='ident'>i</span>),
+        })
     }
 }
 
