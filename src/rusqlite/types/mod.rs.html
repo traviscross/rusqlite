@@ -345,6 +345,7 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
+<span id="303">303</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Traits dealing with SQLite data types.</span>
 <span class='doccomment'>//!</span>
@@ -365,19 +366,17 @@
 <span class='doccomment'>//! truncates timespecs to the nearest second. If you want different storage for timespecs, you can</span>
 <span class='doccomment'>//! use a newtype. For example, to store timespecs as `f64`s:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust,ignore</span>
+<span class='doccomment'>//! ```rust</span>
 <span class='doccomment'>//! extern crate rusqlite;</span>
-<span class='doccomment'>//! extern crate libc;</span>
+<span class='doccomment'>//! extern crate time;</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! use rusqlite::types::{FromSql, ToSql, sqlite3_stmt};</span>
+<span class='doccomment'>//! use rusqlite::types::{FromSql, FromSqlResult, ValueRef, ToSql, ToSqlOutput};</span>
 <span class='doccomment'>//! use rusqlite::{Result};</span>
-<span class='doccomment'>//! use libc::c_int;</span>
-<span class='doccomment'>//! use time;</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! pub struct TimespecSql(pub time::Timespec);</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! impl FromSql for TimespecSql {</span>
-<span class='doccomment'>//!     fn column_result(value: ValueRef) -&gt; Result&lt;Self&gt; {</span>
+<span class='doccomment'>//!     fn column_result(value: ValueRef) -&gt; FromSqlResult&lt;Self&gt; {</span>
 <span class='doccomment'>//!         f64::column_result(value).map(|as_f64| {</span>
 <span class='doccomment'>//!             TimespecSql(time::Timespec{ sec: as_f64.trunc() as i64,</span>
 <span class='doccomment'>//!                                         nsec: (as_f64.fract() * 1.0e9) as i32 })</span>
@@ -386,12 +385,15 @@
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! impl ToSql for TimespecSql {</span>
-<span class='doccomment'>//!     unsafe fn bind_parameter(&amp;self, stmt: *mut sqlite3_stmt, col: c_int) -&gt; c_int {</span>
+<span class='doccomment'>//!     fn to_sql(&amp;self) -&gt; Result&lt;ToSqlOutput&gt; {</span>
 <span class='doccomment'>//!         let TimespecSql(ts) = *self;</span>
 <span class='doccomment'>//!         let as_f64 = ts.sec as f64 + (ts.nsec as f64) / 1.0e9;</span>
-<span class='doccomment'>//!         as_f64.bind_parameter(stmt, col)</span>
+<span class='doccomment'>//!         Ok(as_f64.into())</span>
 <span class='doccomment'>//!     }</span>
 <span class='doccomment'>//! }</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! # // Prevent this doc test from being wrapped in a `fn main()` so that it will compile.</span>
+<span class='doccomment'>//! # fn main() {}</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! `ToSql` and `FromSql` are also implemented for `Option&lt;T&gt;` where `T` implements `ToSql` or</span>
