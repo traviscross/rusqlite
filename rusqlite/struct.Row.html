@@ -48,10 +48,10 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1098-1101' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1223-1226' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Row&lt;'a, 'stmt&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A single result row of a query.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'stmt&gt; <a class='struct' href='../rusqlite/struct.Row.html' title='rusqlite::Row'>Row</a>&lt;'a, 'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1103-1145' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.get' class='method'><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;I:&nbsp;<a class='trait' href='../rusqlite/trait.RowIndex.html' title='rusqlite::RowIndex'>RowIndex</a>, T:&nbsp;<a class='trait' href='../rusqlite/types/trait.FromSql.html' title='rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: I) -&gt; T</code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'stmt&gt; <a class='struct' href='../rusqlite/struct.Row.html' title='struct rusqlite::Row'>Row</a>&lt;'a, 'stmt&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rusqlite/lib.rs.html#1228-1270' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.get' class='method'><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;I:&nbsp;<a class='trait' href='../rusqlite/trait.RowIndex.html' title='trait rusqlite::RowIndex'>RowIndex</a>, T:&nbsp;<a class='trait' href='../rusqlite/types/trait.FromSql.html' title='trait rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: I) -&gt; T</code></span></h4>
 <div class='docblock'><p>Get the value of a particular column of the result row.</p>
 
 <h2 id='failure' class='section-header'><a href='#failure'>Failure</a></h2>
@@ -62,7 +62,7 @@
 <li>If the underlying SQLite integral value is outside the range representable by <code>T</code></li>
 <li>If <code>idx</code> is outside the range of columns in the returned query</li>
 </ul>
-</div><h4 id='method.get_checked' class='method'><span id='get_checked.v' class='invisible'><code>fn <a href='#method.get_checked' class='fnname'>get_checked</a>&lt;I:&nbsp;<a class='trait' href='../rusqlite/trait.RowIndex.html' title='rusqlite::RowIndex'>RowIndex</a>, T:&nbsp;<a class='trait' href='../rusqlite/types/trait.FromSql.html' title='rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: I) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='rusqlite::Result'>Result</a>&lt;T&gt;</code></span></h4>
+</div><h4 id='method.get_checked' class='method'><span id='get_checked.v' class='invisible'><code>fn <a href='#method.get_checked' class='fnname'>get_checked</a>&lt;I:&nbsp;<a class='trait' href='../rusqlite/trait.RowIndex.html' title='trait rusqlite::RowIndex'>RowIndex</a>, T:&nbsp;<a class='trait' href='../rusqlite/types/trait.FromSql.html' title='trait rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: I) -&gt; <a class='type' href='../rusqlite/type.Result.html' title='type rusqlite::Result'>Result</a>&lt;T&gt;</code></span></h4>
 <div class='docblock'><p>Get the value of a particular column of the result row.</p>
 
 <h2 id='failure-1' class='section-header'><a href='#failure-1'>Failure</a></h2>

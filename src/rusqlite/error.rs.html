@@ -248,14 +248,12 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
-<span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_int</span>;
 <span class='kw'>use</span> {<span class='ident'>ffi</span>, <span class='ident'>errmsg_to_string</span>};
 <span class='kw'>use</span> <span class='ident'>types</span>::<span class='ident'>Type</span>;
 
@@ -394,9 +392,7 @@
                 <span class='string'>&quot;SQLite was compiled or configured for single-threaded use only&quot;</span>
             }
             <span class='ident'>Error</span>::<span class='ident'>FromSqlConversionFailure</span>(_, _, <span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
-            <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(_, _) <span class='op'>=&gt;</span> {
-                <span class='string'>&quot;integral value out of range of requested type&quot;</span>
-            }
+            <span class='ident'>Error</span>::<span class='ident'>IntegralValueOutOfRange</span>(_, _) <span class='op'>=&gt;</span> <span class='string'>&quot;integral value out of range of requested type&quot;</span>,
             <span class='ident'>Error</span>::<span class='ident'>Utf8Error</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
             <span class='ident'>Error</span>::<span class='ident'>InvalidParameterName</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;invalid parameter name&quot;</span>,
             <span class='ident'>Error</span>::<span class='ident'>NulError</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>description</span>(),
@@ -450,7 +446,7 @@
     <span class='ident'>Error</span>::<span class='ident'>SqliteFailure</span>(<span class='ident'>ffi</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>code</span>), <span class='ident'>message</span>)
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>error_from_handle</span>(<span class='ident'>db</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>Struct_sqlite3</span>, <span class='ident'>code</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>Error</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>error_from_handle</span>(<span class='ident'>db</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3</span>, <span class='ident'>code</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>Error</span> {
     <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>db</span>.<span class='ident'>is_null</span>() {
         <span class='prelude-val'>None</span>
     } <span class='kw'>else</span> {

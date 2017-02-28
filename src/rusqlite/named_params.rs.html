@@ -402,7 +402,7 @@
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>convert</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>result</span>;
-<span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_int</span>;
 
 <span class='kw'>use</span> {<span class='prelude-ty'>Result</span>, <span class='ident'>Error</span>, <span class='ident'>Connection</span>, <span class='ident'>Statement</span>, <span class='ident'>MappedRows</span>, <span class='ident'>AndThenRows</span>, <span class='ident'>Rows</span>, <span class='ident'>Row</span>, <span class='ident'>str_to_cstring</span>};
 <span class='kw'>use</span> <span class='ident'>types</span>::<span class='ident'>ToSql</span>;
@@ -631,9 +631,9 @@
                    <span class='number'>1</span>);
 
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>3i32</span>,
-                   <span class='ident'>db</span>.<span class='ident'>query_row_named</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo WHERE x &gt; :x&quot;</span>,
-                                        <span class='kw-2'>&amp;</span>[(<span class='string'>&quot;:x&quot;</span>, <span class='kw-2'>&amp;</span><span class='number'>0i32</span>)],
-                                        <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
+                   <span class='ident'>db</span>.<span class='ident'>query_row_named</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo WHERE x &gt; :x&quot;</span>,
+                                                  <span class='kw-2'>&amp;</span>[(<span class='string'>&quot;:x&quot;</span>, <span class='kw-2'>&amp;</span><span class='number'>0i32</span>)],
+                                                  <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
                        .<span class='ident'>unwrap</span>());
     }
 
@@ -648,9 +648,9 @@
         <span class='ident'>stmt</span>.<span class='ident'>execute_named</span>(<span class='kw-2'>&amp;</span>[(<span class='string'>&quot;:name&quot;</span>, <span class='kw-2'>&amp;</span><span class='string'>&quot;one&quot;</span>)]).<span class='ident'>unwrap</span>();
 
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>1i32</span>,
-                   <span class='ident'>db</span>.<span class='ident'>query_row_named</span>(<span class='string'>&quot;SELECT COUNT(*) FROM test WHERE name = :name&quot;</span>,
-                                        <span class='kw-2'>&amp;</span>[(<span class='string'>&quot;:name&quot;</span>, <span class='kw-2'>&amp;</span><span class='string'>&quot;one&quot;</span>)],
-                                        <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
+                   <span class='ident'>db</span>.<span class='ident'>query_row_named</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT COUNT(*) FROM test WHERE name = :name&quot;</span>,
+                                                  <span class='kw-2'>&amp;</span>[(<span class='string'>&quot;:name&quot;</span>, <span class='kw-2'>&amp;</span><span class='string'>&quot;one&quot;</span>)],
+                                                  <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
                        .<span class='ident'>unwrap</span>());
     }
 

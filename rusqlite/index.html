@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1-1760' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#1-1897' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Rusqlite is an ergonomic wrapper for using SQLite from Rust. It attempts to expose
 an interface similar to <a href="https://github.com/sfackler/rust-postgres">rust-postgres</a>.</p>
 
@@ -104,35 +104,42 @@ an interface similar to <a href="https://github.com/sfackler/rust-postgres">rust
 <table>
                        <tr class=' module-item'>
                            <td><a class='mod' href='backup/index.html'
-                                  title='rusqlite::backup'>backup</a></td>
+                                  title='mod rusqlite::backup'>backup</a></td>
                            <td class='docblock-short'>
                                 <p>Online SQLite backup API.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='blob/index.html'
-                                  title='rusqlite::blob'>blob</a></td>
+                                  title='mod rusqlite::blob'>blob</a></td>
                            <td class='docblock-short'>
                                 <p>Incremental BLOB I/O.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='functions/index.html'
-                                  title='rusqlite::functions'>functions</a></td>
+                                  title='mod rusqlite::functions'>functions</a></td>
                            <td class='docblock-short'>
                                 <p>Create or redefine SQL functions.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='mod' href='limits/index.html'
+                                  title='mod rusqlite::limits'>limits</a></td>
+                           <td class='docblock-short'>
+                                <p>Run-Time Limits</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='mod' href='trace/index.html'
-                                  title='rusqlite::trace'>trace</a></td>
+                                  title='mod rusqlite::trace'>trace</a></td>
                            <td class='docblock-short'>
                                 <p>Tracing and profiling functions. Error and warning log.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='types/index.html'
-                                  title='rusqlite::types'>types</a></td>
+                                  title='mod rusqlite::types'>types</a></td>
                            <td class='docblock-short'>
                                 <p>Traits dealing with SQLite data types.</p>
                            </td>
@@ -140,7 +147,7 @@ an interface similar to <a href="https://github.com/sfackler/rust-postgres">rust
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.AndThenRows.html'
-                                  title='rusqlite::AndThenRows'>AndThenRows</a></td>
+                                  title='struct rusqlite::AndThenRows'>AndThenRows</a></td>
                            <td class='docblock-short'>
                                 <p>An iterator over the mapped resulting rows of a query, with an Error type
 unifying with Error.</p>
@@ -148,35 +155,35 @@ unifying with Error.</p>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.CachedStatement.html'
-                                  title='rusqlite::CachedStatement'>CachedStatement</a></td>
+                                  title='struct rusqlite::CachedStatement'>CachedStatement</a></td>
                            <td class='docblock-short'>
                                 <p>Cacheable statement.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Connection.html'
-                                  title='rusqlite::Connection'>Connection</a></td>
+                                  title='struct rusqlite::Connection'>Connection</a></td>
                            <td class='docblock-short'>
                                 <p>A connection to a SQLite database.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.LoadExtensionGuard.html'
-                                  title='rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a></td>
+                                  title='struct rusqlite::LoadExtensionGuard'>LoadExtensionGuard</a></td>
                            <td class='docblock-short'>
                                 <p>RAII guard temporarily enabling SQLite extensions to be loaded.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.MappedRows.html'
-                                  title='rusqlite::MappedRows'>MappedRows</a></td>
+                                  title='struct rusqlite::MappedRows'>MappedRows</a></td>
                            <td class='docblock-short'>
                                 <p>An iterator over the mapped resulting rows of a query.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.OpenFlags.html'
-                                  title='rusqlite::OpenFlags'>OpenFlags</a></td>
+                                  title='struct rusqlite::OpenFlags'>OpenFlags</a></td>
                            <td class='docblock-short'>
                                 <p>Flags for opening SQLite database connections.
 See <a href="http://www.sqlite.org/c3ref/open.html">sqlite3_open_v2</a> for details.</p>
@@ -184,35 +191,35 @@ See <a href="http://www.sqlite.org/c3ref/open.html">sqlite3_open_v2</a> for deta
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Row.html'
-                                  title='rusqlite::Row'>Row</a></td>
+                                  title='struct rusqlite::Row'>Row</a></td>
                            <td class='docblock-short'>
                                 <p>A single result row of a query.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Rows.html'
-                                  title='rusqlite::Rows'>Rows</a></td>
+                                  title='struct rusqlite::Rows'>Rows</a></td>
                            <td class='docblock-short'>
                                 <p>An handle for the resulting rows of a query.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Savepoint.html'
-                                  title='rusqlite::Savepoint'>Savepoint</a></td>
+                                  title='struct rusqlite::Savepoint'>Savepoint</a></td>
                            <td class='docblock-short'>
                                 <p>Represents a savepoint on a database connection.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Statement.html'
-                                  title='rusqlite::Statement'>Statement</a></td>
+                                  title='struct rusqlite::Statement'>Statement</a></td>
                            <td class='docblock-short'>
                                 <p>A prepared statement.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Transaction.html'
-                                  title='rusqlite::Transaction'>Transaction</a></td>
+                                  title='struct rusqlite::Transaction'>Transaction</a></td>
                            <td class='docblock-short'>
                                 <p>Represents a transaction on a database connection.</p>
                            </td>
@@ -220,28 +227,35 @@ See <a href="http://www.sqlite.org/c3ref/open.html">sqlite3_open_v2</a> for deta
 <table>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.DatabaseName.html'
-                                  title='rusqlite::DatabaseName'>DatabaseName</a></td>
+                                  title='enum rusqlite::DatabaseName'>DatabaseName</a></td>
                            <td class='docblock-short'>
                                 <p>Name for a database within a SQLite connection.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.DropBehavior.html'
-                                  title='rusqlite::DropBehavior'>DropBehavior</a></td>
+                                  title='enum rusqlite::DropBehavior'>DropBehavior</a></td>
                            <td class='docblock-short'>
                                 <p>Options for how a Transaction or Savepoint should behave when it is dropped.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Error.html'
-                                  title='rusqlite::Error'>Error</a></td>
+                                  title='enum rusqlite::Error'>Error</a></td>
                            <td class='docblock-short'>
                                 <p>Enum listing possible errors from rusqlite.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ErrorCode.html'
+                                  title='enum rusqlite::ErrorCode'>ErrorCode</a></td>
+                           <td class='docblock-short'>
+                                <p>Error Codes</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='enum' href='enum.TransactionBehavior.html'
-                                  title='rusqlite::TransactionBehavior'>TransactionBehavior</a></td>
+                                  title='enum rusqlite::TransactionBehavior'>TransactionBehavior</a></td>
                            <td class='docblock-short'>
                                 <p>Options for transaction behavior. See <a href="http://www.sqlite.org/lang_transaction.html">BEGIN
 TRANSACTION</a> for details.</p>
@@ -250,63 +264,63 @@ TRANSACTION</a> for details.</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_CREATE.html'
-                                  title='rusqlite::SQLITE_OPEN_CREATE'>SQLITE_OPEN_CREATE</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_CREATE'>SQLITE_OPEN_CREATE</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_FULL_MUTEX.html'
-                                  title='rusqlite::SQLITE_OPEN_FULL_MUTEX'>SQLITE_OPEN_FULL_MUTEX</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_FULL_MUTEX'>SQLITE_OPEN_FULL_MUTEX</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_MEMORY.html'
-                                  title='rusqlite::SQLITE_OPEN_MEMORY'>SQLITE_OPEN_MEMORY</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_MEMORY'>SQLITE_OPEN_MEMORY</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_NO_MUTEX.html'
-                                  title='rusqlite::SQLITE_OPEN_NO_MUTEX'>SQLITE_OPEN_NO_MUTEX</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_NO_MUTEX'>SQLITE_OPEN_NO_MUTEX</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_PRIVATE_CACHE.html'
-                                  title='rusqlite::SQLITE_OPEN_PRIVATE_CACHE'>SQLITE_OPEN_PRIVATE_CACHE</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_PRIVATE_CACHE'>SQLITE_OPEN_PRIVATE_CACHE</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_READ_ONLY.html'
-                                  title='rusqlite::SQLITE_OPEN_READ_ONLY'>SQLITE_OPEN_READ_ONLY</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_READ_ONLY'>SQLITE_OPEN_READ_ONLY</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_READ_WRITE.html'
-                                  title='rusqlite::SQLITE_OPEN_READ_WRITE'>SQLITE_OPEN_READ_WRITE</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_READ_WRITE'>SQLITE_OPEN_READ_WRITE</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_SHARED_CACHE.html'
-                                  title='rusqlite::SQLITE_OPEN_SHARED_CACHE'>SQLITE_OPEN_SHARED_CACHE</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_SHARED_CACHE'>SQLITE_OPEN_SHARED_CACHE</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.SQLITE_OPEN_URI.html'
-                                  title='rusqlite::SQLITE_OPEN_URI'>SQLITE_OPEN_URI</a></td>
+                                  title='constant rusqlite::SQLITE_OPEN_URI'>SQLITE_OPEN_URI</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -314,85 +328,122 @@ TRANSACTION</a> for details.</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.RowIndex.html'
-                                  title='rusqlite::RowIndex'>RowIndex</a></td>
+                                  title='trait rusqlite::RowIndex'>RowIndex</a></td>
                            <td class='docblock-short'>
                                 <p>A trait implemented by types that can index into columns of a row.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.bypass_sqlite_initialization.html'
+                                  title='fn rusqlite::bypass_sqlite_initialization'>bypass_sqlite_initialization</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>rusqlite&#39;s check for a safe SQLite threading mode requires SQLite 3.7.0 or later. If you are
+running against a SQLite older than that, rusqlite attempts to ensure safety by performing
+configuration and initialization of SQLite itself the first time you attempt to open a
+connection. By default, rusqlite panics if that initialization fails, since that could mean
+SQLite has been initialized in single-thread mode.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.bypass_sqlite_version_check.html'
+                                  title='fn rusqlite::bypass_sqlite_version_check'>bypass_sqlite_version_check</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>rusqlite performs a one-time check that the runtime SQLite version is at least as new as
+the version of SQLite found when rusqlite was built. Bypassing this check may be dangerous;
+e.g., if you use features of SQLite that are not present in the runtime version. If you are
+sure the runtime version is compatible with the build-time version for your usage, you can
+bypass the version check by calling this function before your first connection attempt.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.version.html'
+                                  title='fn rusqlite::version'>version</a></td>
+                           <td class='docblock-short'>
+                                <p>Returns the SQLite version as a string; e.g., <code>&quot;3.16.2&quot;</code> for version 3.16.2.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.version_number.html'
+                                  title='fn rusqlite::version_number'>version_number</a></td>
+                           <td class='docblock-short'>
+                                <p>Returns the SQLite version as an integer; e.g., <code>3016002</code> for version 3.16.2.</p>
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.Result.html'
-                                  title='rusqlite::Result'>Result</a></td>
+                                  title='type rusqlite::Result'>Result</a></td>
                            <td class='docblock-short'>
                                 <p>A typedef of the result returned by many methods.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteConnection.html'
-                                  title='rusqlite::SqliteConnection'>SqliteConnection</a></td>
+                                  title='type rusqlite::SqliteConnection'>SqliteConnection</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Connection</code>. <code>SqliteConnection</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteError.html'
-                                  title='rusqlite::SqliteError'>SqliteError</a></td>
+                                  title='type rusqlite::SqliteError'>SqliteError</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Error</code>. <code>SqliteError</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteLoadExtensionGuard.html'
-                                  title='rusqlite::SqliteLoadExtensionGuard'>SqliteLoadExtensionGuard</a></td>
+                                  title='type rusqlite::SqliteLoadExtensionGuard'>SqliteLoadExtensionGuard</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>LoadExtensionGuard</code>. <code>SqliteLoadExtensionGuard</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteOpenFlags.html'
-                                  title='rusqlite::SqliteOpenFlags'>SqliteOpenFlags</a></td>
+                                  title='type rusqlite::SqliteOpenFlags'>SqliteOpenFlags</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>OpenFlags</code>. <code>SqliteOpenFlags</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteResult.html'
-                                  title='rusqlite::SqliteResult'>SqliteResult</a></td>
+                                  title='type rusqlite::SqliteResult'>SqliteResult</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Result</code>. <code>SqliteResult</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteRow.html'
-                                  title='rusqlite::SqliteRow'>SqliteRow</a></td>
+                                  title='type rusqlite::SqliteRow'>SqliteRow</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Row</code>. <code>SqliteRow</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteRows.html'
-                                  title='rusqlite::SqliteRows'>SqliteRows</a></td>
+                                  title='type rusqlite::SqliteRows'>SqliteRows</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Rows</code>. <code>SqliteRows</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteStatement.html'
-                                  title='rusqlite::SqliteStatement'>SqliteStatement</a></td>
+                                  title='type rusqlite::SqliteStatement'>SqliteStatement</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Statement</code>. <code>SqliteStatement</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteTransaction.html'
-                                  title='rusqlite::SqliteTransaction'>SqliteTransaction</a></td>
+                                  title='type rusqlite::SqliteTransaction'>SqliteTransaction</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>Transaction</code>. <code>SqliteTransaction</code> is deprecated.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.SqliteTransactionBehavior.html'
-                                  title='rusqlite::SqliteTransactionBehavior'>SqliteTransactionBehavior</a></td>
+                                  title='type rusqlite::SqliteTransactionBehavior'>SqliteTransactionBehavior</a></td>
                            <td class='docblock-short'>
                                [<div class='stab deprecated'>Deprecated</div>] <p>Old name for <code>TransactionBehavior</code>. <code>SqliteTransactionBehavior</code> is deprecated.</p>
                            </td>

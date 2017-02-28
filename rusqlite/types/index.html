@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/rusqlite/types/mod.rs.html#1-303' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/rusqlite/types/mod.rs.html#1-302' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Traits dealing with SQLite data types.</p>
 
 <p>SQLite uses a <a href="https://www.sqlite.org/datatype3.html">dynamic type system</a>. Implementations of
@@ -104,7 +104,7 @@ use a newtype. For example, to store timespecs as <code>f64</code>s:</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Null.html'
-                                  title='rusqlite::types::Null'>Null</a></td>
+                                  title='struct rusqlite::types::Null'>Null</a></td>
                            <td class='docblock-short'>
                                 <p>Empty struct that can be used to fill in a query parameter as <code>NULL</code>.</p>
                            </td>
@@ -112,28 +112,28 @@ use a newtype. For example, to store timespecs as <code>f64</code>s:</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.FromSqlError.html'
-                                  title='rusqlite::types::FromSqlError'>FromSqlError</a></td>
+                                  title='enum rusqlite::types::FromSqlError'>FromSqlError</a></td>
                            <td class='docblock-short'>
                                 <p>Enum listing possible errors from <code>FromSql</code> trait.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ToSqlOutput.html'
-                                  title='rusqlite::types::ToSqlOutput'>ToSqlOutput</a></td>
+                                  title='enum rusqlite::types::ToSqlOutput'>ToSqlOutput</a></td>
                            <td class='docblock-short'>
                                 <p><code>ToSqlOutput</code> represents the possible output types for implementors of the <code>ToSql</code> trait.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Type.html'
-                                  title='rusqlite::types::Type'>Type</a></td>
+                                  title='enum rusqlite::types::Type'>Type</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Value.html'
-                                  title='rusqlite::types::Value'>Value</a></td>
+                                  title='enum rusqlite::types::Value'>Value</a></td>
                            <td class='docblock-short'>
                                 <p>Owning <a href="http://sqlite.org/datatype3.html">dynamic type value</a>. Value&#39;s type is typically
 dictated by SQLite (not by the caller).</p>
@@ -141,7 +141,7 @@ dictated by SQLite (not by the caller).</p>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ValueRef.html'
-                                  title='rusqlite::types::ValueRef'>ValueRef</a></td>
+                                  title='enum rusqlite::types::ValueRef'>ValueRef</a></td>
                            <td class='docblock-short'>
                                 <p>A non-owning <a href="http://sqlite.org/datatype3.html">dynamic type value</a>. Typically the
 memory backing this value is owned by SQLite.</p>
@@ -150,14 +150,14 @@ memory backing this value is owned by SQLite.</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.FromSql.html'
-                                  title='rusqlite::types::FromSql'>FromSql</a></td>
+                                  title='trait rusqlite::types::FromSql'>FromSql</a></td>
                            <td class='docblock-short'>
                                 <p>A trait for types that can be created from a SQLite value.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.ToSql.html'
-                                  title='rusqlite::types::ToSql'>ToSql</a></td>
+                                  title='trait rusqlite::types::ToSql'>ToSql</a></td>
                            <td class='docblock-short'>
                                 <p>A trait for types that can be converted into SQLite values.</p>
                            </td>
@@ -165,7 +165,7 @@ memory backing this value is owned by SQLite.</p>
 <table>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.FromSqlResult.html'
-                                  title='rusqlite::types::FromSqlResult'>FromSqlResult</a></td>
+                                  title='type rusqlite::types::FromSqlResult'>FromSqlResult</a></td>
                            <td class='docblock-short'>
                                 <p>Result type for implementors of the <code>FromSql</code> trait.</p>
                            </td>
