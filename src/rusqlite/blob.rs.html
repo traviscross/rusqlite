@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -420,381 +420,381 @@
 <span id="375">375</span>
 <span id="376">376</span>
 <span id="377">377</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Incremental BLOB I/O.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Note that SQLite does not provide API-level access to change the size of a BLOB; that must</span>
-<span class='doccomment'>//! be performed through SQL statements.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! `Blob` conforms to `std::io::Read`, `std::io::Write`, and `std::io::Seek`, so it plays</span>
-<span class='doccomment'>//! nicely with other types that build on these (such as `std::io::BufReader` and</span>
-<span class='doccomment'>//! `std::io::BufWriter`). However, you must be careful with the size of the blob. For example,</span>
-<span class='doccomment'>//! when using a `BufWriter`, the `BufWriter` will accept more data than the `Blob` will allow,</span>
-<span class='doccomment'>//! so make sure to call `flush` and check for errors. (See the unit tests in this module for</span>
-<span class='doccomment'>//! an example.)</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Example</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! extern crate libsqlite3_sys;</span>
-<span class='doccomment'>//! extern crate rusqlite;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! use rusqlite::{Connection, DatabaseName};</span>
-<span class='doccomment'>//! use rusqlite::blob::ZeroBlob;</span>
-<span class='doccomment'>//! use std::io::{Read, Write, Seek, SeekFrom};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! fn main() {</span>
-<span class='doccomment'>//!     let db = Connection::open_in_memory().unwrap();</span>
-<span class='doccomment'>//!     db.execute_batch(&quot;CREATE TABLE test (content BLOB);&quot;).unwrap();</span>
-<span class='doccomment'>//!     db.execute(&quot;INSERT INTO test (content) VALUES (ZEROBLOB(10))&quot;, &amp;[]).unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     let rowid = db.last_insert_rowid();</span>
-<span class='doccomment'>//!     let mut blob = db.blob_open(DatabaseName::Main, &quot;test&quot;, &quot;content&quot;, rowid, false).unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     // Make sure to test that the number of bytes written matches what you expect;</span>
-<span class='doccomment'>//!     // if you try to write too much, the data will be truncated to the size of the BLOB.</span>
-<span class='doccomment'>//!     let bytes_written = blob.write(b&quot;01234567&quot;).unwrap();</span>
-<span class='doccomment'>//!     assert_eq!(bytes_written, 8);</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     // Same guidance - make sure you check the number of bytes read!</span>
-<span class='doccomment'>//!     blob.seek(SeekFrom::Start(0)).unwrap();</span>
-<span class='doccomment'>//!     let mut buf = [0u8; 20];</span>
-<span class='doccomment'>//!     let bytes_read = blob.read(&amp;mut buf[..]).unwrap();</span>
-<span class='doccomment'>//!     assert_eq!(bytes_read, 10); // note we read 10 bytes because the blob has size 10</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     db.execute(&quot;INSERT INTO test (content) VALUES (?)&quot;, &amp;[&amp;ZeroBlob(64)]).unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     // given a new row ID, we can reopen the blob on that row</span>
-<span class='doccomment'>//!     let rowid = db.last_insert_rowid();</span>
-<span class='doccomment'>//!     blob.reopen(rowid).unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     assert_eq!(blob.size(), 64);</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! ```</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
+</pre><pre class="rust ">
+<span class="doccomment">//! Incremental BLOB I/O.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Note that SQLite does not provide API-level access to change the size of a BLOB; that must</span>
+<span class="doccomment">//! be performed through SQL statements.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `Blob` conforms to `std::io::Read`, `std::io::Write`, and `std::io::Seek`, so it plays</span>
+<span class="doccomment">//! nicely with other types that build on these (such as `std::io::BufReader` and</span>
+<span class="doccomment">//! `std::io::BufWriter`). However, you must be careful with the size of the blob. For example,</span>
+<span class="doccomment">//! when using a `BufWriter`, the `BufWriter` will accept more data than the `Blob` will allow,</span>
+<span class="doccomment">//! so make sure to call `flush` and check for errors. (See the unit tests in this module for</span>
+<span class="doccomment">//! an example.)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Example</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! extern crate libsqlite3_sys;</span>
+<span class="doccomment">//! extern crate rusqlite;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! use rusqlite::{Connection, DatabaseName};</span>
+<span class="doccomment">//! use rusqlite::blob::ZeroBlob;</span>
+<span class="doccomment">//! use std::io::{Read, Write, Seek, SeekFrom};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn main() {</span>
+<span class="doccomment">//!     let db = Connection::open_in_memory().unwrap();</span>
+<span class="doccomment">//!     db.execute_batch(&quot;CREATE TABLE test (content BLOB);&quot;).unwrap();</span>
+<span class="doccomment">//!     db.execute(&quot;INSERT INTO test (content) VALUES (ZEROBLOB(10))&quot;, &amp;[]).unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     let rowid = db.last_insert_rowid();</span>
+<span class="doccomment">//!     let mut blob = db.blob_open(DatabaseName::Main, &quot;test&quot;, &quot;content&quot;, rowid, false).unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // Make sure to test that the number of bytes written matches what you expect;</span>
+<span class="doccomment">//!     // if you try to write too much, the data will be truncated to the size of the BLOB.</span>
+<span class="doccomment">//!     let bytes_written = blob.write(b&quot;01234567&quot;).unwrap();</span>
+<span class="doccomment">//!     assert_eq!(bytes_written, 8);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // Same guidance - make sure you check the number of bytes read!</span>
+<span class="doccomment">//!     blob.seek(SeekFrom::Start(0)).unwrap();</span>
+<span class="doccomment">//!     let mut buf = [0u8; 20];</span>
+<span class="doccomment">//!     let bytes_read = blob.read(&amp;mut buf[..]).unwrap();</span>
+<span class="doccomment">//!     assert_eq!(bytes_read, 10); // note we read 10 bytes because the blob has size 10</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     db.execute(&quot;INSERT INTO test (content) VALUES (?)&quot;, &amp;[&amp;ZeroBlob(64)]).unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // given a new row ID, we can reopen the blob on that row</span>
+<span class="doccomment">//!     let rowid = db.last_insert_rowid();</span>
+<span class="doccomment">//!     blob.reopen(rowid).unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     assert_eq!(blob.size(), 64);</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>ffi</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>types</span>::{<span class='ident'>ToSql</span>, <span class='ident'>ToSqlOutput</span>};
-<span class='kw'>use</span> {<span class='prelude-ty'>Result</span>, <span class='ident'>Connection</span>, <span class='ident'>DatabaseName</span>};
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">ffi</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">types</span>::{<span class="ident">ToSql</span>, <span class="ident">ToSqlOutput</span>};
+<span class="kw">use</span> {<span class="prelude-ty">Result</span>, <span class="ident">Connection</span>, <span class="ident">DatabaseName</span>};
 
-<span class='doccomment'>/// Handle to an open BLOB.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;conn</span> <span class='ident'>Connection</span>,
-    <span class='ident'>blob</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob</span>,
-    <span class='ident'>pos</span>: <span class='ident'>i32</span>,
+<span class="doccomment">/// Handle to an open BLOB.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;conn</span> <span class="ident">Connection</span>,
+    <span class="ident">blob</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ffi</span>::<span class="ident">sqlite3_blob</span>,
+    <span class="ident">pos</span>: <span class="ident">i32</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Connection</span> {
-    <span class='doccomment'>/// Open a handle to the BLOB located in `row`, `column`, `table` in database `db`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if `db`/`table`/`column` cannot be converted to a C-compatible string</span>
-    <span class='doccomment'>/// or if the underlying SQLite BLOB open call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>blob_open</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>,
-                         <span class='ident'>db</span>: <span class='ident'>DatabaseName</span>,
-                         <span class='ident'>table</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                         <span class='ident'>column</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                         <span class='ident'>row</span>: <span class='ident'>i64</span>,
-                         <span class='ident'>read_only</span>: <span class='ident'>bool</span>)
-                         <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>db</span>.<span class='ident'>borrow_mut</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>db</span>.<span class='ident'>to_cstring</span>());
-        <span class='kw'>let</span> <span class='ident'>table</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>str_to_cstring</span>(<span class='ident'>table</span>));
-        <span class='kw'>let</span> <span class='ident'>column</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>str_to_cstring</span>(<span class='ident'>column</span>));
-        <span class='kw'>let</span> <span class='ident'>rc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
-            <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_open</span>(<span class='ident'>c</span>.<span class='ident'>db</span>(),
-                                   <span class='ident'>db</span>.<span class='ident'>as_ptr</span>(),
-                                   <span class='ident'>table</span>.<span class='ident'>as_ptr</span>(),
-                                   <span class='ident'>column</span>.<span class='ident'>as_ptr</span>(),
-                                   <span class='ident'>row</span>,
-                                   <span class='kw'>if</span> <span class='ident'>read_only</span> { <span class='number'>0</span> } <span class='kw'>else</span> { <span class='number'>1</span> },
-                                   <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>blob</span>)
+<span class="kw">impl</span> <span class="ident">Connection</span> {
+    <span class="doccomment">/// Open a handle to the BLOB located in `row`, `column`, `table` in database `db`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if `db`/`table`/`column` cannot be converted to a C-compatible string</span>
+    <span class="doccomment">/// or if the underlying SQLite BLOB open call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blob_open</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
+                         <span class="ident">db</span>: <span class="ident">DatabaseName</span>,
+                         <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                         <span class="ident">column</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                         <span class="ident">row</span>: <span class="ident">i64</span>,
+                         <span class="ident">read_only</span>: <span class="ident">bool</span>)
+                         <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">db</span>.<span class="ident">borrow_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">db</span>.<span class="ident">to_cstring</span>());
+        <span class="kw">let</span> <span class="ident">table</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">str_to_cstring</span>(<span class="ident">table</span>));
+        <span class="kw">let</span> <span class="ident">column</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">str_to_cstring</span>(<span class="ident">column</span>));
+        <span class="kw">let</span> <span class="ident">rc</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_open</span>(<span class="ident">c</span>.<span class="ident">db</span>(),
+                                   <span class="ident">db</span>.<span class="ident">as_ptr</span>(),
+                                   <span class="ident">table</span>.<span class="ident">as_ptr</span>(),
+                                   <span class="ident">column</span>.<span class="ident">as_ptr</span>(),
+                                   <span class="ident">row</span>,
+                                   <span class="kw">if</span> <span class="ident">read_only</span> { <span class="number">0</span> } <span class="kw">else</span> { <span class="number">1</span> },
+                                   <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">blob</span>)
         };
-        <span class='ident'>c</span>.<span class='ident'>decode_result</span>(<span class='ident'>rc</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
-            <span class='ident'>Blob</span> {
-                <span class='ident'>conn</span>: <span class='self'>self</span>,
-                <span class='ident'>blob</span>: <span class='ident'>blob</span>,
-                <span class='ident'>pos</span>: <span class='number'>0</span>,
+        <span class="ident">c</span>.<span class="ident">decode_result</span>(<span class="ident">rc</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> {
+            <span class="ident">Blob</span> {
+                <span class="ident">conn</span>: <span class="self">self</span>,
+                <span class="ident">blob</span>: <span class="ident">blob</span>,
+                <span class="ident">pos</span>: <span class="number">0</span>,
             }
         })
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Move a BLOB handle to a new row.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite BLOB reopen call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reopen</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>row</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>rc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_reopen</span>(<span class='self'>self</span>.<span class='ident'>blob</span>, <span class='ident'>row</span>) };
-        <span class='kw'>if</span> <span class='ident'>rc</span> <span class='op'>!=</span> <span class='ident'>ffi</span>::<span class='ident'>SQLITE_OK</span> {
-            <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>decode_result</span>(<span class='ident'>rc</span>);
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Move a BLOB handle to a new row.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite BLOB reopen call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reopen</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">row</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">rc</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_reopen</span>(<span class="self">self</span>.<span class="ident">blob</span>, <span class="ident">row</span>) };
+        <span class="kw">if</span> <span class="ident">rc</span> <span class="op">!=</span> <span class="ident">ffi</span>::<span class="ident">SQLITE_OK</span> {
+            <span class="kw">return</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">decode_result</span>(<span class="ident">rc</span>);
         }
-        <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='prelude-val'>Ok</span>(())
+        <span class="self">self</span>.<span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='doccomment'>/// Return the size in bytes of the BLOB.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>size</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-        <span class='kw'>unsafe</span> { <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_bytes</span>(<span class='self'>self</span>.<span class='ident'>blob</span>) }
+    <span class="doccomment">/// Return the size in bytes of the BLOB.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+        <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_bytes</span>(<span class="self">self</span>.<span class="ident">blob</span>) }
     }
 
-    <span class='doccomment'>/// Close a BLOB handle.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Calling `close` explicitly is not required (the BLOB will be closed when the</span>
-    <span class='doccomment'>/// `Blob` is dropped), but it is available so you can get any errors that occur.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite close call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>close_</span>()
+    <span class="doccomment">/// Close a BLOB handle.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Calling `close` explicitly is not required (the BLOB will be closed when the</span>
+    <span class="doccomment">/// `Blob` is dropped), but it is available so you can get any errors that occur.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite close call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">close_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>close_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>rc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_close</span>(<span class='self'>self</span>.<span class='ident'>blob</span>) };
-        <span class='self'>self</span>.<span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
-        <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>decode_result</span>(<span class='ident'>rc</span>)
+    <span class="kw">fn</span> <span class="ident">close_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">rc</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_close</span>(<span class="self">self</span>.<span class="ident">blob</span>) };
+        <span class="self">self</span>.<span class="ident">blob</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">decode_result</span>(<span class="ident">rc</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>io</span>::<span class='ident'>Read</span> <span class='kw'>for</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Read data from a BLOB incrementally. Will return Ok(0) if the end of the blob</span>
-    <span class='doccomment'>/// has been reached.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite read call fails.</span>
-    <span class='kw'>fn</span> <span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>max_allowed_len</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>size</span>() <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>pos</span>) <span class='kw'>as</span> <span class='ident'>usize</span>;
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>min</span>(<span class='ident'>buf</span>.<span class='ident'>len</span>(), <span class='ident'>max_allowed_len</span>) <span class='kw'>as</span> <span class='ident'>i32</span>;
-        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&lt;=</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='number'>0</span>);
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Read</span> <span class="kw">for</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Read data from a BLOB incrementally. Will return Ok(0) if the end of the blob</span>
+    <span class="doccomment">/// has been reached.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite read call fails.</span>
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">max_allowed_len</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">size</span>() <span class="op">-</span> <span class="self">self</span>.<span class="ident">pos</span>) <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">min</span>(<span class="ident">buf</span>.<span class="ident">len</span>(), <span class="ident">max_allowed_len</span>) <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;=</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="number">0</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>rc</span> <span class='op'>=</span>
-            <span class='kw'>unsafe</span> { <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_read</span>(<span class='self'>self</span>.<span class='ident'>blob</span>, <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>buf</span>.<span class='ident'>as_ptr</span>()), <span class='ident'>n</span>, <span class='self'>self</span>.<span class='ident'>pos</span>) };
-        <span class='self'>self</span>.<span class='ident'>conn</span>
-            .<span class='ident'>decode_result</span>(<span class='ident'>rc</span>)
-            .<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
-                <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='ident'>n</span>;
-                <span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>usize</span>
+        <span class="kw">let</span> <span class="ident">rc</span> <span class="op">=</span>
+            <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_read</span>(<span class="self">self</span>.<span class="ident">blob</span>, <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">buf</span>.<span class="ident">as_ptr</span>()), <span class="ident">n</span>, <span class="self">self</span>.<span class="ident">pos</span>) };
+        <span class="self">self</span>.<span class="ident">conn</span>
+            .<span class="ident">decode_result</span>(<span class="ident">rc</span>)
+            .<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> {
+                <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+=</span> <span class="ident">n</span>;
+                <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>
             })
-            .<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>err</span><span class='op'>|</span> <span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='ident'>err</span>))
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="ident">err</span>))
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>io</span>::<span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Write data into a BLOB incrementally. Will return `Ok(0)` if the end of the blob</span>
-    <span class='doccomment'>/// has been reached; consider using `Write::write_all(buf)` if you want to get an</span>
-    <span class='doccomment'>/// error if the entirety of the buffer cannot be written.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This function may only modify the contents of the BLOB; it is not possible to increase</span>
-    <span class='doccomment'>/// the size of a BLOB using this API.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite write call fails.</span>
-    <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>max_allowed_len</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>size</span>() <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>pos</span>) <span class='kw'>as</span> <span class='ident'>usize</span>;
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>min</span>(<span class='ident'>buf</span>.<span class='ident'>len</span>(), <span class='ident'>max_allowed_len</span>) <span class='kw'>as</span> <span class='ident'>i32</span>;
-        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&lt;=</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='number'>0</span>);
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Write</span> <span class="kw">for</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Write data into a BLOB incrementally. Will return `Ok(0)` if the end of the blob</span>
+    <span class="doccomment">/// has been reached; consider using `Write::write_all(buf)` if you want to get an</span>
+    <span class="doccomment">/// error if the entirety of the buffer cannot be written.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function may only modify the contents of the BLOB; it is not possible to increase</span>
+    <span class="doccomment">/// the size of a BLOB using this API.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite write call fails.</span>
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">max_allowed_len</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">size</span>() <span class="op">-</span> <span class="self">self</span>.<span class="ident">pos</span>) <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">min</span>(<span class="ident">buf</span>.<span class="ident">len</span>(), <span class="ident">max_allowed_len</span>) <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;=</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="number">0</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>rc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
-            <span class='ident'>ffi</span>::<span class='ident'>sqlite3_blob_write</span>(<span class='self'>self</span>.<span class='ident'>blob</span>, <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>buf</span>.<span class='ident'>as_ptr</span>()), <span class='ident'>n</span>, <span class='self'>self</span>.<span class='ident'>pos</span>)
+        <span class="kw">let</span> <span class="ident">rc</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            <span class="ident">ffi</span>::<span class="ident">sqlite3_blob_write</span>(<span class="self">self</span>.<span class="ident">blob</span>, <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">buf</span>.<span class="ident">as_ptr</span>()), <span class="ident">n</span>, <span class="self">self</span>.<span class="ident">pos</span>)
         };
-        <span class='self'>self</span>.<span class='ident'>conn</span>
-            .<span class='ident'>decode_result</span>(<span class='ident'>rc</span>)
-            .<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
-                <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='ident'>n</span>;
-                <span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>usize</span>
+        <span class="self">self</span>.<span class="ident">conn</span>
+            .<span class="ident">decode_result</span>(<span class="ident">rc</span>)
+            .<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> {
+                <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+=</span> <span class="ident">n</span>;
+                <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>
             })
-            .<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>err</span><span class='op'>|</span> <span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='ident'>err</span>))
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="ident">err</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>flush</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>io</span>::<span class='ident'>Seek</span> <span class='kw'>for</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Seek to an offset, in bytes, in BLOB.</span>
-    <span class='kw'>fn</span> <span class='ident'>seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>io</span>::<span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>pos</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>pos</span> {
-            <span class='ident'>io</span>::<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='ident'>offset</span>) <span class='op'>=&gt;</span> <span class='ident'>offset</span> <span class='kw'>as</span> <span class='ident'>i64</span>,
-            <span class='ident'>io</span>::<span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='ident'>offset</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>pos</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>+</span> <span class='ident'>offset</span>,
-            <span class='ident'>io</span>::<span class='ident'>SeekFrom</span>::<span class='ident'>End</span>(<span class='ident'>offset</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>size</span>() <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>+</span> <span class='ident'>offset</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Seek</span> <span class="kw">for</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Seek to an offset, in bytes, in BLOB.</span>
+    <span class="kw">fn</span> <span class="ident">seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">io</span>::<span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">pos</span> {
+            <span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">i64</span>,
+            <span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">+</span> <span class="ident">offset</span>,
+            <span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">End</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">size</span>() <span class="kw">as</span> <span class="ident">i64</span> <span class="op">+</span> <span class="ident">offset</span>,
         };
 
-        <span class='kw'>if</span> <span class='ident'>pos</span> <span class='op'>&lt;</span> <span class='number'>0</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidInput</span>,
-                               <span class='string'>&quot;invalid seek to negative position&quot;</span>))
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>pos</span> <span class='op'>&gt;</span> <span class='self'>self</span>.<span class='ident'>size</span>() <span class='kw'>as</span> <span class='ident'>i64</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidInput</span>,
-                               <span class='string'>&quot;invalid seek to position past end of blob&quot;</span>))
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>=</span> <span class='ident'>pos</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
-            <span class='prelude-val'>Ok</span>(<span class='ident'>pos</span> <span class='kw'>as</span> <span class='ident'>u64</span>)
+        <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="number">0</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
+                               <span class="string">&quot;invalid seek to negative position&quot;</span>))
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">size</span>() <span class="kw">as</span> <span class="ident">i64</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
+                               <span class="string">&quot;invalid seek to position past end of blob&quot;</span>))
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">pos</span> <span class="op">=</span> <span class="ident">pos</span> <span class="kw">as</span> <span class="ident">i32</span>;
+            <span class="prelude-val">Ok</span>(<span class="ident">pos</span> <span class="kw">as</span> <span class="ident">u64</span>)
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Blob</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>close_</span>();
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_must_use</span>)]</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Blob</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">close_</span>();
     }
 }
 
-<span class='doccomment'>/// BLOB of length N that is filled with zeroes.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Zeroblobs are intended to serve as placeholders for BLOBs whose content is later written using</span>
-<span class='doccomment'>/// incremental BLOB I/O routines.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A negative value for the zeroblob results in a zero-length BLOB.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ZeroBlob</span>(<span class='kw'>pub</span> <span class='ident'>i32</span>);
+<span class="doccomment">/// BLOB of length N that is filled with zeroes.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Zeroblobs are intended to serve as placeholders for BLOBs whose content is later written using</span>
+<span class="doccomment">/// incremental BLOB I/O routines.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A negative value for the zeroblob results in a zero-length BLOB.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZeroBlob</span>(<span class="kw">pub</span> <span class="ident">i32</span>);
 
-<span class='kw'>impl</span> <span class='ident'>ToSql</span> <span class='kw'>for</span> <span class='ident'>ZeroBlob</span> {
-    <span class='kw'>fn</span> <span class='ident'>to_sql</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ToSqlOutput</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>ZeroBlob</span>(<span class='ident'>length</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ToSqlOutput</span>::<span class='ident'>ZeroBlob</span>(<span class='ident'>length</span>))
+<span class="kw">impl</span> <span class="ident">ToSql</span> <span class="kw">for</span> <span class="ident">ZeroBlob</span> {
+    <span class="kw">fn</span> <span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ToSqlOutput</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">ZeroBlob</span>(<span class="ident">length</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">ToSqlOutput</span>::<span class="ident">ZeroBlob</span>(<span class="ident">length</span>))
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='ident'>BufRead</span>, <span class='ident'>BufWriter</span>, <span class='ident'>Read</span>, <span class='ident'>Write</span>, <span class='ident'>Seek</span>, <span class='ident'>SeekFrom</span>};
-    <span class='kw'>use</span> {<span class='ident'>Connection</span>, <span class='ident'>DatabaseName</span>, <span class='prelude-ty'>Result</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufReader</span>, <span class="ident">BufRead</span>, <span class="ident">BufWriter</span>, <span class="ident">Read</span>, <span class="ident">Write</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
+    <span class="kw">use</span> {<span class="ident">Connection</span>, <span class="ident">DatabaseName</span>, <span class="prelude-ty">Result</span>};
 
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>db_with_test_blob</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Connection</span>, <span class='ident'>i64</span>)<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Connection</span>::<span class='ident'>open_in_memory</span>());
-        <span class='kw'>let</span> <span class='ident'>sql</span> <span class='op'>=</span> <span class='string'>&quot;BEGIN;
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">db_with_test_blob</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Connection</span>, <span class="ident">i64</span>)<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">Connection</span>::<span class="ident">open_in_memory</span>());
+        <span class="kw">let</span> <span class="ident">sql</span> <span class="op">=</span> <span class="string">&quot;BEGIN;
                    CREATE TABLE test (content BLOB);
                    INSERT INTO test VALUES (ZEROBLOB(10));
                    END;&quot;</span>;
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>db</span>.<span class='ident'>execute_batch</span>(<span class='ident'>sql</span>));
-        <span class='kw'>let</span> <span class='ident'>rowid</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>last_insert_rowid</span>();
-        <span class='prelude-val'>Ok</span>((<span class='ident'>db</span>, <span class='ident'>rowid</span>))
+        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="ident">sql</span>));
+        <span class="kw">let</span> <span class="ident">rowid</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">last_insert_rowid</span>();
+        <span class="prelude-val">Ok</span>((<span class="ident">db</span>, <span class="ident">rowid</span>))
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_blob</span>() {
-        <span class='kw'>let</span> (<span class='ident'>db</span>, <span class='ident'>rowid</span>) <span class='op'>=</span> <span class='ident'>db_with_test_blob</span>().<span class='ident'>unwrap</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_blob</span>() {
+        <span class="kw">let</span> (<span class="ident">db</span>, <span class="ident">rowid</span>) <span class="op">=</span> <span class="ident">db_with_test_blob</span>().<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>blob</span>.<span class='ident'>write</span>(<span class='string'>b&quot;Clob&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>blob</span>.<span class='ident'>write</span>(<span class='string'>b&quot;567890xxxxxx&quot;</span>).<span class='ident'>unwrap</span>()); <span class='comment'>// cannot write past 10</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>0</span>, <span class='ident'>blob</span>.<span class='ident'>write</span>(<span class='string'>b&quot;5678&quot;</span>).<span class='ident'>unwrap</span>()); <span class='comment'>// still cannot write past 10</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">4</span>, <span class="ident">blob</span>.<span class="ident">write</span>(<span class="string">b&quot;Clob&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">6</span>, <span class="ident">blob</span>.<span class="ident">write</span>(<span class="string">b&quot;567890xxxxxx&quot;</span>).<span class="ident">unwrap</span>()); <span class="comment">// cannot write past 10</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">0</span>, <span class="ident">blob</span>.<span class="ident">write</span>(<span class="string">b&quot;5678&quot;</span>).<span class="ident">unwrap</span>()); <span class="comment">// still cannot write past 10</span>
 
-        <span class='ident'>blob</span>.<span class='ident'>reopen</span>(<span class='ident'>rowid</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>blob</span>.<span class='ident'>close</span>().<span class='ident'>unwrap</span>();
+        <span class="ident">blob</span>.<span class="ident">reopen</span>(<span class="ident">rowid</span>).<span class="ident">unwrap</span>();
+        <span class="ident">blob</span>.<span class="ident">close</span>().<span class="ident">unwrap</span>();
 
-        <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>true</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>5</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;Clob5&quot;</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;67890&quot;</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>0</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
+        <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">true</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">5</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;Clob5&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;67890&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">0</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
 
-        <span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>2</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;ob567&quot;</span>);
+        <span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">2</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;ob567&quot;</span>);
 
-        <span class='comment'>// only first 4 bytes of `bytes` should be read into</span>
-        <span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='op'>-</span><span class='number'>1</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;78907&quot;</span>);
+        <span class="comment">// only first 4 bytes of `bytes` should be read into</span>
+        <span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span><span class="number">1</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">4</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;78907&quot;</span>);
 
-        <span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>End</span>(<span class='op'>-</span><span class='number'>6</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;56789&quot;</span>);
+        <span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">End</span>(<span class="op">-</span><span class="number">6</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;56789&quot;</span>);
 
-        <span class='ident'>blob</span>.<span class='ident'>reopen</span>(<span class='ident'>rowid</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='string'>b&quot;Clob5&quot;</span>);
+        <span class="ident">blob</span>.<span class="ident">reopen</span>(<span class="ident">rowid</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="string">b&quot;Clob5&quot;</span>);
 
-        <span class='comment'>// should not be able to seek negative or past end</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='op'>-</span><span class='number'>20</span>)).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>End</span>(<span class='number'>0</span>)).<span class='ident'>is_ok</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>blob</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='number'>1</span>)).<span class='ident'>is_err</span>());
+        <span class="comment">// should not be able to seek negative or past end</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span><span class="number">20</span>)).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">End</span>(<span class="number">0</span>)).<span class="ident">is_ok</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">blob</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">1</span>)).<span class="ident">is_err</span>());
 
-        <span class='comment'>// write_all should detect when we return Ok(0) because there is no space left,</span>
-        <span class='comment'>// and return a write error</span>
-        <span class='ident'>blob</span>.<span class='ident'>reopen</span>(<span class='ident'>rowid</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>blob</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;0123456789x&quot;</span>).<span class='ident'>is_err</span>());
+        <span class="comment">// write_all should detect when we return Ok(0) because there is no space left,</span>
+        <span class="comment">// and return a write error</span>
+        <span class="ident">blob</span>.<span class="ident">reopen</span>(<span class="ident">rowid</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">blob</span>.<span class="ident">write_all</span>(<span class="string">b&quot;0123456789x&quot;</span>).<span class="ident">is_err</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_blob_in_bufreader</span>() {
-        <span class='kw'>let</span> (<span class='ident'>db</span>, <span class='ident'>rowid</span>) <span class='op'>=</span> <span class='ident'>db_with_test_blob</span>().<span class='ident'>unwrap</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_blob_in_bufreader</span>() {
+        <span class="kw">let</span> (<span class="ident">db</span>, <span class="ident">rowid</span>) <span class="op">=</span> <span class="ident">db_with_test_blob</span>().<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>8</span>, <span class='ident'>blob</span>.<span class='ident'>write</span>(<span class='string'>b&quot;one\ntwo\n&quot;</span>).<span class='ident'>unwrap</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">8</span>, <span class="ident">blob</span>.<span class="ident">write</span>(<span class="string">b&quot;one\ntwo\n&quot;</span>).<span class="ident">unwrap</span>());
 
-        <span class='ident'>blob</span>.<span class='ident'>reopen</span>(<span class='ident'>rowid</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>blob</span>);
+        <span class="ident">blob</span>.<span class="ident">reopen</span>(<span class="ident">rowid</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">blob</span>);
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>reader</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>line</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;one\n&quot;</span>, <span class='ident'>line</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">line</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">4</span>, <span class="ident">reader</span>.<span class="ident">read_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">line</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;one\n&quot;</span>, <span class="ident">line</span>);
 
-        <span class='ident'>line</span>.<span class='ident'>truncate</span>(<span class='number'>0</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>reader</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>line</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;two\n&quot;</span>, <span class='ident'>line</span>);
+        <span class="ident">line</span>.<span class="ident">truncate</span>(<span class="number">0</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">4</span>, <span class="ident">reader</span>.<span class="ident">read_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">line</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;two\n&quot;</span>, <span class="ident">line</span>);
 
-        <span class='ident'>line</span>.<span class='ident'>truncate</span>(<span class='number'>0</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2</span>, <span class='ident'>reader</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>line</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;\0\0&quot;</span>, <span class='ident'>line</span>);
+        <span class="ident">line</span>.<span class="ident">truncate</span>(<span class="number">0</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">reader</span>.<span class="ident">read_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">line</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;\0\0&quot;</span>, <span class="ident">line</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_blob_in_bufwriter</span>() {
-        <span class='kw'>let</span> (<span class='ident'>db</span>, <span class='ident'>rowid</span>) <span class='op'>=</span> <span class='ident'>db_with_test_blob</span>().<span class='ident'>unwrap</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_blob_in_bufwriter</span>() {
+        <span class="kw">let</span> (<span class="ident">db</span>, <span class="ident">rowid</span>) <span class="op">=</span> <span class="ident">db_with_test_blob</span>().<span class="ident">unwrap</span>();
 
         {
-            <span class='kw'>let</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>BufWriter</span>::<span class='ident'>new</span>(<span class='ident'>blob</span>);
+            <span class="kw">let</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">BufWriter</span>::<span class="ident">new</span>(<span class="ident">blob</span>);
 
-            <span class='comment'>// trying to write too much and then flush should fail</span>
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>8</span>, <span class='ident'>writer</span>.<span class='ident'>write</span>(<span class='string'>b&quot;01234567&quot;</span>).<span class='ident'>unwrap</span>());
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>8</span>, <span class='ident'>writer</span>.<span class='ident'>write</span>(<span class='string'>b&quot;01234567&quot;</span>).<span class='ident'>unwrap</span>());
-            <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>flush</span>().<span class='ident'>is_err</span>());
+            <span class="comment">// trying to write too much and then flush should fail</span>
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">8</span>, <span class="ident">writer</span>.<span class="ident">write</span>(<span class="string">b&quot;01234567&quot;</span>).<span class="ident">unwrap</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">8</span>, <span class="ident">writer</span>.<span class="ident">write</span>(<span class="string">b&quot;01234567&quot;</span>).<span class="ident">unwrap</span>());
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">flush</span>().<span class="ident">is_err</span>());
         }
 
         {
-            <span class='comment'>// ... but it should&#39;ve written the first 10 bytes</span>
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>)
-                .<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>10</span>];
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>b&quot;0123456701&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>bytes</span>);
+            <span class="comment">// ... but it should&#39;ve written the first 10 bytes</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>)
+                .<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">10</span>];
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">10</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">b&quot;0123456701&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">bytes</span>);
         }
 
         {
-            <span class='kw'>let</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>BufWriter</span>::<span class='ident'>new</span>(<span class='ident'>blob</span>);
+            <span class="kw">let</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">BufWriter</span>::<span class="ident">new</span>(<span class="ident">blob</span>);
 
-            <span class='comment'>// trying to write_all too much should fail</span>
-            <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;aaaaaaaaaabbbbb&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>flush</span>().<span class='ident'>is_err</span>());
+            <span class="comment">// trying to write_all too much should fail</span>
+            <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;aaaaaaaaaabbbbb&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">flush</span>().<span class="ident">is_err</span>());
         }
 
         {
-            <span class='comment'>// ... but it should&#39;ve written the first 10 bytes</span>
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>blob_open</span>(<span class='ident'>DatabaseName</span>::<span class='ident'>Main</span>, <span class='string'>&quot;test&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='ident'>rowid</span>, <span class='bool-val'>false</span>)
-                .<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>10</span>];
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>blob</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>[..]).<span class='ident'>unwrap</span>());
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>b&quot;aaaaaaaaaa&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>bytes</span>);
+            <span class="comment">// ... but it should&#39;ve written the first 10 bytes</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">blob_open</span>(<span class="ident">DatabaseName</span>::<span class="ident">Main</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="ident">rowid</span>, <span class="bool-val">false</span>)
+                .<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">10</span>];
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">10</span>, <span class="ident">blob</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>[..]).<span class="ident">unwrap</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">b&quot;aaaaaaaaaa&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">bytes</span>);
         }
     }
 }

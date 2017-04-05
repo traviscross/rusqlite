@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,38 +43,19 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>functions</a>::<wbr><a class='struct' href=''>Context</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>functions</a>::<wbr><a class="struct" href=''>Context</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/rusqlite/functions.rs.html#172-175' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Context&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Context is a wrapper for the SQLite function evaluation context.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../rusqlite/functions/struct.Context.html' title='struct rusqlite::functions::Context'>Context</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/functions.rs.html#177-233' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
-<div class='docblock'><p>Returns the number of arguments to the function.</p>
-</div><h4 id='method.is_empty' class='method'><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
-<div class='docblock'><p>Returns <code>true</code> when there is no argument.</p>
-</div><h4 id='method.get' class='method'><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;T:&nbsp;<a class='trait' href='../../rusqlite/types/trait.FromSql.html' title='trait rusqlite::types::FromSql'>FromSql</a>&gt;(&amp;self, idx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../rusqlite/type.Result.html' title='type rusqlite::Result'>Result</a>&lt;T&gt;</code></span></h4>
-<div class='docblock'><p>Returns the <code>idx</code>th argument as a <code>T</code>.</p>
-
-<h1 id='failure' class='section-header'><a href='#failure'>Failure</a></h1>
-<p>Will panic if <code>idx</code> is greater than or equal to <code>self.len()</code>.</p>
-
-<p>Will return Err if the underlying SQLite type cannot be converted to a <code>T</code>.</p>
-</div><h4 id='method.set_aux' class='method'><span id='set_aux.v' class='invisible'><code>fn <a href='#method.set_aux' class='fnname'>set_aux</a>&lt;T&gt;(&amp;self, arg: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a>, value: T)</code></span></h4>
-<div class='docblock'><p>Sets the auxilliary data associated with a particular parameter. See
-<a href="https://www.sqlite.org/c3ref/get_auxdata.html">https://www.sqlite.org/c3ref/get_auxdata.html</a> for a discussion of
-this feature, or the unit tests of this module for an example.</p>
-</div><h4 id='method.get_aux' class='method'><span id='get_aux.v' class='invisible'><code>unsafe fn <a href='#method.get_aux' class='fnname'>get_aux</a>&lt;T&gt;(&amp;self, arg: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='enum core::option::Option'>Option</a>&lt;&amp;T&gt;</code></span></h4>
-<div class='docblock'><p>Gets the auxilliary data that was associated with a given parameter
-via <code>set_aux</code>. Returns <code>None</code> if no data has been associated.</p>
-
-<h1 id='unsafety' class='section-header'><a href='#unsafety'>Unsafety</a></h1>
-<p>This function is unsafe as there is no guarantee that the type <code>T</code>
-requested matches the type <code>T</code> that was provided to <code>set_aux</code>. The
-types must be identical.</p>
-</div></div></section>
+               </span><a class='srclink' href='../../src/rusqlite/functions.rs.html#181-184' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Context&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Context is a wrapper for the SQLite function evaluation context.</p></div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../rusqlite/functions/struct.Context.html" title="struct rusqlite::functions::Context">Context</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/functions.rs.html#186-242' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.len' class="method"><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
+<div class='docblock'><p>Returns the number of arguments to the function.</p></div><h4 id='method.is_empty' class="method"><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns <code>true</code> when there is no argument.</p></div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;T:&nbsp;<a class="trait" href="../../rusqlite/types/trait.FromSql.html" title="trait rusqlite::types::FromSql">FromSql</a>&gt;(&amp;self, idx: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="type" href="../../rusqlite/type.Result.html" title="type rusqlite::Result">Result</a>&lt;T&gt;</code></span></h4>
+<div class='docblock'><p>Returns the <code>idx</code>th argument as a <code>T</code>.</p><h1 id="failure" class="section-header"><a href="#failure">Failure</a></h1><p>Will panic if <code>idx</code> is greater than or equal to <code>self.len()</code>.</p><p>Will return Err if the underlying SQLite type cannot be converted to a <code>T</code>.</p></div><h4 id='method.set_aux' class="method"><span id='set_aux.v' class='invisible'><code>fn <a href='#method.set_aux' class='fnname'>set_aux</a>&lt;T&gt;(&amp;self, arg: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a>, value: T)</code></span></h4>
+<div class='docblock'><p>Sets the auxilliary data associated with a particular parameter. See https://www.sqlite.org/c3ref/get_auxdata.html for a discussion of this feature, or the unit tests of this module for an example.</p></div><h4 id='method.get_aux' class="method"><span id='get_aux.v' class='invisible'><code>unsafe fn <a href='#method.get_aux' class='fnname'>get_aux</a>&lt;T&gt;(&amp;self, arg: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;T&gt;</code></span></h4>
+<div class='docblock'><p>Gets the auxilliary data that was associated with a given parameter via <code>set_aux</code>. Returns <code>None</code> if no data has been associated.</p><h1 id="unsafety" class="section-header"><a href="#unsafety">Unsafety</a></h1><p>This function is unsafe as there is no guarantee that the type <code>T</code> requested matches the type <code>T</code> that was provided to <code>set_aux</code>. The types must be identical.</p></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

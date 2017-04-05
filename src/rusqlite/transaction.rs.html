@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -598,560 +598,560 @@
 <span id="553">553</span>
 <span id="554">554</span>
 <span id="555">555</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
-<span class='kw'>use</span> {<span class='prelude-ty'>Result</span>, <span class='ident'>Connection</span>};
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Deref</span>;
+<span class="kw">use</span> {<span class="prelude-ty">Result</span>, <span class="ident">Connection</span>};
 
-<span class='doccomment'>/// Old name for `TransactionBehavior`. `SqliteTransactionBehavior` is deprecated.</span>
-<span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>since</span> <span class='op'>=</span> <span class='string'>&quot;0.6.0&quot;</span>, <span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;Use TransactionBehavior instead&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>SqliteTransactionBehavior</span> <span class='op'>=</span> <span class='ident'>TransactionBehavior</span>;
+<span class="doccomment">/// Old name for `TransactionBehavior`. `SqliteTransactionBehavior` is deprecated.</span>
+<span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.6.0&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use TransactionBehavior instead&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SqliteTransactionBehavior</span> <span class="op">=</span> <span class="ident">TransactionBehavior</span>;
 
-<span class='doccomment'>/// Options for transaction behavior. See [BEGIN</span>
-<span class='doccomment'>/// TRANSACTION](http://www.sqlite.org/lang_transaction.html) for details.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TransactionBehavior</span> {
-    <span class='ident'>Deferred</span>,
-    <span class='ident'>Immediate</span>,
-    <span class='ident'>Exclusive</span>,
+<span class="doccomment">/// Options for transaction behavior. See [BEGIN</span>
+<span class="doccomment">/// TRANSACTION](http://www.sqlite.org/lang_transaction.html) for details.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TransactionBehavior</span> {
+    <span class="ident">Deferred</span>,
+    <span class="ident">Immediate</span>,
+    <span class="ident">Exclusive</span>,
 }
 
-<span class='doccomment'>/// Options for how a Transaction or Savepoint should behave when it is dropped.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>,<span class='ident'>Clone</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DropBehavior</span> {
-    <span class='doccomment'>/// Roll back the changes. This is the default.</span>
-    <span class='ident'>Rollback</span>,
+<span class="doccomment">/// Options for how a Transaction or Savepoint should behave when it is dropped.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>,<span class="ident">Clone</span>,<span class="ident">PartialEq</span>,<span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DropBehavior</span> {
+    <span class="doccomment">/// Roll back the changes. This is the default.</span>
+    <span class="ident">Rollback</span>,
 
-    <span class='doccomment'>/// Commit the changes.</span>
-    <span class='ident'>Commit</span>,
+    <span class="doccomment">/// Commit the changes.</span>
+    <span class="ident">Commit</span>,
 
-    <span class='doccomment'>/// Do not commit or roll back changes - this will leave the transaction or savepoint</span>
-    <span class='doccomment'>/// open, so should be used with care.</span>
-    <span class='ident'>Ignore</span>,
+    <span class="doccomment">/// Do not commit or roll back changes - this will leave the transaction or savepoint</span>
+    <span class="doccomment">/// open, so should be used with care.</span>
+    <span class="ident">Ignore</span>,
 }
 
-<span class='doccomment'>/// Old name for `Transaction`. `SqliteTransaction` is deprecated.</span>
-<span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>since</span> <span class='op'>=</span> <span class='string'>&quot;0.6.0&quot;</span>, <span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;Use Transaction instead&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>SqliteTransaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Transaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span>;
+<span class="doccomment">/// Old name for `Transaction`. `SqliteTransaction` is deprecated.</span>
+<span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.6.0&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use Transaction instead&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SqliteTransaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Transaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span>;
 
-<span class='doccomment'>/// Represents a transaction on a database connection.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ## Note</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transactions will roll back by default. Use `commit` method to explicitly commit the</span>
-<span class='doccomment'>/// transaction, or use `set_drop_behavior` to change what happens when the transaction</span>
-<span class='doccomment'>/// is dropped.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ## Example</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust,no_run</span>
-<span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-<span class='doccomment'>/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-<span class='doccomment'>/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-<span class='doccomment'>/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
-<span class='doccomment'>///     let tx = try!(conn.transaction());</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     try!(do_queries_part_1(&amp;tx)); // tx causes rollback if this fails</span>
-<span class='doccomment'>///     try!(do_queries_part_2(&amp;tx)); // tx causes rollback if this fails</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     tx.commit()</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Transaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;conn</span> <span class='ident'>Connection</span>,
-    <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>,
-    <span class='ident'>committed</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Represents a transaction on a database connection.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Note</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transactions will roll back by default. Use `commit` method to explicitly commit the</span>
+<span class="doccomment">/// transaction, or use `set_drop_behavior` to change what happens when the transaction</span>
+<span class="doccomment">/// is dropped.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+<span class="doccomment">/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
+<span class="doccomment">///     let tx = try!(conn.transaction());</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     try!(do_queries_part_1(&amp;tx)); // tx causes rollback if this fails</span>
+<span class="doccomment">///     try!(do_queries_part_2(&amp;tx)); // tx causes rollback if this fails</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     tx.commit()</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Transaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;conn</span> <span class="ident">Connection</span>,
+    <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>,
+    <span class="ident">committed</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Represents a savepoint on a database connection.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ## Note</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Savepoints will roll back by default. Use `commit` method to explicitly commit the</span>
-<span class='doccomment'>/// savepoint, or use `set_drop_behavior` to change what happens when the savepoint</span>
-<span class='doccomment'>/// is dropped.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ## Example</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust,no_run</span>
-<span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-<span class='doccomment'>/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-<span class='doccomment'>/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-<span class='doccomment'>/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
-<span class='doccomment'>///     let sp = try!(conn.savepoint());</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     try!(do_queries_part_1(&amp;sp)); // sp causes rollback if this fails</span>
-<span class='doccomment'>///     try!(do_queries_part_2(&amp;sp)); // sp causes rollback if this fails</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     sp.commit()</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Savepoint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;conn</span> <span class='ident'>Connection</span>,
-    <span class='ident'>name</span>: <span class='ident'>String</span>,
-    <span class='ident'>depth</span>: <span class='ident'>u32</span>,
-    <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>,
-    <span class='ident'>committed</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Represents a savepoint on a database connection.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Note</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Savepoints will roll back by default. Use `commit` method to explicitly commit the</span>
+<span class="doccomment">/// savepoint, or use `set_drop_behavior` to change what happens when the savepoint</span>
+<span class="doccomment">/// is dropped.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+<span class="doccomment">/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
+<span class="doccomment">///     let sp = try!(conn.savepoint());</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     try!(do_queries_part_1(&amp;sp)); // sp causes rollback if this fails</span>
+<span class="doccomment">///     try!(do_queries_part_2(&amp;sp)); // sp causes rollback if this fails</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     sp.commit()</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Savepoint</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;conn</span> <span class="ident">Connection</span>,
+    <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="ident">depth</span>: <span class="ident">u32</span>,
+    <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>,
+    <span class="ident">committed</span>: <span class="ident">bool</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Transaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Begin a new transaction. Cannot be nested; see `savepoint` for nested transactions.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Connection</span>, <span class='ident'>behavior</span>: <span class='ident'>TransactionBehavior</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Transaction</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>query</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>behavior</span> {
-            <span class='ident'>TransactionBehavior</span>::<span class='ident'>Deferred</span> <span class='op'>=&gt;</span> <span class='string'>&quot;BEGIN DEFERRED&quot;</span>,
-            <span class='ident'>TransactionBehavior</span>::<span class='ident'>Immediate</span> <span class='op'>=&gt;</span> <span class='string'>&quot;BEGIN IMMEDIATE&quot;</span>,
-            <span class='ident'>TransactionBehavior</span>::<span class='ident'>Exclusive</span> <span class='op'>=&gt;</span> <span class='string'>&quot;BEGIN EXCLUSIVE&quot;</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Transaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Begin a new transaction. Cannot be nested; see `savepoint` for nested transactions.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Connection</span>, <span class="ident">behavior</span>: <span class="ident">TransactionBehavior</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Transaction</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">behavior</span> {
+            <span class="ident">TransactionBehavior</span>::<span class="ident">Deferred</span> <span class="op">=&gt;</span> <span class="string">&quot;BEGIN DEFERRED&quot;</span>,
+            <span class="ident">TransactionBehavior</span>::<span class="ident">Immediate</span> <span class="op">=&gt;</span> <span class="string">&quot;BEGIN IMMEDIATE&quot;</span>,
+            <span class="ident">TransactionBehavior</span>::<span class="ident">Exclusive</span> <span class="op">=&gt;</span> <span class="string">&quot;BEGIN EXCLUSIVE&quot;</span>,
         };
-        <span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='ident'>query</span>).<span class='ident'>map</span>(<span class='kw'>move</span> <span class='op'>|</span>_<span class='op'>|</span> {
-            <span class='ident'>Transaction</span> {
-                <span class='ident'>conn</span>: <span class='ident'>conn</span>,
-                <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>::<span class='ident'>Rollback</span>,
-                <span class='ident'>committed</span>: <span class='bool-val'>false</span>,
+        <span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="ident">query</span>).<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span>_<span class="op">|</span> {
+            <span class="ident">Transaction</span> {
+                <span class="ident">conn</span>: <span class="ident">conn</span>,
+                <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>::<span class="ident">Rollback</span>,
+                <span class="ident">committed</span>: <span class="bool-val">false</span>,
             }
         })
     }
 
-    <span class='doccomment'>/// Starts a new [savepoint](http://www.sqlite.org/lang_savepoint.html), allowing nested</span>
-    <span class='doccomment'>/// transactions.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ## Note</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Just like outer level transactions, savepoint transactions rollback by default.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ## Example</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust,no_run</span>
-    <span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-    <span class='doccomment'>/// # fn perform_queries_part_1_succeeds(_conn: &amp;Connection) -&gt; bool { true }</span>
-    <span class='doccomment'>/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
-    <span class='doccomment'>///     let mut tx = try!(conn.transaction());</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     {</span>
-    <span class='doccomment'>///         let sp = try!(tx.savepoint());</span>
-    <span class='doccomment'>///         if perform_queries_part_1_succeeds(&amp;sp) {</span>
-    <span class='doccomment'>///             try!(sp.commit());</span>
-    <span class='doccomment'>///         }</span>
-    <span class='doccomment'>///         // otherwise, sp will rollback</span>
-    <span class='doccomment'>///     }</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     tx.commit()</span>
-    <span class='doccomment'>/// }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth</span>(<span class='self'>self</span>.<span class='ident'>conn</span>, <span class='number'>1</span>)
+    <span class="doccomment">/// Starts a new [savepoint](http://www.sqlite.org/lang_savepoint.html), allowing nested</span>
+    <span class="doccomment">/// transactions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Note</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Just like outer level transactions, savepoint transactions rollback by default.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust,no_run</span>
+    <span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+    <span class="doccomment">/// # fn perform_queries_part_1_succeeds(_conn: &amp;Connection) -&gt; bool { true }</span>
+    <span class="doccomment">/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
+    <span class="doccomment">///     let mut tx = try!(conn.transaction());</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     {</span>
+    <span class="doccomment">///         let sp = try!(tx.savepoint());</span>
+    <span class="doccomment">///         if perform_queries_part_1_succeeds(&amp;sp) {</span>
+    <span class="doccomment">///             try!(sp.commit());</span>
+    <span class="doccomment">///         }</span>
+    <span class="doccomment">///         // otherwise, sp will rollback</span>
+    <span class="doccomment">///     }</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     tx.commit()</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth</span>(<span class="self">self</span>.<span class="ident">conn</span>, <span class="number">1</span>)
     }
 
-    <span class='doccomment'>/// Create a new savepoint with a custom savepoint name. See `savepoint()`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint_with_name</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth_and_name</span>(<span class='self'>self</span>.<span class='ident'>conn</span>, <span class='number'>1</span>, <span class='ident'>name</span>)
+    <span class="doccomment">/// Create a new savepoint with a custom savepoint name. See `savepoint()`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint_with_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth_and_name</span>(<span class="self">self</span>.<span class="ident">conn</span>, <span class="number">1</span>, <span class="ident">name</span>)
     }
 
-    <span class='doccomment'>/// Get the current setting for what happens to the transaction when it is dropped.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>drop_behavior</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DropBehavior</span> {
-        <span class='self'>self</span>.<span class='ident'>drop_behavior</span>
+    <span class="doccomment">/// Get the current setting for what happens to the transaction when it is dropped.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">drop_behavior</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DropBehavior</span> {
+        <span class="self">self</span>.<span class="ident">drop_behavior</span>
     }
 
-    <span class='doccomment'>/// Configure the transaction to perform the specified action when it is dropped.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_drop_behavior</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>) {
-        <span class='self'>self</span>.<span class='ident'>drop_behavior</span> <span class='op'>=</span> <span class='ident'>drop_behavior</span>
+    <span class="doccomment">/// Configure the transaction to perform the specified action when it is dropped.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_drop_behavior</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>) {
+        <span class="self">self</span>.<span class="ident">drop_behavior</span> <span class="op">=</span> <span class="ident">drop_behavior</span>
     }
 
-    <span class='doccomment'>/// A convenience method which consumes and commits a transaction.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>commit</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>commit_</span>()
+    <span class="doccomment">/// A convenience method which consumes and commits a transaction.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">commit</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">commit_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>commit_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>committed</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;COMMIT&quot;</span>)
+    <span class="kw">fn</span> <span class="ident">commit_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">committed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;COMMIT&quot;</span>)
     }
 
-    <span class='doccomment'>/// A convenience method which consumes and rolls back a transaction.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rollback</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>rollback_</span>()
+    <span class="doccomment">/// A convenience method which consumes and rolls back a transaction.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rollback</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">rollback_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>rollback_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>committed</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;ROLLBACK&quot;</span>)
+    <span class="kw">fn</span> <span class="ident">rollback_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">committed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;ROLLBACK&quot;</span>)
     }
 
-    <span class='doccomment'>/// Consumes the transaction, committing or rolling back according to the current setting</span>
-    <span class='doccomment'>/// (see `drop_behavior`).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Functionally equivalent to the `Drop` implementation, but allows callers to see any</span>
-    <span class='doccomment'>/// errors that occur.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>finish</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>finish_</span>()
+    <span class="doccomment">/// Consumes the transaction, committing or rolling back according to the current setting</span>
+    <span class="doccomment">/// (see `drop_behavior`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Functionally equivalent to the `Drop` implementation, but allows callers to see any</span>
+    <span class="doccomment">/// errors that occur.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">finish_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>finish_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>committed</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+    <span class="kw">fn</span> <span class="ident">finish_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">committed</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>drop_behavior</span>() {
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Commit</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>commit_</span>(),
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Rollback</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>rollback_</span>(),
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Ignore</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(()),
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">drop_behavior</span>() {
+            <span class="ident">DropBehavior</span>::<span class="ident">Commit</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">commit_</span>(),
+            <span class="ident">DropBehavior</span>::<span class="ident">Rollback</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">rollback_</span>(),
+            <span class="ident">DropBehavior</span>::<span class="ident">Ignore</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>Transaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>Connection</span>;
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">Transaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Connection</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>deref</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Connection</span> {
-        <span class='self'>self</span>.<span class='ident'>conn</span>
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Connection</span> {
+        <span class="self">self</span>.<span class="ident">conn</span>
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Transaction</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>finish_</span>();
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_must_use</span>)]</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Transaction</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">finish_</span>();
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Savepoint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>with_depth_and_name</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='ident'>Connection</span>,
-                                            <span class='ident'>depth</span>: <span class='ident'>u32</span>,
-                                            <span class='ident'>name</span>: <span class='ident'>T</span>)
-                                            <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>name</span>.<span class='ident'>into</span>();
-        <span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;SAVEPOINT {}&quot;</span>, <span class='ident'>name</span>)).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
-            <span class='ident'>Savepoint</span> {
-                <span class='ident'>conn</span>: <span class='ident'>conn</span>,
-                <span class='ident'>name</span>: <span class='ident'>name</span>,
-                <span class='ident'>depth</span>: <span class='ident'>depth</span>,
-                <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>::<span class='ident'>Rollback</span>,
-                <span class='ident'>committed</span>: <span class='bool-val'>false</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Savepoint</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">with_depth_and_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
+                                            <span class="ident">depth</span>: <span class="ident">u32</span>,
+                                            <span class="ident">name</span>: <span class="ident">T</span>)
+                                            <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">into</span>();
+        <span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;SAVEPOINT {}&quot;</span>, <span class="ident">name</span>)).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> {
+            <span class="ident">Savepoint</span> {
+                <span class="ident">conn</span>: <span class="ident">conn</span>,
+                <span class="ident">name</span>: <span class="ident">name</span>,
+                <span class="ident">depth</span>: <span class="ident">depth</span>,
+                <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>::<span class="ident">Rollback</span>,
+                <span class="ident">committed</span>: <span class="bool-val">false</span>,
             }
         })
     }
 
-    <span class='kw'>fn</span> <span class='ident'>with_depth</span>(<span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='ident'>Connection</span>, <span class='ident'>depth</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;_rusqlite_sp_{}&quot;</span>, <span class='ident'>depth</span>);
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth_and_name</span>(<span class='ident'>conn</span>, <span class='ident'>depth</span>, <span class='ident'>name</span>)
+    <span class="kw">fn</span> <span class="ident">with_depth</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>, <span class="ident">depth</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;_rusqlite_sp_{}&quot;</span>, <span class="ident">depth</span>);
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth_and_name</span>(<span class="ident">conn</span>, <span class="ident">depth</span>, <span class="ident">name</span>)
     }
 
-    <span class='doccomment'>/// Begin a new savepoint. Can be nested.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Connection</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth</span>(<span class='ident'>conn</span>, <span class='number'>0</span>)
+    <span class="doccomment">/// Begin a new savepoint. Can be nested.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Connection</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth</span>(<span class="ident">conn</span>, <span class="number">0</span>)
     }
 
-    <span class='doccomment'>/// Begin a new savepoint with a user-provided savepoint name.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_name</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Connection</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth_and_name</span>(<span class='ident'>conn</span>, <span class='number'>0</span>, <span class='ident'>name</span>)
+    <span class="doccomment">/// Begin a new savepoint with a user-provided savepoint name.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Connection</span>, <span class="ident">name</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth_and_name</span>(<span class="ident">conn</span>, <span class="number">0</span>, <span class="ident">name</span>)
     }
 
-    <span class='doccomment'>/// Begin a nested savepoint.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth</span>(<span class='self'>self</span>.<span class='ident'>conn</span>, <span class='self'>self</span>.<span class='ident'>depth</span> <span class='op'>+</span> <span class='number'>1</span>)
+    <span class="doccomment">/// Begin a nested savepoint.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth</span>(<span class="self">self</span>.<span class="ident">conn</span>, <span class="self">self</span>.<span class="ident">depth</span> <span class="op">+</span> <span class="number">1</span>)
     }
 
-    <span class='doccomment'>/// Begin a nested savepoint with a user-provided savepoint name.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint_with_name</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_depth_and_name</span>(<span class='self'>self</span>.<span class='ident'>conn</span>, <span class='self'>self</span>.<span class='ident'>depth</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='ident'>name</span>)
+    <span class="doccomment">/// Begin a nested savepoint with a user-provided savepoint name.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint_with_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_depth_and_name</span>(<span class="self">self</span>.<span class="ident">conn</span>, <span class="self">self</span>.<span class="ident">depth</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">name</span>)
     }
 
-    <span class='doccomment'>/// Get the current setting for what happens to the savepoint when it is dropped.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>drop_behavior</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DropBehavior</span> {
-        <span class='self'>self</span>.<span class='ident'>drop_behavior</span>
+    <span class="doccomment">/// Get the current setting for what happens to the savepoint when it is dropped.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">drop_behavior</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DropBehavior</span> {
+        <span class="self">self</span>.<span class="ident">drop_behavior</span>
     }
 
-    <span class='doccomment'>/// Configure the savepoint to perform the specified action when it is dropped.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_drop_behavior</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>drop_behavior</span>: <span class='ident'>DropBehavior</span>) {
-        <span class='self'>self</span>.<span class='ident'>drop_behavior</span> <span class='op'>=</span> <span class='ident'>drop_behavior</span>
+    <span class="doccomment">/// Configure the savepoint to perform the specified action when it is dropped.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_drop_behavior</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">drop_behavior</span>: <span class="ident">DropBehavior</span>) {
+        <span class="self">self</span>.<span class="ident">drop_behavior</span> <span class="op">=</span> <span class="ident">drop_behavior</span>
     }
 
-    <span class='doccomment'>/// A convenience method which consumes and commits a savepoint.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>commit</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>commit_</span>()
+    <span class="doccomment">/// A convenience method which consumes and commits a savepoint.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">commit</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">commit_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>commit_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>committed</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;RELEASE {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>))
+    <span class="kw">fn</span> <span class="ident">commit_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">committed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;RELEASE {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>))
     }
 
-    <span class='doccomment'>/// A convenience method which rolls back a savepoint.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ## Note</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Unlike `Transaction`s, savepoints remain active after they have been rolled back,</span>
-    <span class='doccomment'>/// and can be rolled back again or committed.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rollback</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>conn</span>.<span class='ident'>execute_batch</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;ROLLBACK TO {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>))
+    <span class="doccomment">/// A convenience method which rolls back a savepoint.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Note</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unlike `Transaction`s, savepoints remain active after they have been rolled back,</span>
+    <span class="doccomment">/// and can be rolled back again or committed.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rollback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">execute_batch</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;ROLLBACK TO {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>))
     }
 
-    <span class='doccomment'>/// Consumes the savepoint, committing or rolling back according to the current setting</span>
-    <span class='doccomment'>/// (see `drop_behavior`).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Functionally equivalent to the `Drop` implementation, but allows callers to see any</span>
-    <span class='doccomment'>/// errors that occur.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>finish</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>finish_</span>()
+    <span class="doccomment">/// Consumes the savepoint, committing or rolling back according to the current setting</span>
+    <span class="doccomment">/// (see `drop_behavior`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Functionally equivalent to the `Drop` implementation, but allows callers to see any</span>
+    <span class="doccomment">/// errors that occur.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">finish_</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>finish_</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>committed</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+    <span class="kw">fn</span> <span class="ident">finish_</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">committed</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>drop_behavior</span>() {
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Commit</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>commit_</span>(),
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Rollback</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>rollback</span>(),
-            <span class='ident'>DropBehavior</span>::<span class='ident'>Ignore</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(()),
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">drop_behavior</span>() {
+            <span class="ident">DropBehavior</span>::<span class="ident">Commit</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">commit_</span>(),
+            <span class="ident">DropBehavior</span>::<span class="ident">Rollback</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">rollback</span>(),
+            <span class="ident">DropBehavior</span>::<span class="ident">Ignore</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>Savepoint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>Connection</span>;
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">Savepoint</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Connection</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>deref</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Connection</span> {
-        <span class='self'>self</span>.<span class='ident'>conn</span>
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Connection</span> {
+        <span class="self">self</span>.<span class="ident">conn</span>
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Savepoint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;conn</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>finish_</span>();
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_must_use</span>)]</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Savepoint</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">finish_</span>();
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Connection</span> {
-    <span class='doccomment'>/// Begin a new transaction with the default behavior (DEFERRED).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The transaction defaults to rolling back when it is dropped. If you want the transaction to</span>
-    <span class='doccomment'>/// commit, you must call `commit` or `set_drop_behavior(DropBehavior::Commit)`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ## Example</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust,no_run</span>
-    <span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-    <span class='doccomment'>/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-    <span class='doccomment'>/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-    <span class='doccomment'>/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
-    <span class='doccomment'>///     let tx = try!(conn.transaction());</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     try!(do_queries_part_1(&amp;tx)); // tx causes rollback if this fails</span>
-    <span class='doccomment'>///     try!(do_queries_part_2(&amp;tx)); // tx causes rollback if this fails</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     tx.commit()</span>
-    <span class='doccomment'>/// }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>transaction</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Transaction</span><span class='op'>&gt;</span> {
-        <span class='ident'>Transaction</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>TransactionBehavior</span>::<span class='ident'>Deferred</span>)
+<span class="kw">impl</span> <span class="ident">Connection</span> {
+    <span class="doccomment">/// Begin a new transaction with the default behavior (DEFERRED).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The transaction defaults to rolling back when it is dropped. If you want the transaction to</span>
+    <span class="doccomment">/// commit, you must call `commit` or `set_drop_behavior(DropBehavior::Commit)`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust,no_run</span>
+    <span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+    <span class="doccomment">/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+    <span class="doccomment">/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+    <span class="doccomment">/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
+    <span class="doccomment">///     let tx = try!(conn.transaction());</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     try!(do_queries_part_1(&amp;tx)); // tx causes rollback if this fails</span>
+    <span class="doccomment">///     try!(do_queries_part_2(&amp;tx)); // tx causes rollback if this fails</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     tx.commit()</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transaction</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Transaction</span><span class="op">&gt;</span> {
+        <span class="ident">Transaction</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">TransactionBehavior</span>::<span class="ident">Deferred</span>)
     }
 
-    <span class='doccomment'>/// Begin a new transaction with a specified behavior.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// See `transaction`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>transaction_with_behavior</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
-                                     <span class='ident'>behavior</span>: <span class='ident'>TransactionBehavior</span>)
-                                     <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Transaction</span><span class='op'>&gt;</span> {
-        <span class='ident'>Transaction</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>behavior</span>)
+    <span class="doccomment">/// Begin a new transaction with a specified behavior.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See `transaction`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transaction_with_behavior</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+                                     <span class="ident">behavior</span>: <span class="ident">TransactionBehavior</span>)
+                                     <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Transaction</span><span class="op">&gt;</span> {
+        <span class="ident">Transaction</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">behavior</span>)
     }
 
-    <span class='doccomment'>/// Begin a new savepoint with the default behavior (DEFERRED).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The savepoint defaults to rolling back when it is dropped. If you want the savepoint to</span>
-    <span class='doccomment'>/// commit, you must call `commit` or `set_drop_behavior(DropBehavior::Commit)`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ## Example</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust,no_run</span>
-    <span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-    <span class='doccomment'>/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-    <span class='doccomment'>/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
-    <span class='doccomment'>/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
-    <span class='doccomment'>///     let sp = try!(conn.savepoint());</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     try!(do_queries_part_1(&amp;sp)); // sp causes rollback if this fails</span>
-    <span class='doccomment'>///     try!(do_queries_part_2(&amp;sp)); // sp causes rollback if this fails</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///     sp.commit()</span>
-    <span class='doccomment'>/// }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Begin a new savepoint with the default behavior (DEFERRED).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The savepoint defaults to rolling back when it is dropped. If you want the savepoint to</span>
+    <span class="doccomment">/// commit, you must call `commit` or `set_drop_behavior(DropBehavior::Commit)`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust,no_run</span>
+    <span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+    <span class="doccomment">/// # fn do_queries_part_1(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+    <span class="doccomment">/// # fn do_queries_part_2(_conn: &amp;Connection) -&gt; Result&lt;()&gt; { Ok(()) }</span>
+    <span class="doccomment">/// fn perform_queries(conn: &amp;mut Connection) -&gt; Result&lt;()&gt; {</span>
+    <span class="doccomment">///     let sp = try!(conn.savepoint());</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     try!(do_queries_part_1(&amp;sp)); // sp causes rollback if this fails</span>
+    <span class="doccomment">///     try!(do_queries_part_2(&amp;sp)); // sp causes rollback if this fails</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     sp.commit()</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">new</span>(<span class="self">self</span>)
     }
 
-    <span class='doccomment'>/// Begin a new savepoint with a specified name.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// See `savepoint`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Failure</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Will return `Err` if the underlying SQLite call fails.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>savepoint_with_name</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Savepoint</span><span class='op'>&gt;</span> {
-        <span class='ident'>Savepoint</span>::<span class='ident'>with_name</span>(<span class='self'>self</span>, <span class='ident'>name</span>)
+    <span class="doccomment">/// Begin a new savepoint with a specified name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See `savepoint`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Failure</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if the underlying SQLite call fails.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">savepoint_with_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Savepoint</span><span class="op">&gt;</span> {
+        <span class="ident">Savepoint</span>::<span class="ident">with_name</span>(<span class="self">self</span>, <span class="ident">name</span>)
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>Connection</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>DropBehavior</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="ident">Connection</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">DropBehavior</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>checked_memory_handle</span>() <span class='op'>-&gt;</span> <span class='ident'>Connection</span> {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>Connection</span>::<span class='ident'>open_in_memory</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;CREATE TABLE foo (x INTEGER)&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>
+    <span class="kw">fn</span> <span class="ident">checked_memory_handle</span>() <span class="op">-&gt;</span> <span class="ident">Connection</span> {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">Connection</span>::<span class="ident">open_in_memory</span>().<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;CREATE TABLE foo (x INTEGER)&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_drop</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_drop</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
         {
-            <span class='kw'>let</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='comment'>// default: rollback</span>
+            <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="comment">// default: rollback</span>
         }
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>set_drop_behavior</span>(<span class='ident'>DropBehavior</span>::<span class='ident'>Commit</span>)
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">set_drop_behavior</span>(<span class="ident">DropBehavior</span>::<span class="ident">Commit</span>)
         }
         {
-            <span class='kw'>let</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2i32</span>,
-                       <span class='ident'>tx</span>.<span class='ident'>query_row</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
-                           .<span class='ident'>unwrap</span>());
+            <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2i32</span>,
+                       <span class="ident">tx</span>.<span class="ident">query_row</span>::<span class="op">&lt;</span><span class="ident">i32</span>, _<span class="op">&gt;</span>(<span class="string">&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+                           .<span class="ident">unwrap</span>());
         }
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_explicit_rollback_commit</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_explicit_rollback_commit</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
             {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp</span> <span class='op'>=</span> <span class='ident'>tx</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>sp</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class='ident'>unwrap</span>();
-                <span class='ident'>sp</span>.<span class='ident'>rollback</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>sp</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class='ident'>unwrap</span>();
-                <span class='ident'>sp</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+                <span class="ident">sp</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class="ident">unwrap</span>();
+                <span class="ident">sp</span>.<span class="ident">rollback</span>().<span class="ident">unwrap</span>();
+                <span class="ident">sp</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class="ident">unwrap</span>();
+                <span class="ident">sp</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
             }
-            <span class='ident'>tx</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
         }
         {
-            <span class='kw'>let</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(4)&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
+            <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(4)&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
         }
         {
-            <span class='kw'>let</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6i32</span>,
-                       <span class='ident'>tx</span>.<span class='ident'>query_row</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>))
-                           .<span class='ident'>unwrap</span>());
+            <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">6i32</span>,
+                       <span class="ident">tx</span>.<span class="ident">query_row</span>::<span class="op">&lt;</span><span class="ident">i32</span>, _<span class="op">&gt;</span>(<span class="string">&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+                           .<span class="ident">unwrap</span>());
         }
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_savepoint</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_savepoint</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>tx</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>assert_current_sum</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>tx</span>);
-            <span class='ident'>tx</span>.<span class='ident'>set_drop_behavior</span>(<span class='ident'>DropBehavior</span>::<span class='ident'>Commit</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
+            <span class="ident">tx</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(1)&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="ident">assert_current_sum</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">tx</span>);
+            <span class="ident">tx</span>.<span class="ident">set_drop_behavior</span>(<span class="ident">DropBehavior</span>::<span class="ident">Commit</span>);
             {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp1</span> <span class='op'>=</span> <span class='ident'>tx</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>sp1</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class='ident'>unwrap</span>();
-                <span class='ident'>assert_current_sum</span>(<span class='number'>3</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-                <span class='comment'>// will rollback sp1</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp1</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+                <span class="ident">sp1</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(2)&quot;</span>).<span class="ident">unwrap</span>();
+                <span class="ident">assert_current_sum</span>(<span class="number">3</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+                <span class="comment">// will rollback sp1</span>
                 {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp2</span> <span class='op'>=</span> <span class='ident'>sp1</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-                    <span class='ident'>sp2</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(4)&quot;</span>).<span class='ident'>unwrap</span>();
-                    <span class='ident'>assert_current_sum</span>(<span class='number'>7</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
-                    <span class='comment'>// will rollback sp2</span>
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp2</span> <span class="op">=</span> <span class="ident">sp1</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+                    <span class="ident">sp2</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(4)&quot;</span>).<span class="ident">unwrap</span>();
+                    <span class="ident">assert_current_sum</span>(<span class="number">7</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
+                    <span class="comment">// will rollback sp2</span>
                     {
-                        <span class='kw'>let</span> <span class='ident'>sp3</span> <span class='op'>=</span> <span class='ident'>sp2</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-                        <span class='ident'>sp3</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;INSERT INTO foo VALUES(8)&quot;</span>).<span class='ident'>unwrap</span>();
-                        <span class='ident'>assert_current_sum</span>(<span class='number'>15</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp3</span>);
-                        <span class='ident'>sp3</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
-                        <span class='comment'>// committed sp3, but will be erased by sp2 rollback</span>
+                        <span class="kw">let</span> <span class="ident">sp3</span> <span class="op">=</span> <span class="ident">sp2</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+                        <span class="ident">sp3</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;INSERT INTO foo VALUES(8)&quot;</span>).<span class="ident">unwrap</span>();
+                        <span class="ident">assert_current_sum</span>(<span class="number">15</span>, <span class="kw-2">&amp;</span><span class="ident">sp3</span>);
+                        <span class="ident">sp3</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
+                        <span class="comment">// committed sp3, but will be erased by sp2 rollback</span>
                     }
-                    <span class='ident'>assert_current_sum</span>(<span class='number'>15</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
+                    <span class="ident">assert_current_sum</span>(<span class="number">15</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
                 }
-                <span class='ident'>assert_current_sum</span>(<span class='number'>3</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
+                <span class="ident">assert_current_sum</span>(<span class="number">3</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
             }
-            <span class='ident'>assert_current_sum</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>tx</span>);
+            <span class="ident">assert_current_sum</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">tx</span>);
         }
-        <span class='ident'>assert_current_sum</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>db</span>);
+        <span class="ident">assert_current_sum</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">db</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_ignore_drop_behavior</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_ignore_drop_behavior</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>transaction</span>().<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">transaction</span>().<span class="ident">unwrap</span>();
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp1</span> <span class='op'>=</span> <span class='ident'>tx</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>insert</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-            <span class='ident'>sp1</span>.<span class='ident'>rollback</span>().<span class='ident'>unwrap</span>();
-            <span class='ident'>insert</span>(<span class='number'>2</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp1</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+            <span class="ident">insert</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+            <span class="ident">sp1</span>.<span class="ident">rollback</span>().<span class="ident">unwrap</span>();
+            <span class="ident">insert</span>(<span class="number">2</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
             {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp2</span> <span class='op'>=</span> <span class='ident'>sp1</span>.<span class='ident'>savepoint</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>sp2</span>.<span class='ident'>set_drop_behavior</span>(<span class='ident'>DropBehavior</span>::<span class='ident'>Ignore</span>);
-                <span class='ident'>insert</span>(<span class='number'>4</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp2</span> <span class="op">=</span> <span class="ident">sp1</span>.<span class="ident">savepoint</span>().<span class="ident">unwrap</span>();
+                <span class="ident">sp2</span>.<span class="ident">set_drop_behavior</span>(<span class="ident">DropBehavior</span>::<span class="ident">Ignore</span>);
+                <span class="ident">insert</span>(<span class="number">4</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
             }
-            <span class='ident'>assert_current_sum</span>(<span class='number'>6</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-            <span class='ident'>sp1</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
+            <span class="ident">assert_current_sum</span>(<span class="number">6</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+            <span class="ident">sp1</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
         }
-        <span class='ident'>assert_current_sum</span>(<span class='number'>6</span>, <span class='kw-2'>&amp;</span><span class='ident'>tx</span>);
+        <span class="ident">assert_current_sum</span>(<span class="number">6</span>, <span class="kw-2">&amp;</span><span class="ident">tx</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_savepoint_names</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_savepoint_names</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp1</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>savepoint_with_name</span>(<span class='string'>&quot;my_sp&quot;</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>insert</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-            <span class='ident'>assert_current_sum</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp1</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">savepoint_with_name</span>(<span class="string">&quot;my_sp&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="ident">insert</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+            <span class="ident">assert_current_sum</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
             {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp2</span> <span class='op'>=</span> <span class='ident'>sp1</span>.<span class='ident'>savepoint_with_name</span>(<span class='string'>&quot;my_sp&quot;</span>).<span class='ident'>unwrap</span>();
-                <span class='ident'>sp2</span>.<span class='ident'>set_drop_behavior</span>(<span class='ident'>DropBehavior</span>::<span class='ident'>Commit</span>);
-                <span class='ident'>insert</span>(<span class='number'>2</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
-                <span class='ident'>assert_current_sum</span>(<span class='number'>3</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
-                <span class='ident'>sp2</span>.<span class='ident'>rollback</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>assert_current_sum</span>(<span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
-                <span class='ident'>insert</span>(<span class='number'>4</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp2</span> <span class="op">=</span> <span class="ident">sp1</span>.<span class="ident">savepoint_with_name</span>(<span class="string">&quot;my_sp&quot;</span>).<span class="ident">unwrap</span>();
+                <span class="ident">sp2</span>.<span class="ident">set_drop_behavior</span>(<span class="ident">DropBehavior</span>::<span class="ident">Commit</span>);
+                <span class="ident">insert</span>(<span class="number">2</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
+                <span class="ident">assert_current_sum</span>(<span class="number">3</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
+                <span class="ident">sp2</span>.<span class="ident">rollback</span>().<span class="ident">unwrap</span>();
+                <span class="ident">assert_current_sum</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
+                <span class="ident">insert</span>(<span class="number">4</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
             }
-            <span class='ident'>assert_current_sum</span>(<span class='number'>5</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-            <span class='ident'>sp1</span>.<span class='ident'>rollback</span>().<span class='ident'>unwrap</span>();
+            <span class="ident">assert_current_sum</span>(<span class="number">5</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+            <span class="ident">sp1</span>.<span class="ident">rollback</span>().<span class="ident">unwrap</span>();
             {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sp2</span> <span class='op'>=</span> <span class='ident'>sp1</span>.<span class='ident'>savepoint_with_name</span>(<span class='string'>&quot;my_sp&quot;</span>).<span class='ident'>unwrap</span>();
-                <span class='ident'>sp2</span>.<span class='ident'>set_drop_behavior</span>(<span class='ident'>DropBehavior</span>::<span class='ident'>Ignore</span>);
-                <span class='ident'>insert</span>(<span class='number'>8</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp2</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sp2</span> <span class="op">=</span> <span class="ident">sp1</span>.<span class="ident">savepoint_with_name</span>(<span class="string">&quot;my_sp&quot;</span>).<span class="ident">unwrap</span>();
+                <span class="ident">sp2</span>.<span class="ident">set_drop_behavior</span>(<span class="ident">DropBehavior</span>::<span class="ident">Ignore</span>);
+                <span class="ident">insert</span>(<span class="number">8</span>, <span class="kw-2">&amp;</span><span class="ident">sp2</span>);
             }
-            <span class='ident'>assert_current_sum</span>(<span class='number'>8</span>, <span class='kw-2'>&amp;</span><span class='ident'>sp1</span>);
-            <span class='ident'>sp1</span>.<span class='ident'>commit</span>().<span class='ident'>unwrap</span>();
+            <span class="ident">assert_current_sum</span>(<span class="number">8</span>, <span class="kw-2">&amp;</span><span class="ident">sp1</span>);
+            <span class="ident">sp1</span>.<span class="ident">commit</span>().<span class="ident">unwrap</span>();
         }
-        <span class='ident'>assert_current_sum</span>(<span class='number'>8</span>, <span class='kw-2'>&amp;</span><span class='ident'>db</span>);
+        <span class="ident">assert_current_sum</span>(<span class="number">8</span>, <span class="kw-2">&amp;</span><span class="ident">db</span>);
     }
 
-    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='ident'>Connection</span>) {
-        <span class='ident'>conn</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo VALUES(?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>x</span>]).<span class='ident'>unwrap</span>();
+    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>) {
+        <span class="ident">conn</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo VALUES(?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">x</span>]).<span class="ident">unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>assert_current_sum</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>conn</span>: <span class='kw-2'>&amp;</span><span class='ident'>Connection</span>) {
-        <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>conn</span>.<span class='ident'>query_row</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>x</span>, <span class='ident'>i</span>);
+    <span class="kw">fn</span> <span class="ident">assert_current_sum</span>(<span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>) {
+        <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">query_row</span>::<span class="op">&lt;</span><span class="ident">i32</span>, _<span class="op">&gt;</span>(<span class="string">&quot;SELECT SUM(x) FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">i</span>);
     }
 }
 </pre>

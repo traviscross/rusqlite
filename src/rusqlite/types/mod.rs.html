@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -345,307 +345,307 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Traits dealing with SQLite data types.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! SQLite uses a [dynamic type system](https://www.sqlite.org/datatype3.html). Implementations of</span>
-<span class='doccomment'>//! the `ToSql` and `FromSql` traits are provided for the basic types that SQLite provides methods</span>
-<span class='doccomment'>//! for:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * Integers (`i32` and `i64`; SQLite uses `i64` internally, so getting an `i32` will truncate</span>
-<span class='doccomment'>//!   if the value is too large or too small).</span>
-<span class='doccomment'>//! * Reals (`f64`)</span>
-<span class='doccomment'>//! * Strings (`String` and `&amp;str`)</span>
-<span class='doccomment'>//! * Blobs (`Vec&lt;u8&gt;` and `&amp;[u8]`)</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Additionally, because it is such a common data type, implementations are provided for</span>
-<span class='doccomment'>//! `time::Timespec` that use a string for storage (using the same format string,</span>
-<span class='doccomment'>//! `&quot;%Y-%m-%d %H:%M:%S&quot;`, as SQLite&#39;s builtin</span>
-<span class='doccomment'>//! [datetime](https://www.sqlite.org/lang_datefunc.html) function.  Note that this storage</span>
-<span class='doccomment'>//! truncates timespecs to the nearest second. If you want different storage for timespecs, you can</span>
-<span class='doccomment'>//! use a newtype. For example, to store timespecs as `f64`s:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! extern crate rusqlite;</span>
-<span class='doccomment'>//! extern crate time;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! use rusqlite::types::{FromSql, FromSqlResult, ValueRef, ToSql, ToSqlOutput};</span>
-<span class='doccomment'>//! use rusqlite::{Result};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! pub struct TimespecSql(pub time::Timespec);</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! impl FromSql for TimespecSql {</span>
-<span class='doccomment'>//!     fn column_result(value: ValueRef) -&gt; FromSqlResult&lt;Self&gt; {</span>
-<span class='doccomment'>//!         f64::column_result(value).map(|as_f64| {</span>
-<span class='doccomment'>//!             TimespecSql(time::Timespec{ sec: as_f64.trunc() as i64,</span>
-<span class='doccomment'>//!                                         nsec: (as_f64.fract() * 1.0e9) as i32 })</span>
-<span class='doccomment'>//!         })</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! impl ToSql for TimespecSql {</span>
-<span class='doccomment'>//!     fn to_sql(&amp;self) -&gt; Result&lt;ToSqlOutput&gt; {</span>
-<span class='doccomment'>//!         let TimespecSql(ts) = *self;</span>
-<span class='doccomment'>//!         let as_f64 = ts.sec as f64 + (ts.nsec as f64) / 1.0e9;</span>
-<span class='doccomment'>//!         Ok(as_f64.into())</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # // Prevent this doc test from being wrapped in a `fn main()` so that it will compile.</span>
-<span class='doccomment'>//! # fn main() {}</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! `ToSql` and `FromSql` are also implemented for `Option&lt;T&gt;` where `T` implements `ToSql` or</span>
-<span class='doccomment'>//! `FromSql` for the cases where you want to know if a value was NULL (which gets translated to</span>
-<span class='doccomment'>//! `None`).</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Traits dealing with SQLite data types.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! SQLite uses a [dynamic type system](https://www.sqlite.org/datatype3.html). Implementations of</span>
+<span class="doccomment">//! the `ToSql` and `FromSql` traits are provided for the basic types that SQLite provides methods</span>
+<span class="doccomment">//! for:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * Integers (`i32` and `i64`; SQLite uses `i64` internally, so getting an `i32` will truncate</span>
+<span class="doccomment">//!   if the value is too large or too small).</span>
+<span class="doccomment">//! * Reals (`f64`)</span>
+<span class="doccomment">//! * Strings (`String` and `&amp;str`)</span>
+<span class="doccomment">//! * Blobs (`Vec&lt;u8&gt;` and `&amp;[u8]`)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Additionally, because it is such a common data type, implementations are provided for</span>
+<span class="doccomment">//! `time::Timespec` that use a string for storage (using the same format string,</span>
+<span class="doccomment">//! `&quot;%Y-%m-%d %H:%M:%S&quot;`, as SQLite&#39;s builtin</span>
+<span class="doccomment">//! [datetime](https://www.sqlite.org/lang_datefunc.html) function.  Note that this storage</span>
+<span class="doccomment">//! truncates timespecs to the nearest second. If you want different storage for timespecs, you can</span>
+<span class="doccomment">//! use a newtype. For example, to store timespecs as `f64`s:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! extern crate rusqlite;</span>
+<span class="doccomment">//! extern crate time;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! use rusqlite::types::{FromSql, FromSqlResult, ValueRef, ToSql, ToSqlOutput};</span>
+<span class="doccomment">//! use rusqlite::{Result};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! pub struct TimespecSql(pub time::Timespec);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! impl FromSql for TimespecSql {</span>
+<span class="doccomment">//!     fn column_result(value: ValueRef) -&gt; FromSqlResult&lt;Self&gt; {</span>
+<span class="doccomment">//!         f64::column_result(value).map(|as_f64| {</span>
+<span class="doccomment">//!             TimespecSql(time::Timespec{ sec: as_f64.trunc() as i64,</span>
+<span class="doccomment">//!                                         nsec: (as_f64.fract() * 1.0e9) as i32 })</span>
+<span class="doccomment">//!         })</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! impl ToSql for TimespecSql {</span>
+<span class="doccomment">//!     fn to_sql(&amp;self) -&gt; Result&lt;ToSqlOutput&gt; {</span>
+<span class="doccomment">//!         let TimespecSql(ts) = *self;</span>
+<span class="doccomment">//!         let as_f64 = ts.sec as f64 + (ts.nsec as f64) / 1.0e9;</span>
+<span class="doccomment">//!         Ok(as_f64.into())</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # // Prevent this doc test from being wrapped in a `fn main()` so that it will compile.</span>
+<span class="doccomment">//! # fn main() {}</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `ToSql` and `FromSql` are also implemented for `Option&lt;T&gt;` where `T` implements `ToSql` or</span>
+<span class="doccomment">//! `FromSql` for the cases where you want to know if a value was NULL (which gets translated to</span>
+<span class="doccomment">//! `None`).</span>
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>from_sql</span>::{<span class='ident'>FromSql</span>, <span class='ident'>FromSqlError</span>, <span class='ident'>FromSqlResult</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>to_sql</span>::{<span class='ident'>ToSql</span>, <span class='ident'>ToSqlOutput</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>value</span>::<span class='ident'>Value</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>value_ref</span>::<span class='ident'>ValueRef</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">from_sql</span>::{<span class="ident">FromSql</span>, <span class="ident">FromSqlError</span>, <span class="ident">FromSqlResult</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">to_sql</span>::{<span class="ident">ToSql</span>, <span class="ident">ToSqlOutput</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">value_ref</span>::<span class="ident">ValueRef</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-<span class='kw'>mod</span> <span class='ident'>value</span>;
-<span class='kw'>mod</span> <span class='ident'>value_ref</span>;
-<span class='kw'>mod</span> <span class='ident'>from_sql</span>;
-<span class='kw'>mod</span> <span class='ident'>to_sql</span>;
-<span class='kw'>mod</span> <span class='ident'>time</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;chrono&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>chrono</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde_json&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>serde_json</span>;
+<span class="kw">mod</span> <span class="ident">value</span>;
+<span class="kw">mod</span> <span class="ident">value_ref</span>;
+<span class="kw">mod</span> <span class="ident">from_sql</span>;
+<span class="kw">mod</span> <span class="ident">to_sql</span>;
+<span class="kw">mod</span> <span class="ident">time</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;chrono&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">chrono</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde_json&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">serde_json</span>;
 
-<span class='doccomment'>/// Empty struct that can be used to fill in a query parameter as `NULL`.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ## Example</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust,no_run</span>
-<span class='doccomment'>/// # extern crate rusqlite;</span>
-<span class='doccomment'>/// # use rusqlite::{Connection, Result};</span>
-<span class='doccomment'>/// # use rusqlite::types::{Null};</span>
-<span class='doccomment'>/// # use std::os::raw::{c_int};</span>
-<span class='doccomment'>/// fn main() {</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// fn insert_null(conn: &amp;Connection) -&gt; Result&lt;c_int&gt; {</span>
-<span class='doccomment'>///     conn.execute(&quot;INSERT INTO people (name) VALUES (?)&quot;, &amp;[&amp;Null])</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Null</span>;
+<span class="doccomment">/// Empty struct that can be used to fill in a query parameter as `NULL`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// # extern crate rusqlite;</span>
+<span class="doccomment">/// # use rusqlite::{Connection, Result};</span>
+<span class="doccomment">/// # use rusqlite::types::{Null};</span>
+<span class="doccomment">/// # use std::os::raw::{c_int};</span>
+<span class="doccomment">/// fn main() {</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// fn insert_null(conn: &amp;Connection) -&gt; Result&lt;c_int&gt; {</span>
+<span class="doccomment">///     conn.execute(&quot;INSERT INTO people (name) VALUES (?)&quot;, &amp;[&amp;Null])</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Null</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Type</span> {
-    <span class='ident'>Null</span>,
-    <span class='ident'>Integer</span>,
-    <span class='ident'>Real</span>,
-    <span class='ident'>Text</span>,
-    <span class='ident'>Blob</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+    <span class="ident">Null</span>,
+    <span class="ident">Integer</span>,
+    <span class="ident">Real</span>,
+    <span class="ident">Text</span>,
+    <span class="ident">Blob</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Type</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
-            <span class='ident'>Type</span>::<span class='ident'>Null</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Null&quot;</span>),
-            <span class='ident'>Type</span>::<span class='ident'>Integer</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Integer&quot;</span>),
-            <span class='ident'>Type</span>::<span class='ident'>Real</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Real&quot;</span>),
-            <span class='ident'>Type</span>::<span class='ident'>Text</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Text&quot;</span>),
-            <span class='ident'>Type</span>::<span class='ident'>Blob</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Blob&quot;</span>),
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Type</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Type</span>::<span class="ident">Null</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Null&quot;</span>),
+            <span class="ident">Type</span>::<span class="ident">Integer</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Integer&quot;</span>),
+            <span class="ident">Type</span>::<span class="ident">Real</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Real&quot;</span>),
+            <span class="ident">Type</span>::<span class="ident">Text</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Text&quot;</span>),
+            <span class="ident">Type</span>::<span class="ident">Blob</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Blob&quot;</span>),
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">time</span>;
 
-    <span class='kw'>use</span> <span class='ident'>Connection</span>;
-    <span class='kw'>use</span> <span class='ident'>Error</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::{<span class='ident'>c_int</span>, <span class='ident'>c_double</span>};
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Value</span>;
+    <span class="kw">use</span> <span class="ident">Connection</span>;
+    <span class="kw">use</span> <span class="ident">Error</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::{<span class="ident">c_int</span>, <span class="ident">c_double</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f64</span>::<span class="ident">EPSILON</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Value</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>checked_memory_handle</span>() <span class='op'>-&gt;</span> <span class='ident'>Connection</span> {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>Connection</span>::<span class='ident'>open_in_memory</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;CREATE TABLE foo (b BLOB, t TEXT, i INTEGER, f FLOAT, n)&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>
+    <span class="kw">fn</span> <span class="ident">checked_memory_handle</span>() <span class="op">-&gt;</span> <span class="ident">Connection</span> {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">Connection</span>::<span class="ident">open_in_memory</span>().<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;CREATE TABLE foo (b BLOB, t TEXT, i INTEGER, f FLOAT, n)&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_blob</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_blob</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>v1234</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1u8</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>v1234</span>]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v1234</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">1u8</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">v1234</span>]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT b FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>v1234</span>);
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT b FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>, <span class="ident">v1234</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_empty_blob</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_empty_blob</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>empty</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>empty</span>]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">empty</span>]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT b FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>empty</span>);
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT b FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>, <span class="ident">empty</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_str</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_str</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;hello, world!&quot;</span>;
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>s</span>]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;hello, world!&quot;</span>;
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">s</span>]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>from</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT t FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>from</span>, <span class='ident'>s</span>);
+        <span class="kw">let</span> <span class="ident">from</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from</span>, <span class="ident">s</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_string</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_string</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;hello, world!&quot;</span>;
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>to_owned</span>()]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;hello, world!&quot;</span>;
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">s</span>.<span class="ident">to_owned</span>()]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>from</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT t FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>from</span>, <span class='ident'>s</span>);
+        <span class="kw">let</span> <span class="ident">from</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from</span>, <span class="ident">s</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_value</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_value</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(i) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>Value</span>::<span class='ident'>Integer</span>(<span class='number'>10</span>)]).<span class='ident'>unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(i) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">Integer</span>(<span class="number">10</span>)]).<span class="ident">unwrap</span>();
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10i64</span>,
-                   <span class='ident'>db</span>.<span class='ident'>query_row</span>::<span class='op'>&lt;</span><span class='ident'>i64</span>, _<span class='op'>&gt;</span>(<span class='string'>&quot;SELECT i FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">10i64</span>,
+                   <span class="ident">db</span>.<span class="ident">query_row</span>::<span class="op">&lt;</span><span class="ident">i64</span>, _<span class="op">&gt;</span>(<span class="string">&quot;SELECT i FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_option</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_option</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;hello, world!&quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1u8</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>]);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;hello, world!&quot;</span>);
+        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1u8</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
 
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>s</span>]).<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>b</span>]).<span class='ident'>unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">s</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(b) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">b</span>]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stmt</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>prepare</span>(<span class='string'>&quot;SELECT t, b FROM foo ORDER BY ROWID ASC&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rows</span> <span class='op'>=</span> <span class='ident'>stmt</span>.<span class='ident'>query</span>(<span class='kw-2'>&amp;</span>[]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">prepare</span>(<span class="string">&quot;SELECT t, b FROM foo ORDER BY ROWID ASC&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rows</span> <span class="op">=</span> <span class="ident">stmt</span>.<span class="ident">query</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>();
 
         {
-            <span class='kw'>let</span> <span class='ident'>row1</span> <span class='op'>=</span> <span class='ident'>rows</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='ident'>s1</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>row1</span>.<span class='ident'>get</span>(<span class='number'>0</span>);
-            <span class='kw'>let</span> <span class='ident'>b1</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>row1</span>.<span class='ident'>get</span>(<span class='number'>1</span>);
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>unwrap</span>(), <span class='ident'>s1</span>.<span class='ident'>unwrap</span>());
-            <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b1</span>.<span class='ident'>is_none</span>());
+            <span class="kw">let</span> <span class="ident">row1</span> <span class="op">=</span> <span class="ident">rows</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">s1</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">row1</span>.<span class="ident">get</span>(<span class="number">0</span>);
+            <span class="kw">let</span> <span class="ident">b1</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">row1</span>.<span class="ident">get</span>(<span class="number">1</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">unwrap</span>(), <span class="ident">s1</span>.<span class="ident">unwrap</span>());
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">b1</span>.<span class="ident">is_none</span>());
         }
 
         {
-            <span class='kw'>let</span> <span class='ident'>row2</span> <span class='op'>=</span> <span class='ident'>rows</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='ident'>s2</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>row2</span>.<span class='ident'>get</span>(<span class='number'>0</span>);
-            <span class='kw'>let</span> <span class='ident'>b2</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>row2</span>.<span class='ident'>get</span>(<span class='number'>1</span>);
-            <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>s2</span>.<span class='ident'>is_none</span>());
-            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>, <span class='ident'>b2</span>);
+            <span class="kw">let</span> <span class="ident">row2</span> <span class="op">=</span> <span class="ident">rows</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">s2</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">row2</span>.<span class="ident">get</span>(<span class="number">0</span>);
+            <span class="kw">let</span> <span class="ident">b2</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">row2</span>.<span class="ident">get</span>(<span class="number">1</span>);
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s2</span>.<span class="ident">is_none</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">b</span>, <span class="ident">b2</span>);
         }
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_mismatched_types</span>() {
-        <span class='kw'>fn</span> <span class='ident'>is_invalid_column_type</span>(<span class='ident'>err</span>: <span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-            <span class='kw'>match</span> <span class='ident'>err</span> {
-                <span class='ident'>Error</span>::<span class='ident'>InvalidColumnType</span>(_, _) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-                _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_mismatched_types</span>() {
+        <span class="kw">fn</span> <span class="ident">is_invalid_column_type</span>(<span class="ident">err</span>: <span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">match</span> <span class="ident">err</span> {
+                <span class="ident">Error</span>::<span class="ident">InvalidColumnType</span>(_, _) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
             }
         }
 
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(b, t, i, f) VALUES (X&#39;0102&#39;, &#39;text&#39;, 1, 1.5)&quot;</span>,
-                     <span class='kw-2'>&amp;</span>[])
-            .<span class='ident'>unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(b, t, i, f) VALUES (X&#39;0102&#39;, &#39;text&#39;, 1, 1.5)&quot;</span>,
+                     <span class="kw-2">&amp;</span>[])
+            .<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stmt</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>prepare</span>(<span class='string'>&quot;SELECT b, t, i, f, n FROM foo&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rows</span> <span class='op'>=</span> <span class='ident'>stmt</span>.<span class='ident'>query</span>(<span class='kw-2'>&amp;</span>[]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">prepare</span>(<span class="string">&quot;SELECT b, t, i, f, n FROM foo&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rows</span> <span class="op">=</span> <span class="ident">stmt</span>.<span class="ident">query</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='ident'>rows</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">row</span> <span class="op">=</span> <span class="ident">rows</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
 
-        <span class='comment'>// check the correct types come back as expected</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>], <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;text&quot;</span>, <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>String</span><span class='op'>&gt;</span>(<span class='number'>1</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>1</span>, <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>2</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>((<span class='number'>1.5</span> <span class='op'>-</span> <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_double</span><span class='op'>&gt;</span>(<span class='number'>3</span>).<span class='ident'>unwrap</span>()).<span class='ident'>abs</span>() <span class='op'>&lt;</span> <span class='ident'>EPSILON</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>c_int</span><span class='op'>&gt;&gt;</span>(<span class='number'>4</span>).<span class='ident'>unwrap</span>().<span class='ident'>is_none</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>c_double</span><span class='op'>&gt;&gt;</span>(<span class='number'>4</span>).<span class='ident'>unwrap</span>().<span class='ident'>is_none</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='number'>4</span>).<span class='ident'>unwrap</span>().<span class='ident'>is_none</span>());
+        <span class="comment">// check the correct types come back as expected</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1</span>, <span class="number">2</span>], <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="number">0</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;text&quot;</span>, <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span>(<span class="number">1</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">1</span>, <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">2</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>((<span class="number">1.5</span> <span class="op">-</span> <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_double</span><span class="op">&gt;</span>(<span class="number">3</span>).<span class="ident">unwrap</span>()).<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="ident">EPSILON</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;&gt;</span>(<span class="number">4</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">c_double</span><span class="op">&gt;&gt;</span>(<span class="number">4</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="number">4</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
-        <span class='comment'>// check some invalid types</span>
+        <span class="comment">// check some invalid types</span>
 
-        <span class='comment'>// 0 is actually a blob (Vec&lt;u8&gt;)</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_double</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>String</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>time</span>::<span class='ident'>Timespec</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>c_int</span><span class='op'>&gt;&gt;</span>(<span class='number'>0</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
+        <span class="comment">// 0 is actually a blob (Vec&lt;u8&gt;)</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">i64</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_double</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">time</span>::<span class="ident">Timespec</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;&gt;</span>(<span class="number">0</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
 
-        <span class='comment'>// 1 is actually a text (String)</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>1</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>1</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_double</span><span class='op'>&gt;</span>(<span class='number'>1</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='number'>1</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>c_int</span><span class='op'>&gt;&gt;</span>(<span class='number'>1</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
+        <span class="comment">// 1 is actually a text (String)</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">1</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">i64</span><span class="op">&gt;</span>(<span class="number">1</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_double</span><span class="op">&gt;</span>(<span class="number">1</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="number">1</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;&gt;</span>(<span class="number">1</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
 
-        <span class='comment'>// 2 is actually an integer</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>String</span><span class='op'>&gt;</span>(<span class='number'>2</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='number'>2</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='number'>2</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
+        <span class="comment">// 2 is actually an integer</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span>(<span class="number">2</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="number">2</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="number">2</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
 
-        <span class='comment'>// 3 is actually a float (c_double)</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>3</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>3</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>String</span><span class='op'>&gt;</span>(<span class='number'>3</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='number'>3</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>c_int</span><span class='op'>&gt;&gt;</span>(<span class='number'>3</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
+        <span class="comment">// 3 is actually a float (c_double)</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">3</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">i64</span><span class="op">&gt;</span>(<span class="number">3</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span>(<span class="number">3</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="number">3</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;&gt;</span>(<span class="number">3</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
 
-        <span class='comment'>// 4 is actually NULL</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_int</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>i64</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>c_double</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>String</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_invalid_column_type</span>(<span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>time</span>::<span class='ident'>Timespec</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>()));
+        <span class="comment">// 4 is actually NULL</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_int</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">i64</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">c_double</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">is_invalid_column_type</span>(<span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">time</span>::<span class="ident">Timespec</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>()));
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_dynamic_type</span>() {
-        <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Value</span>;
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_dynamic_type</span>() {
+        <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Value</span>;
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo(b, t, i, f) VALUES (X&#39;0102&#39;, &#39;text&#39;, 1, 1.5)&quot;</span>,
-                     <span class='kw-2'>&amp;</span>[])
-            .<span class='ident'>unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo(b, t, i, f) VALUES (X&#39;0102&#39;, &#39;text&#39;, 1, 1.5)&quot;</span>,
+                     <span class="kw-2">&amp;</span>[])
+            .<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stmt</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>prepare</span>(<span class='string'>&quot;SELECT b, t, i, f, n FROM foo&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rows</span> <span class='op'>=</span> <span class='ident'>stmt</span>.<span class='ident'>query</span>(<span class='kw-2'>&amp;</span>[]).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">prepare</span>(<span class="string">&quot;SELECT b, t, i, f, n FROM foo&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rows</span> <span class="op">=</span> <span class="ident">stmt</span>.<span class="ident">query</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='ident'>rows</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Value</span>::<span class='ident'>Blob</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>]),
-                   <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Value</span><span class='op'>&gt;</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Value</span>::<span class='ident'>Text</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;text&quot;</span>)),
-                   <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Value</span><span class='op'>&gt;</span>(<span class='number'>1</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Value</span>::<span class='ident'>Integer</span>(<span class='number'>1</span>), <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Value</span><span class='op'>&gt;</span>(<span class='number'>2</span>).<span class='ident'>unwrap</span>());
-        <span class='kw'>match</span> <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Value</span><span class='op'>&gt;</span>(<span class='number'>3</span>).<span class='ident'>unwrap</span>() {
-            <span class='ident'>Value</span>::<span class='ident'>Real</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='macro'>assert</span><span class='macro'>!</span>((<span class='number'>1.5</span> <span class='op'>-</span> <span class='ident'>val</span>).<span class='ident'>abs</span>() <span class='op'>&lt;</span> <span class='ident'>EPSILON</span>),
-            <span class='ident'>x</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid Value {:?}&quot;</span>, <span class='ident'>x</span>),
+        <span class="kw">let</span> <span class="ident">row</span> <span class="op">=</span> <span class="ident">rows</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Value</span>::<span class="ident">Blob</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1</span>, <span class="number">2</span>]),
+                   <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="number">0</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Value</span>::<span class="ident">Text</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;text&quot;</span>)),
+                   <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="number">1</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Value</span>::<span class="ident">Integer</span>(<span class="number">1</span>), <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="number">2</span>).<span class="ident">unwrap</span>());
+        <span class="kw">match</span> <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="number">3</span>).<span class="ident">unwrap</span>() {
+            <span class="ident">Value</span>::<span class="ident">Real</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>((<span class="number">1.5</span> <span class="op">-</span> <span class="ident">val</span>).<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="ident">EPSILON</span>),
+            <span class="ident">x</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid Value {:?}&quot;</span>, <span class="ident">x</span>),
         }
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Value</span>::<span class='ident'>Null</span>, <span class='ident'>row</span>.<span class='ident'>get_checked</span>::<span class='op'>&lt;</span><span class='ident'>i32</span>, <span class='ident'>Value</span><span class='op'>&gt;</span>(<span class='number'>4</span>).<span class='ident'>unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Value</span>::<span class="ident">Null</span>, <span class="ident">row</span>.<span class="ident">get_checked</span>::<span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="number">4</span>).<span class="ident">unwrap</span>());
     }
 }
 </pre>

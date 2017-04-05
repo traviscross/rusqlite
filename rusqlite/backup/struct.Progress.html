@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,38 +43,28 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>backup</a>::<wbr><a class='struct' href=''>Progress</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>backup</a>::<wbr><a class="struct" href=''>Progress</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/rusqlite/backup.rs.html#150-155' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Progress {
-    pub remaining: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a>,
-    pub pagecount: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a>,
-}</pre><div class='docblock'><p>Struct specifying the progress of a backup. The percentage completion can
-be calculated as <code>(pagecount - remaining) / pagecount</code>. The progress of a
-backup is as of the last call to <code>step</code> - if the source database is
-modified after a call to <code>step</code>, the progress value will become outdated
-and potentially incorrect.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.remaining' class='structfield'>
+    pub remaining: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a>,
+    pub pagecount: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a>,
+}</pre><div class='docblock'><p>Struct specifying the progress of a backup. The percentage completion can be calculated as <code>(pagecount - remaining) / pagecount</code>. The progress of a backup is as of the last call to <code>step</code> - if the source database is modified after a call to <code>step</code>, the progress value will become outdated and potentially incorrect.</p></div><h2 class='fields'>Fields</h2><span id='structfield.remaining' class="structfield">
                            <span id='remaining.v' class='invisible'>
-                           <code>remaining: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a></code>
-                           </span></span><div class='docblock'><p>Number of pages in the source database that still need to be backed up.</p>
-</div><span id='structfield.pagecount' class='structfield'>
+                           <code>remaining: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a></code>
+                           </span></span><div class='docblock'><p>Number of pages in the source database that still need to be backed up.</p></div><span id='structfield.pagecount' class="structfield">
                            <span id='pagecount.v' class='invisible'>
-                           <code>pagecount: <a class='type' href='https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html' title='type std::os::raw::c_int'>c_int</a></code>
-                           </span></span><div class='docblock'><p>Total number of pages in the source database.</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='trait core::marker::Copy'>Copy</a> for <a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='struct rusqlite::backup::Progress'>Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='trait core::clone::Clone'>Clone</a> for <a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='struct rusqlite::backup::Progress'>Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='struct rusqlite::backup::Progress'>Progress</a></code></span></h4>
-<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
-</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
-<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='trait core::fmt::Debug'>Debug</a> for <a class='struct' href='../../rusqlite/backup/struct.Progress.html' title='struct rusqlite::backup::Progress'>Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='struct core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='type core::fmt::Result'>Result</a></code></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
-</div></div></section>
+                           <code>pagecount: <a class="type" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html" title="type std::os::raw::c_int">c_int</a></code>
+                           </span></span><div class='docblock'><p>Total number of pages in the source database.</p></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="../../rusqlite/backup/struct.Progress.html" title="struct rusqlite::backup::Progress">Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../rusqlite/backup/struct.Progress.html" title="struct rusqlite::backup::Progress">Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../rusqlite/backup/struct.Progress.html" title="struct rusqlite::backup::Progress">Progress</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p></div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p></div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../rusqlite/backup/struct.Progress.html" title="struct rusqlite::backup::Progress">Progress</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rusqlite/backup.rs.html#149' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

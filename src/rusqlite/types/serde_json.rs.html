@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -97,59 +97,59 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! `ToSql` and `FromSql` implementation for JSON `Value`.</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde_json</span>;
+</pre><pre class="rust ">
+<span class="doccomment">//! `ToSql` and `FromSql` implementation for JSON `Value`.</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>serde_json</span>::<span class='ident'>Value</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">serde_json</span>::<span class="ident">Value</span>;
 
-<span class='kw'>use</span> <span class='prelude-ty'>Result</span>;
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>FromSql</span>, <span class='ident'>FromSqlError</span>, <span class='ident'>FromSqlResult</span>, <span class='ident'>ToSql</span>, <span class='ident'>ToSqlOutput</span>, <span class='ident'>ValueRef</span>};
+<span class="kw">use</span> <span class="prelude-ty">Result</span>;
+<span class="kw">use</span> <span class="ident">types</span>::{<span class="ident">FromSql</span>, <span class="ident">FromSqlError</span>, <span class="ident">FromSqlResult</span>, <span class="ident">ToSql</span>, <span class="ident">ToSqlOutput</span>, <span class="ident">ValueRef</span>};
 
-<span class='doccomment'>/// Serialize JSON `Value` to text.</span>
-<span class='kw'>impl</span> <span class='ident'>ToSql</span> <span class='kw'>for</span> <span class='ident'>Value</span> {
-    <span class='kw'>fn</span> <span class='ident'>to_sql</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ToSqlOutput</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ToSqlOutput</span>::<span class='ident'>from</span>(<span class='ident'>serde_json</span>::<span class='ident'>to_string</span>(<span class='self'>self</span>).<span class='ident'>unwrap</span>()))
+<span class="doccomment">/// Serialize JSON `Value` to text.</span>
+<span class="kw">impl</span> <span class="ident">ToSql</span> <span class="kw">for</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ToSqlOutput</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">ToSqlOutput</span>::<span class="ident">from</span>(<span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="self">self</span>).<span class="ident">unwrap</span>()))
     }
 }
 
-<span class='doccomment'>/// Deserialize text/blob to JSON `Value`.</span>
-<span class='kw'>impl</span> <span class='ident'>FromSql</span> <span class='kw'>for</span> <span class='ident'>Value</span> {
-    <span class='kw'>fn</span> <span class='ident'>column_result</span>(<span class='ident'>value</span>: <span class='ident'>ValueRef</span>) <span class='op'>-&gt;</span> <span class='ident'>FromSqlResult</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>value</span> {
-                <span class='ident'>ValueRef</span>::<span class='ident'>Text</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>serde_json</span>::<span class='ident'>from_str</span>(<span class='ident'>s</span>),
-                <span class='ident'>ValueRef</span>::<span class='ident'>Blob</span>(<span class='ident'>b</span>) <span class='op'>=&gt;</span> <span class='ident'>serde_json</span>::<span class='ident'>from_slice</span>(<span class='ident'>b</span>),
-                _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>FromSqlError</span>::<span class='ident'>InvalidType</span>),
+<span class="doccomment">/// Deserialize text/blob to JSON `Value`.</span>
+<span class="kw">impl</span> <span class="ident">FromSql</span> <span class="kw">for</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">column_result</span>(<span class="ident">value</span>: <span class="ident">ValueRef</span>) <span class="op">-&gt;</span> <span class="ident">FromSqlResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">value</span> {
+                <span class="ident">ValueRef</span>::<span class="ident">Text</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">s</span>),
+                <span class="ident">ValueRef</span>::<span class="ident">Blob</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>(<span class="ident">b</span>),
+                _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">InvalidType</span>),
             }
-            .<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>err</span><span class='op'>|</span> <span class='ident'>FromSqlError</span>::<span class='ident'>Other</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>err</span>)))
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>)))
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>Connection</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>serde_json</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="ident">Connection</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">serde_json</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>checked_memory_handle</span>() <span class='op'>-&gt;</span> <span class='ident'>Connection</span> {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>Connection</span>::<span class='ident'>open_in_memory</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>.<span class='ident'>execute_batch</span>(<span class='string'>&quot;CREATE TABLE foo (t TEXT, b BLOB)&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>
+    <span class="kw">fn</span> <span class="ident">checked_memory_handle</span>() <span class="op">-&gt;</span> <span class="ident">Connection</span> {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">Connection</span>::<span class="ident">open_in_memory</span>().<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;CREATE TABLE foo (t TEXT, b BLOB)&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_json_value</span>() {
-        <span class='kw'>let</span> <span class='ident'>db</span> <span class='op'>=</span> <span class='ident'>checked_memory_handle</span>();
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_json_value</span>() {
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
 
-        <span class='kw'>let</span> <span class='ident'>json</span> <span class='op'>=</span> <span class='string'>r#&quot;{&quot;foo&quot;: 13, &quot;bar&quot;: &quot;baz&quot;}&quot;#</span>;
-        <span class='kw'>let</span> <span class='ident'>data</span>: <span class='ident'>serde_json</span>::<span class='ident'>Value</span> <span class='op'>=</span> <span class='ident'>serde_json</span>::<span class='ident'>from_str</span>(<span class='ident'>json</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>db</span>.<span class='ident'>execute</span>(<span class='string'>&quot;INSERT INTO foo (t, b) VALUES (?, ?)&quot;</span>,
-                     <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>data</span>, <span class='kw-2'>&amp;</span><span class='ident'>json</span>.<span class='ident'>as_bytes</span>()])
-            .<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;foo&quot;: 13, &quot;bar&quot;: &quot;baz&quot;}&quot;#</span>;
+        <span class="kw">let</span> <span class="ident">data</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t, b) VALUES (?, ?)&quot;</span>,
+                     <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="ident">json</span>.<span class="ident">as_bytes</span>()])
+            .<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>t</span>: <span class='ident'>serde_json</span>::<span class='ident'>Value</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT t FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>data</span>, <span class='ident'>t</span>);
-        <span class='kw'>let</span> <span class='ident'>b</span>: <span class='ident'>serde_json</span>::<span class='ident'>Value</span> <span class='op'>=</span> <span class='ident'>db</span>.<span class='ident'>query_row</span>(<span class='string'>&quot;SELECT b FROM foo&quot;</span>, <span class='kw-2'>&amp;</span>[], <span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>get</span>(<span class='number'>0</span>)).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>data</span>, <span class='ident'>b</span>);
+        <span class="kw">let</span> <span class="ident">t</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data</span>, <span class="ident">t</span>);
+        <span class="kw">let</span> <span class="ident">b</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT b FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data</span>, <span class="ident">b</span>);
     }
 }
 </pre>

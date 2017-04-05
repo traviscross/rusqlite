@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["rusqlite"] = ["impl <a class='trait' href='https://docs.serde.rs/serde/de/trait.Error.html' title='trait serde::de::Error'>Error</a> for Error",];
+implementors["rusqlite"] = ["impl <a class=\"trait\" href=\"https://docs.serde.rs/serde/de/trait.Error.html\" title=\"trait serde::de::Error\">Error</a> for Error",];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);
