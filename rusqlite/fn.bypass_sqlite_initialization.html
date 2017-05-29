@@ -48,8 +48,20 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#617-619' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe fn bypass_sqlite_initialization()</pre><div class='docblock'><p>rusqlite&#39;s check for a safe SQLite threading mode requires SQLite 3.7.0 or later. If you are running against a SQLite older than that, rusqlite attempts to ensure safety by performing configuration and initialization of SQLite itself the first time you attempt to open a connection. By default, rusqlite panics if that initialization fails, since that could mean SQLite has been initialized in single-thread mode.</p><p>If you are encountering that panic <em>and</em> can ensure that SQLite has been initialized in either multi-thread or serialized mode, call this function prior to attempting to open a connection and rusqlite&#39;s initialization process will by skipped. This function is unsafe because if you call it and SQLite has actually been configured to run in single-thread mode, you may enounter memory errors or data corruption or any number of terrible things that should not be possible when you&#39;re using Rust.</p></div></section>
+               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#623-625' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub unsafe fn bypass_sqlite_initialization()</pre><div class='docblock'><p>rusqlite&#39;s check for a safe SQLite threading mode requires SQLite 3.7.0 or later. If you are
+running against a SQLite older than that, rusqlite attempts to ensure safety by performing
+configuration and initialization of SQLite itself the first time you attempt to open a
+connection. By default, rusqlite panics if that initialization fails, since that could mean
+SQLite has been initialized in single-thread mode.</p>
+
+<p>If you are encountering that panic <em>and</em> can ensure that SQLite has been initialized in either
+multi-thread or serialized mode, call this function prior to attempting to open a connection
+and rusqlite&#39;s initialization process will by skipped. This function is unsafe because if you
+call it and SQLite has actually been configured to run in single-thread mode, you may enounter
+memory errors or data corruption or any number of terrible things that should not be possible
+when you&#39;re using Rust.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -106,7 +118,6 @@
         window.rootPath = "../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

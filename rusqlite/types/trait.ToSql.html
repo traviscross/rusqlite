@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>types</a></p><script>window.sidebarCurrent = {name: 'ToSql', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait ToSql</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>rusqlite</a>::<wbr><a href='index.html'>types</a></p><script>window.sidebarCurrent = {name: 'ToSql', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -51,7 +51,8 @@
                </span><a class='srclink' href='../../src/rusqlite/types/to_sql.rs.html#45-47' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToSql {
     fn <a href='#tymethod.to_sql' class='fnname'>to_sql</a>(&amp;self) -&gt; <a class="type" href="../../rusqlite/type.Result.html" title="type rusqlite::Result">Result</a>&lt;<a class="enum" href="../../rusqlite/types/enum.ToSqlOutput.html" title="enum rusqlite::types::ToSqlOutput">ToSqlOutput</a>&gt;;
-}</pre><div class='docblock'><p>A trait for types that can be converted into SQLite values.</p></div>
+}</pre><div class='docblock'><p>A trait for types that can be converted into SQLite values.</p>
+</div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
         <h3 id='tymethod.to_sql' class='method'><span id='to_sql.v' class='invisible'><code>fn <a href='#tymethod.to_sql' class='fnname'>to_sql</a>(&amp;self) -&gt; <a class="type" href="../../rusqlite/type.Result.html" title="type rusqlite::Result">Result</a>&lt;<a class="enum" href="../../rusqlite/types/enum.ToSqlOutput.html" title="enum rusqlite::types::ToSqlOutput">ToSqlOutput</a>&gt;</code></span></h3></div>
@@ -69,9 +70,11 @@
 <li><code>impl ToSql for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></li>
 <li><code>impl ToSql for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></li>
 <li><code>impl ToSql for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></li>
-<li><code>impl&lt;'a, T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; ToSql for &amp;'a T <span class="where fmt-newline">where &amp;'a T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="enum" href="../../rusqlite/types/enum.ToSqlOutput.html" title="enum rusqlite::types::ToSqlOutput">ToSqlOutput</a>&lt;'a&gt;&gt;</span></code></li>
+<li><code>impl&lt;'a, T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; ToSql for &amp;'a T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;'a T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="enum" href="../../rusqlite/types/enum.ToSqlOutput.html" title="enum rusqlite::types::ToSqlOutput">ToSqlOutput</a>&lt;'a&gt;&gt;,&nbsp;</span></code></li>
 <li><code>impl ToSql for <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code></li>
+<li><code>impl ToSql for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></li>
 <li><code>impl ToSql for <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></li>
+<li><code>impl ToSql for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></li>
 <li><code>impl ToSql for rusqlite::types::<a class="enum" href="../../rusqlite/types/enum.Value.html" title="enum rusqlite::types::Value">Value</a></code></li>
 <li><code>impl&lt;T:&nbsp;<a class="trait" href="../../rusqlite/types/trait.ToSql.html" title="trait rusqlite::types::ToSql">ToSql</a>&gt; ToSql for <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;T&gt;</code></li>
 <li><code>impl ToSql for <a class="struct" href="https://doc.rust-lang.org/time/time/struct.Timespec.html" title="struct time::Timespec">Timespec</a></code></li>
@@ -79,7 +82,7 @@
 <li><code>impl ToSql for <a class="struct" href="https://docs.rs/chrono/0.3.0/chrono/naive/time/struct.NaiveTime.html" title="struct chrono::naive::time::NaiveTime">NaiveTime</a></code></li>
 <li><code>impl ToSql for <a class="struct" href="https://docs.rs/chrono/0.3.0/chrono/naive/datetime/struct.NaiveDateTime.html" title="struct chrono::naive::datetime::NaiveDateTime">NaiveDateTime</a></code></li>
 <li><code>impl&lt;Tz:&nbsp;<a class="trait" href="https://docs.rs/chrono/0.3.0/chrono/offset/trait.TimeZone.html" title="trait chrono::offset::TimeZone">TimeZone</a>&gt; ToSql for <a class="struct" href="https://docs.rs/chrono/0.3.0/chrono/datetime/struct.DateTime.html" title="struct chrono::datetime::DateTime">DateTime</a>&lt;Tz&gt;</code></li>
-<li><code>impl ToSql for Value</code></li>
+<li><code>impl ToSql for serde_json::value::<a class="enum" href="https://docs.rs/serde_json/1.0.2/serde_json/value/enum.Value.html" title="enum serde_json::value::Value">Value</a></code></li>
 <li><code>impl ToSql for <a class="struct" href="../../rusqlite/blob/struct.ZeroBlob.html" title="struct rusqlite::blob::ZeroBlob">ZeroBlob</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/rusqlite/types/trait.ToSql.js">
@@ -140,7 +143,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

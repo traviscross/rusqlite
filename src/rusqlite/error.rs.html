@@ -244,10 +244,6 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -388,18 +384,14 @@
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Error</span>::<span class="ident">SqliteFailure</span>(<span class="kw-2">ref</span> <span class="ident">err</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
             <span class="ident">Error</span>::<span class="ident">SqliteFailure</span>(_, <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">s</span>)) <span class="op">=&gt;</span> <span class="ident">s</span>,
-            <span class="ident">Error</span>::<span class="ident">SqliteSingleThreadedMode</span> <span class="op">=&gt;</span> {
-                <span class="string">&quot;SQLite was compiled or configured for single-threaded use only&quot;</span>
-            }
+            <span class="ident">Error</span>::<span class="ident">SqliteSingleThreadedMode</span> <span class="op">=&gt;</span> <span class="string">&quot;SQLite was compiled or configured for single-threaded use only&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">FromSqlConversionFailure</span>(_, _, <span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
             <span class="ident">Error</span>::<span class="ident">IntegralValueOutOfRange</span>(_, _) <span class="op">=&gt;</span> <span class="string">&quot;integral value out of range of requested type&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">Utf8Error</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
             <span class="ident">Error</span>::<span class="ident">InvalidParameterName</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;invalid parameter name&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">NulError</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
             <span class="ident">Error</span>::<span class="ident">InvalidPath</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;invalid path&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">ExecuteReturnedResults</span> <span class="op">=&gt;</span> {
-                <span class="string">&quot;execute returned results - did you mean to call query?&quot;</span>
-            }
+            <span class="ident">Error</span>::<span class="ident">ExecuteReturnedResults</span> <span class="op">=&gt;</span> <span class="string">&quot;execute returned results - did you mean to call query?&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">QueryReturnedNoRows</span> <span class="op">=&gt;</span> <span class="string">&quot;query returned no rows&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">InvalidColumnIndex</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;invalid column index&quot;</span>,
             <span class="ident">Error</span>::<span class="ident">InvalidColumnName</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;invalid column name&quot;</span>,
@@ -512,7 +504,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

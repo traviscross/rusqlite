@@ -60,6 +60,7 @@
 <span id="15">15</span>
 <span id="16">16</span>
 <span id="17">17</span>
+<span id="18">18</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ffi</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CStr</span>;
@@ -76,7 +77,8 @@
 <span class="doccomment">/// See [sqlite3_libversion()](https://www.sqlite.org/c3ref/libversion.html).</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version</span>() <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
     <span class="kw">let</span> <span class="ident">cstr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">ffi</span>::<span class="ident">sqlite3_libversion</span>()) };
-    <span class="ident">cstr</span>.<span class="ident">to_str</span>().<span class="ident">expect</span>(<span class="string">&quot;SQLite version string is not valid UTF8 ?!&quot;</span>)
+    <span class="ident">cstr</span>.<span class="ident">to_str</span>()
+        .<span class="ident">expect</span>(<span class="string">&quot;SQLite version string is not valid UTF8 ?!&quot;</span>)
 }
 </pre>
 </section>
@@ -136,7 +138,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

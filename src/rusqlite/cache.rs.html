@@ -330,6 +330,7 @@
 <span id="285">285</span>
 <span id="286">286</span>
 <span id="287">287</span>
+<span id="288">288</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Prepared statements cache for faster execution.</span>
 
@@ -613,7 +614,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_connection_close</span>() {
         <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">Connection</span>::<span class="ident">open_in_memory</span>().<span class="ident">unwrap</span>();
-        <span class="ident">conn</span>.<span class="ident">prepare_cached</span>(<span class="string">&quot;SELECT * FROM sqlite_master;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">conn</span>.<span class="ident">prepare_cached</span>(<span class="string">&quot;SELECT * FROM sqlite_master;&quot;</span>)
+            .<span class="ident">unwrap</span>();
 
         <span class="ident">conn</span>.<span class="ident">close</span>().<span class="ident">expect</span>(<span class="string">&quot;connection not closed&quot;</span>);
     }
@@ -676,7 +678,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

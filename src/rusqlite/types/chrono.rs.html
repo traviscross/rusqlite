@@ -269,6 +269,31 @@
 <span id="224">224</span>
 <span id="225">225</span>
 <span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Convert most of the [Time Strings](http://sqlite.org/lang_datefunc.html) to chrono types.</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
@@ -291,10 +316,12 @@
 <span class="doccomment">/// &quot;YYYY-MM-DD&quot; =&gt; ISO 8601 calendar date without timezone.</span>
 <span class="kw">impl</span> <span class="ident">FromSql</span> <span class="kw">for</span> <span class="ident">NaiveDate</span> {
     <span class="kw">fn</span> <span class="ident">column_result</span>(<span class="ident">value</span>: <span class="ident">ValueRef</span>) <span class="op">-&gt;</span> <span class="ident">FromSqlResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">value</span>.<span class="ident">as_str</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">NaiveDate</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="string">&quot;%Y-%m-%d&quot;</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
-        })
+        <span class="ident">value</span>
+            .<span class="ident">as_str</span>()
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">NaiveDate</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="string">&quot;%Y-%m-%d&quot;</span>) {
+                          <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
+                          <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
+                      })
     }
 }
 
@@ -309,17 +336,19 @@
 <span class="doccomment">/// &quot;HH:MM&quot;/&quot;HH:MM:SS&quot;/&quot;HH:MM:SS.SSS&quot; =&gt; ISO 8601 time without timezone.</span>
 <span class="kw">impl</span> <span class="ident">FromSql</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
     <span class="kw">fn</span> <span class="ident">column_result</span>(<span class="ident">value</span>: <span class="ident">ValueRef</span>) <span class="op">-&gt;</span> <span class="ident">FromSqlResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">value</span>.<span class="ident">as_str</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-                <span class="number">5</span> <span class="op">=&gt;</span> <span class="string">&quot;%H:%M&quot;</span>,
-                <span class="number">8</span> <span class="op">=&gt;</span> <span class="string">&quot;%H:%M:%S&quot;</span>,
-                _ <span class="op">=&gt;</span> <span class="string">&quot;%H:%M:%S%.f&quot;</span>,
-            };
-            <span class="kw">match</span> <span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="ident">fmt</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
-            }
-        })
+        <span class="ident">value</span>
+            .<span class="ident">as_str</span>()
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">len</span>() {
+                    <span class="number">5</span> <span class="op">=&gt;</span> <span class="string">&quot;%H:%M&quot;</span>,
+                    <span class="number">8</span> <span class="op">=&gt;</span> <span class="string">&quot;%H:%M:%S&quot;</span>,
+                    _ <span class="op">=&gt;</span> <span class="string">&quot;%H:%M:%S%.f&quot;</span>,
+                };
+                <span class="kw">match</span> <span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="ident">fmt</span>) {
+                    <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
+                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
+                }
+            })
     }
 }
 
@@ -335,18 +364,20 @@
 <span class="doccomment">/// without timezone. (&quot;YYYY-MM-DDTHH:MM:SS&quot;/&quot;YYYY-MM-DDTHH:MM:SS.SSS&quot; also supported)</span>
 <span class="kw">impl</span> <span class="ident">FromSql</span> <span class="kw">for</span> <span class="ident">NaiveDateTime</span> {
     <span class="kw">fn</span> <span class="ident">column_result</span>(<span class="ident">value</span>: <span class="ident">ValueRef</span>) <span class="op">-&gt;</span> <span class="ident">FromSqlResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">value</span>.<span class="ident">as_str</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="number">11</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>()[<span class="number">10</span>] <span class="op">==</span> <span class="string">b&#39;T&#39;</span> {
-                <span class="string">&quot;%Y-%m-%dT%H:%M:%S%.f&quot;</span>
-            } <span class="kw">else</span> {
-                <span class="string">&quot;%Y-%m-%d %H:%M:%S%.f&quot;</span>
-            };
+        <span class="ident">value</span>
+            .<span class="ident">as_str</span>()
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="number">11</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>()[<span class="number">10</span>] <span class="op">==</span> <span class="string">b&#39;T&#39;</span> {
+                    <span class="string">&quot;%Y-%m-%dT%H:%M:%S%.f&quot;</span>
+                } <span class="kw">else</span> {
+                    <span class="string">&quot;%Y-%m-%d %H:%M:%S%.f&quot;</span>
+                };
 
-            <span class="kw">match</span> <span class="ident">NaiveDateTime</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="ident">fmt</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
-            }
-        })
+                <span class="kw">match</span> <span class="ident">NaiveDateTime</span>::<span class="ident">parse_from_str</span>(<span class="ident">s</span>, <span class="ident">fmt</span>) {
+                    <span class="prelude-val">Ok</span>(<span class="ident">dt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dt</span>),
+                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FromSqlError</span>::<span class="ident">Other</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))),
+                }
+            })
     }
 }
 
@@ -402,7 +433,8 @@
 
     <span class="kw">fn</span> <span class="ident">checked_memory_handle</span>() <span class="op">-&gt;</span> <span class="ident">Connection</span> {
         <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">Connection</span>::<span class="ident">open_in_memory</span>().<span class="ident">unwrap</span>();
-        <span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;CREATE TABLE foo (t TEXT, i INTEGER, f FLOAT, b BLOB)&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute_batch</span>(<span class="string">&quot;CREATE TABLE foo (t TEXT, i INTEGER, f FLOAT, b BLOB)&quot;</span>)
+            .<span class="ident">unwrap</span>();
         <span class="ident">db</span>
     }
 
@@ -410,11 +442,14 @@
     <span class="kw">fn</span> <span class="ident">test_naive_date</span>() {
         <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
         <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2016</span>, <span class="number">2</span>, <span class="number">23</span>);
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">date</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">date</span>])
+            .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;2016-02-23&quot;</span>, <span class="ident">s</span>);
-        <span class="kw">let</span> <span class="ident">t</span>: <span class="ident">NaiveDate</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">t</span>: <span class="ident">NaiveDate</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">date</span>, <span class="ident">t</span>);
     }
 
@@ -422,11 +457,14 @@
     <span class="kw">fn</span> <span class="ident">test_naive_time</span>() {
         <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="ident">checked_memory_handle</span>();
         <span class="kw">let</span> <span class="ident">time</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">23</span>, <span class="number">56</span>, <span class="number">4</span>);
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">time</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">time</span>])
+            .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;23:56:04&quot;</span>, <span class="ident">s</span>);
-        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">NaiveTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">NaiveTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">time</span>, <span class="ident">v</span>);
     }
 
@@ -437,15 +475,20 @@
         <span class="kw">let</span> <span class="ident">time</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">23</span>, <span class="number">56</span>, <span class="number">4</span>);
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">NaiveDateTime</span>::<span class="ident">new</span>(<span class="ident">date</span>, <span class="ident">time</span>);
 
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">dt</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">dt</span>])
+            .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;2016-02-23T23:56:04&quot;</span>, <span class="ident">s</span>);
-        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">NaiveDateTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">NaiveDateTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">v</span>);
 
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;UPDATE foo set b = datetime(t)&quot;</span>, <span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>(); <span class="comment">// &quot;YYYY-MM-DD HH:MM:SS&quot;</span>
-        <span class="kw">let</span> <span class="ident">hms</span>: <span class="ident">NaiveDateTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT b FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;UPDATE foo set b = datetime(t)&quot;</span>, <span class="kw-2">&amp;</span>[])
+            .<span class="ident">unwrap</span>(); <span class="comment">// &quot;YYYY-MM-DD HH:MM:SS&quot;</span>
+        <span class="kw">let</span> <span class="ident">hms</span>: <span class="ident">NaiveDateTime</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT b FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">hms</span>);
     }
 
@@ -457,12 +500,15 @@
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">NaiveDateTime</span>::<span class="ident">new</span>(<span class="ident">date</span>, <span class="ident">time</span>);
         <span class="kw">let</span> <span class="ident">utc</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">from_utc_datetime</span>(<span class="kw-2">&amp;</span><span class="ident">dt</span>);
 
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">utc</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">utc</span>])
+            .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;2016-02-23T23:56:04.789+00:00&quot;</span>, <span class="ident">s</span>);
 
-        <span class="kw">let</span> <span class="ident">v1</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">UTC</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v1</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">UTC</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">utc</span>, <span class="ident">v1</span>);
 
         <span class="kw">let</span> <span class="ident">v2</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">UTC</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT &#39;2016-02-23 23:56:04.789&#39;&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
@@ -474,7 +520,8 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">utc</span> <span class="op">-</span> <span class="ident">Duration</span>::<span class="ident">milliseconds</span>(<span class="number">789</span>), <span class="ident">v3</span>);
 
         <span class="kw">let</span> <span class="ident">v4</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">UTC</span><span class="op">&gt;</span> <span class="op">=</span>
-            <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT &#39;2016-02-23 23:56:04.789+00:00&#39;&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+            <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT &#39;2016-02-23 23:56:04.789+00:00&#39;&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+                .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">utc</span>, <span class="ident">v4</span>);
     }
 
@@ -486,13 +533,16 @@
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">NaiveDateTime</span>::<span class="ident">new</span>(<span class="ident">date</span>, <span class="ident">time</span>);
         <span class="kw">let</span> <span class="ident">local</span> <span class="op">=</span> <span class="ident">Local</span>.<span class="ident">from_local_datetime</span>(<span class="kw-2">&amp;</span><span class="ident">dt</span>).<span class="ident">single</span>().<span class="ident">unwrap</span>();
 
-        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">local</span>]).<span class="ident">unwrap</span>();
+        <span class="ident">db</span>.<span class="ident">execute</span>(<span class="string">&quot;INSERT INTO foo (t) VALUES (?)&quot;</span>, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">local</span>])
+            .<span class="ident">unwrap</span>();
 
         <span class="comment">// Stored string should be in UTC</span>
-        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">ends_with</span>(<span class="string">&quot;+00:00&quot;</span>));
 
-        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Local</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Local</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">db</span>.<span class="ident">query_row</span>(<span class="string">&quot;SELECT t FROM foo&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">get</span>(<span class="number">0</span>))
+            .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">local</span>, <span class="ident">v</span>);
     }
 }
@@ -554,7 +604,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

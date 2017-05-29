@@ -48,8 +48,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#626-628' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe fn bypass_sqlite_version_check()</pre><div class='docblock'><p>rusqlite performs a one-time check that the runtime SQLite version is at least as new as the version of SQLite found when rusqlite was built. Bypassing this check may be dangerous; e.g., if you use features of SQLite that are not present in the runtime version. If you are sure the runtime version is compatible with the build-time version for your usage, you can bypass the version check by calling this function before your first connection attempt.</p></div></section>
+               </span><a class='srclink' href='../src/rusqlite/lib.rs.html#632-634' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub unsafe fn bypass_sqlite_version_check()</pre><div class='docblock'><p>rusqlite performs a one-time check that the runtime SQLite version is at least as new as
+the version of SQLite found when rusqlite was built. Bypassing this check may be dangerous;
+e.g., if you use features of SQLite that are not present in the runtime version. If you are
+sure the runtime version is compatible with the build-time version for your usage, you can
+bypass the version check by calling this function before your first connection attempt.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -106,7 +111,6 @@
         window.rootPath = "../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

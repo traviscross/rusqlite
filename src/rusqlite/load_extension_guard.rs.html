@@ -80,6 +80,7 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> {<span class="prelude-ty">Result</span>, <span class="ident">Connection</span>};
 
@@ -108,7 +109,8 @@
     <span class="doccomment">/// Attempt to enable loading extensions. Loading extensions will be disabled when this</span>
     <span class="doccomment">/// guard goes out of scope. Cannot be meaningfully nested.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LoadExtensionGuard</span><span class="op">&gt;</span> {
-        <span class="ident">conn</span>.<span class="ident">load_extension_enable</span>().<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="ident">LoadExtensionGuard</span> { <span class="ident">conn</span>: <span class="ident">conn</span> })
+        <span class="ident">conn</span>.<span class="ident">load_extension_enable</span>()
+            .<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="ident">LoadExtensionGuard</span> { <span class="ident">conn</span>: <span class="ident">conn</span> })
     }
 }
 
@@ -176,7 +178,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rusqlite";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>
