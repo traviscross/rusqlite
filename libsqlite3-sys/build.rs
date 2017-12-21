@@ -193,6 +193,8 @@ mod build {
             .flag("-DSQLITE_THREADSAFE=1")
             .flag("-DSQLITE_USE_URI")
             .flag("-DHAVE_USLEEP=1")
+            .flag("-Wno-unused-parameter")
+            .flag("-Wno-implicit-fallthrough")
             .compile("libsqlite3.a");
     }
 }
