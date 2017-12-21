@@ -147,7 +147,10 @@ pregenerated bindings are chosen:
 If you use the `bundled` feature, you will get pregenerated bindings for the
 bundled version of SQLite. If you need other specific pregenerated binding
 versions, please file an issue. If you want to run `bindgen` at buildtime to
-produce your own bindings, use the `buildtime_bindgen` Cargo feature.
+produce your own bindings, use the `buildtime_bindgen` Cargo feature. To update
+the bindings in your source tree for the bundled version of SQLite, use the
+`update_bundled_bindgen` Cargo feature; this implies `bundled` and also has the
+effect of `buildtime_bindgen`.
 
 ## Author
 

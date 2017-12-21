@@ -36,14 +36,13 @@ mod bindings_common {
     }
 }
 
-#[cfg(feature = "buildtime_bindgen")]
+#[cfg(any(feature = "buildtime_bindgen", feature = "update_bundled_bindgen"))]
 mod bindings {
     extern crate bindgen;
 
     use self::bindgen::callbacks::{ParseCallbacks, IntKind};
     use bindings_common::*;
 
-    use std::env;
     use std::io::Write;
     use std::fs::OpenOptions;
     use std::path::Path;
@@ -61,9 +60,8 @@ mod bindings {
         }
     }
 
-    pub fn write_to_out_dir(header: HeaderLocation) {
+    pub fn write_bindgen(header: HeaderLocation, path: &Path) {
         let header: String = header.into();
-        let out_dir = env::var("OUT_DIR").unwrap();
         let mut output = Vec::new();
         bindgen::builder()
             .header(header.clone())
@@ -82,8 +80,6 @@ mod bindings {
             output.push_str("\npub const SQLITE_DETERMINISTIC: i32 = 2048;\n");
         }
 
-        let path = Path::new(&out_dir).join("bindgen.rs");
-
         let mut file = OpenOptions::new()
             .write(true)
             .truncate(true)
@@ -92,6 +88,15 @@ mod bindings {
             .expect(&format!("Could not write to {:?}", path));
 
         file.write_all(output.as_bytes()).expect(&format!("Could not write to {:?}", path));
+    }
+
+    #[cfg(all(feature = "buildtime_bindgen",
+              not(feature = "update_bundled_bindgen")))]
+    pub fn write_to_out_dir(header: HeaderLocation) {
+        use std::env;
+        let out_dir = env::var("OUT_DIR").unwrap();
+        let path = Path::new(&out_dir).join("bindgen.rs");
+        write_bindgen(header, &path);
     }
 }
 
@@ -139,14 +144,25 @@ mod build {
             panic!("Builds with bundled SQLCipher are not supported");
         }
 
-        #[cfg(feature = "buildtime_bindgen")]
+        #[cfg(all(feature = "buildtime_bindgen",
+                  not(feature = "update_bundled_bindgen")))]
         {
             use bindings_common::HeaderLocation;
             let header = HeaderLocation::FromPath("sqlite3/sqlite3.h".to_string());
             super::bindings::write_to_out_dir(header);
         }
 
-        #[cfg(not(feature = "buildtime_bindgen"))]
+        #[cfg(feature = "update_bundled_bindgen")]
+        {
+            use std::path::Path;
+            use bindings_common::HeaderLocation;
+            let header = HeaderLocation::FromPath("sqlite3/sqlite3.h".to_string());
+            let bfile = Path::new("./sqlite3/bindgen_bundled_version.rs");
+            super::bindings::write_bindgen(header,bfile);
+        }
+
+        #[cfg(any(not(feature = "buildtime_bindgen"),
+                  feature = "update_bundled_bindgen"))]
         {
             use std::{env,fs};
             use std::path::Path;
